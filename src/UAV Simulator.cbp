@@ -45,7 +45,39 @@
 			<Add library="gdi32" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
+		<Unit filename="io/XmlUtils.cpp" />
+		<Unit filename="io/XmlUtils.hpp" />
+		<Unit filename="io/model_importers/FileImporter.hpp" />
+		<Unit filename="io/model_importers/X3DFileImporter.cpp" />
+		<Unit filename="io/model_importers/X3DFileImporter.hpp" />
+		<Unit filename="io/model_importers/X3D/ElementProcessors.cpp" />
+		<Unit filename="io/model_importers/X3D/ElementProcessors.hpp" />
+		<Unit filename="io/model_importers/X3D/Group.cpp" />
+		<Unit filename="io/model_importers/X3D/IndexedFaceSet.cpp" />
+		<Unit filename="io/model_importers/X3D/Separator.cpp" />
+		<Unit filename="io/model_importers/X3D/Transform.cpp" />
+		<Unit filename="lib/TinyXML/tinystr.cpp" />
+		<Unit filename="lib/TinyXML/tinystr.h" />
+		<Unit filename="lib/TinyXML/tinyxml.cpp" />
+		<Unit filename="lib/TinyXML/tinyxml.h" />
+		<Unit filename="lib/TinyXML/tinyxmlerror.cpp" />
+		<Unit filename="lib/TinyXML/tinyxmlparser.cpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="models/GroupNode.cpp" />
+		<Unit filename="models/GroupNode.hpp" />
+		<Unit filename="models/LeafNode.cpp" />
+		<Unit filename="models/LeafNode.hpp" />
+		<Unit filename="models/ModelNode.hpp" />
+		<Unit filename="models/ParentModelNode.cpp" />
+		<Unit filename="models/ParentModelNode.hpp" />
+		<Unit filename="models/TransformNode.cpp" />
+		<Unit filename="models/TransformNode.hpp" />
+		<Unit filename="models/Triangle.cpp" />
+		<Unit filename="models/Triangle.hpp" />
+		<Unit filename="models/Vertex.cpp" />
+		<Unit filename="models/Vertex.hpp" />
+		<Unit filename="renderer.cpp" />
+		<Unit filename="renderer.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
