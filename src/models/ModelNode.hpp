@@ -6,6 +6,7 @@
 class ModelNode
 {
 	public:
+	    virtual ~ModelNode();
 		virtual ModelNode* clone() const = 0;
 		virtual std::vector<Triangle> getTriangles() const = 0;
 };

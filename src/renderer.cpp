@@ -23,6 +23,7 @@ void initRenderer()
     cout << "Loading 3D models..." << endl;
     GroupNode * group = importer.load(filename);
     triangles = group->getTriangles();
+    delete group;
     cout << "Loaded.  Triangle count = " << triangles.size() << endl;
     for (auto t = triangles.begin(); t != triangles.end(); t++)
     {
