@@ -98,7 +98,7 @@ const GLfloat high_shininess[] = { 100.0f };
 
 int main(int argc, char *argv[])
 {
-    initRenderer();
+    initRenderer(argv[0]);
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);

@@ -73,6 +73,8 @@
 		<Unit filename="lib/TinyXML/tinyxmlerror.cpp" />
 		<Unit filename="lib/TinyXML/tinyxmlparser.cpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="models/ColouredTriangleSet.cpp" />
+		<Unit filename="models/ColouredTriangleSet.hpp" />
 		<Unit filename="models/GroupNode.cpp" />
 		<Unit filename="models/GroupNode.hpp" />
 		<Unit filename="models/LeafNode.cpp" />
