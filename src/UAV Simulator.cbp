@@ -47,7 +47,17 @@
 		</Linker>
 		<Unit filename="io/XmlUtils.cpp" />
 		<Unit filename="io/XmlUtils.hpp" />
+		<Unit filename="io/model_importers/CompositeFileImporter.cpp" />
+		<Unit filename="io/model_importers/CompositeFileImporter.hpp" />
+		<Unit filename="io/model_importers/FileImporter.cpp" />
 		<Unit filename="io/model_importers/FileImporter.hpp" />
+		<Unit filename="io/model_importers/WRLFileImporter.cpp" />
+		<Unit filename="io/model_importers/WRLFileImporter.hpp" />
+		<Unit filename="io/model_importers/WRL/InvalidVRMLElementNameException.cpp" />
+		<Unit filename="io/model_importers/WRL/WRLScanTokens.cpp" />
+		<Unit filename="io/model_importers/WRL/WRLScanTokens.hpp" />
+		<Unit filename="io/model_importers/WRL/WRLUtils.cpp" />
+		<Unit filename="io/model_importers/WRL/WRLUtils.hpp" />
 		<Unit filename="io/model_importers/X3DFileImporter.cpp" />
 		<Unit filename="io/model_importers/X3DFileImporter.hpp" />
 		<Unit filename="io/model_importers/X3D/ElementProcessors.cpp" />
@@ -67,6 +77,7 @@
 		<Unit filename="models/GroupNode.hpp" />
 		<Unit filename="models/LeafNode.cpp" />
 		<Unit filename="models/LeafNode.hpp" />
+		<Unit filename="models/ModelNode.cpp" />
 		<Unit filename="models/ModelNode.hpp" />
 		<Unit filename="models/ParentModelNode.cpp" />
 		<Unit filename="models/ParentModelNode.hpp" />

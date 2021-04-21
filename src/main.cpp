@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include "io/model_importers/X3DFileImporter.hpp"
 #include "renderer.hpp"
+
 using namespace std;
 
 
@@ -47,8 +48,6 @@ static void resize(int width, int height)
 
 static void display(void)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     render();
 
     glutSwapBuffers();
@@ -105,7 +104,7 @@ int main(int argc, char *argv[])
     glutInitWindowPosition(10,10);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
-    glutCreateWindow("GLUT Shapes");
+    glutCreateWindow("UAV Simulator");
 
     glutReshapeFunc(resize);
     glutDisplayFunc(display);

@@ -49,6 +49,8 @@ namespace X3D {
         func = functions.find(tagName);
         if (func != functions.end())
             return func->second(element);
+
+        // Group and other tag names should be processed like the group tag name.
         return getModelNodeFromGroup(element);
     }
 
