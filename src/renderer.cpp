@@ -1,5 +1,4 @@
 #include "renderer.hpp"
-#define GL_GLEXT_PROTOTYPES
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
 #endif
@@ -12,10 +11,11 @@
 #include <iostream>
 #include "io/model_importers/CompositeFileImporter.hpp"
 #include "models/Triangle.hpp"
+#include "models/ColouredTriangleSet.hpp"
 
 using namespace std;
 
-vector<Triangle> triangles;
+vector<ColouredTriangleSet> shapes;
 
 void initRenderer()
 {
@@ -28,7 +28,7 @@ void initRenderer()
         cout << "Unable to load from 3D file: " << filename << endl;
     else
     {
-        triangles = group->getTriangles();
+        vector<Triangle> triangles = group->getTriangles();
         delete group;
 
         for (auto t = triangles.begin(); t != triangles.end(); t++)
@@ -37,10 +37,31 @@ void initRenderer()
             {
                 t->vertices[vertexIndex] = t->vertices[vertexIndex] * 10;
                 // translate so the axis of helicopter blade rotation is roughly on (0,0,0).
-                t->vertices[vertexIndex].x -= 0.6;
-                t->vertices[vertexIndex].z -= 0.4;
+                t->vertices[vertexIndex].x -= 0.599532;
+                t->vertices[vertexIndex].z -= 0.350633;
             }
             t->updateNormal();
+        }
+        // white part.
+        shapes.push_back(ColouredTriangleSet(1, 1, 1));
+        shapes.push_back(ColouredTriangleSet(1, 1, 1));
+        shapes.push_back(ColouredTriangleSet(1, 1, 1));
+
+        const double whiteMaxY = 3.26;
+        const double blade1MaxY = 3.4;
+        for (auto t = triangles.begin(); t != triangles.end(); t++)
+        {
+            double maxY = -99999;
+            for (unsigned int vIndex = 0; vIndex < 3; vIndex++)
+            {
+                maxY = max(maxY, t->vertices[vIndex].y);
+            }
+            if (maxY <= whiteMaxY)
+                shapes[0].triangles.push_back(*t); // white
+            else if (maxY <= blade1MaxY)
+                shapes[1].triangles.push_back(*t);
+            else
+                shapes[2].triangles.push_back(*t);
         }
     }
 }
@@ -82,21 +103,16 @@ void render()
     glPushMatrix();
 
         glTranslated(0,-1.3,-2.5);
-        glRotated(a,0,1,0);
+        glRotated(a * 0.1,0,1,0);
         drawGround();
-        glColor3f(1, 1, 1);
-        glBegin(GL_TRIANGLES);
-        for (auto it = triangles.begin(); it != triangles.end(); it++)
-        {
-            Vertex &normal = it->cachedNormal;
-            glNormal3f(normal.x, normal.y, normal.z);
-            for (int i = 0; i < 3; i++)
-            {
-                Vertex &v = it->vertices[i];
-                glVertex3f(v.x, v.y, v.z);
-            }
-        }
-        glEnd();
-
+        shapes[0].draw();
+        glPushMatrix();
+            glRotated(a * 5, 0, 1, 0);
+            shapes[1].draw();
+        glPopMatrix();
+        glPushMatrix();
+            glRotated(-a * 5, 0, 1, 0);
+            shapes[2].draw();
+        glPopMatrix();
     glPopMatrix();
 }
