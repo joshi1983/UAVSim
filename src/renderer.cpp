@@ -14,12 +14,14 @@
 #include "io/model_importers/CompositeFileImporter.hpp"
 #include "models/Triangle.hpp"
 #include "models/ColouredTriangleSet.hpp"
-
+#include "models/Texture.hpp"
 using namespace std;
 
 vector<ColouredTriangleSet> shapes;
+Texture *t=nullptr;
+int windowid;
 
-string getPathToWRLFile(const char * programPath)
+string getAbsolutePathForFilename(const char * programPath, const char * filename)
 {
     string result(programPath);
     if (result.find("\\") == string::npos)
@@ -42,12 +44,17 @@ string getPathToWRLFile(const char * programPath)
     if (result[result.length() - 1] != '\\')
         result += '\\';
 
-    return result + "data\\models\\top_assy.wrl";
+    return result + filename;
 }
 
-void initRenderer(const char * programPath)
+void initRenderer(const char * programPath, int _windowid)
 {
-    string filename = getPathToWRLFile(programPath);
+    Texture::init();
+    cout << "Loading textures..." << endl;
+    t = new Texture(getAbsolutePathForFilename(programPath, "data\\models\\grass-texture.jpg"));
+    t->storeOpenGLTextureName(_windowid);
+    windowid = _windowid;
+    string filename = getAbsolutePathForFilename(programPath, "data\\models\\top_assy.wrl");
     CompositeFileImporter importer;
     cout << "Loading 3D models..." << endl;
     cout << "Loading: " << filename << endl;
@@ -96,8 +103,8 @@ void initRenderer(const char * programPath)
 
 void drawGround(double elevation)
 {
-  const double left = -4;
-  const double top = -4;
+  const double left = -8;
+  const double top = -8;
   const double width = -left * 2;
   const double height = -top * 2;
 
@@ -105,19 +112,26 @@ void drawGround(double elevation)
     glDisable(GL_NORMALIZE);
     glDisable(GL_COLOR_MATERIAL);
     glDisable(GL_LIGHTING);
+    glEnable( GL_TEXTURE_2D );
+    glBindTexture( GL_TEXTURE_2D, t->getOpenGLTextureName(windowid));
 
-    glColor3d(0,0.5,0);
+    glColor3d(1, 1, 1);
     glPushMatrix();
         glRotated(-90, 1,0,0);
         glTranslated(0,0,elevation);
         glBegin(GL_QUADS);
+            glTexCoord2d(0,0);
             glVertex2d(left,top);
+            glTexCoord2d(1,0);
             glVertex2d(left+width,top);
+            glTexCoord2d(1,1);
             glVertex2d(left+width,top+height);
+            glTexCoord2d(0,1);
             glVertex2d(left,top+height);
         glEnd();
     glPopMatrix();
 
+    glDisable(GL_TEXTURE_2D);
     glEnable(GL_LIGHT0);
     glEnable(GL_NORMALIZE);
     glEnable(GL_COLOR_MATERIAL);
@@ -142,7 +156,7 @@ void render()
 
         glTranslated(0,-1.3,-2.5);
         glRotated(a * 0.04,0,1,0);
-        drawGround(-2 + 1.7 * sin(t * 2));
+        drawGround(-2 + 1.8 * sin(t * 2));
         shapes[0].draw();
         glPushMatrix();
             glRotated(a * 5, 0, 1, 0);

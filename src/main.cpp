@@ -24,7 +24,6 @@
 #include <stdlib.h>
 #include "io/model_importers/X3DFileImporter.hpp"
 #include "renderer.hpp"
-
 using namespace std;
 
 
@@ -94,17 +93,15 @@ const GLfloat mat_diffuse[]    = { 0.8f, 0.8f, 0.8f, 1.0f };
 const GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
 const GLfloat high_shininess[] = { 100.0f };
 
-/* Program entry point */
-
 int main(int argc, char *argv[])
 {
-    initRenderer(argv[0]);
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
-    glutCreateWindow("UAV Simulator");
+    int windowid = glutCreateWindow("UAV Simulator");
+    initRenderer(argv[0], windowid);
 
     glutReshapeFunc(resize);
     glutDisplayFunc(display);

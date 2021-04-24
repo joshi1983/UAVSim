@@ -13,11 +13,13 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-m32" />
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
 					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/lib/glut32.lib" />
+					<Add library="gdiplus" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -83,6 +85,8 @@
 		<Unit filename="models/ModelNode.hpp" />
 		<Unit filename="models/ParentModelNode.cpp" />
 		<Unit filename="models/ParentModelNode.hpp" />
+		<Unit filename="models/Texture.cpp" />
+		<Unit filename="models/Texture.hpp" />
 		<Unit filename="models/TransformNode.cpp" />
 		<Unit filename="models/TransformNode.hpp" />
 		<Unit filename="models/Triangle.cpp" />
