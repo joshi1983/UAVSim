@@ -9,7 +9,6 @@ class FileImporter {
         const std::string fileExtension;
     protected:
         FileImporter(const char * fileExtension);
-        static std::string getFileExtension(const std::string & filename);
 	public:
 	    virtual ~FileImporter();
 	    virtual bool supportsFileExtension(const std::string & filename) const;

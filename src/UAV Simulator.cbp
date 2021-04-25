@@ -47,12 +47,20 @@
 			<Add library="gdi32" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
+		<Unit filename="io/Files.cpp" />
+		<Unit filename="io/Files.hpp" />
 		<Unit filename="io/XmlUtils.cpp" />
 		<Unit filename="io/XmlUtils.hpp" />
+		<Unit filename="io/model_exporters/FileExporter.cpp" />
+		<Unit filename="io/model_exporters/FileExporter.hpp" />
+		<Unit filename="io/model_exporters/UAVSimBinaryFileExporter.cpp" />
+		<Unit filename="io/model_exporters/UAVSimBinaryFileExporter.hpp" />
 		<Unit filename="io/model_importers/CompositeFileImporter.cpp" />
 		<Unit filename="io/model_importers/CompositeFileImporter.hpp" />
 		<Unit filename="io/model_importers/FileImporter.cpp" />
 		<Unit filename="io/model_importers/FileImporter.hpp" />
+		<Unit filename="io/model_importers/UAVSimBinaryFileImporter.cpp" />
+		<Unit filename="io/model_importers/UAVSimBinaryFileImporter.hpp" />
 		<Unit filename="io/model_importers/WRLFileImporter.cpp" />
 		<Unit filename="io/model_importers/WRLFileImporter.hpp" />
 		<Unit filename="io/model_importers/WRL/InvalidVRMLElementNameException.cpp" />

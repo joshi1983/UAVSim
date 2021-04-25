@@ -12,9 +12,11 @@
 #include <algorithm>
 #include <cmath>
 #include "io/model_importers/CompositeFileImporter.hpp"
+#include "io/model_exporters/UAVSimBinaryFileExporter.hpp"
 #include "models/Triangle.hpp"
 #include "models/ColouredTriangleSet.hpp"
 #include "models/Texture.hpp"
+#include "io/Files.hpp"
 using namespace std;
 
 vector<ColouredTriangleSet> shapes;
@@ -54,7 +56,10 @@ void initRenderer(const char * programPath, int _windowid)
     t = new Texture(getAbsolutePathForFilename(programPath, "data\\models\\grass-texture.jpg"));
     t->storeOpenGLTextureName(_windowid);
     windowid = _windowid;
-    string filename = getAbsolutePathForFilename(programPath, "data\\models\\top_assy.wrl");
+    string filename = getAbsolutePathForFilename(programPath, "data\\models\\top_assy.uavsim");
+    bool cacheUsed = fileExists(filename);
+    if (!cacheUsed)
+        filename = getAbsolutePathForFilename(programPath, "data\\models\\top_assy.wrl");
     CompositeFileImporter importer;
     cout << "Loading 3D models..." << endl;
     cout << "Loading: " << filename << endl;
@@ -63,6 +68,12 @@ void initRenderer(const char * programPath, int _windowid)
         cout << "Unable to load from 3D file: " << filename << endl;
     else
     {
+        if (!cacheUsed)
+        {
+            UAVSimBinaryFileExporter saver;
+            filename = getAbsolutePathForFilename(programPath, "data\\models\\top_assy.uavsim");
+            saver.save(*group, filename);
+        }
         vector<Triangle> triangles = group->getTriangles();
         delete group;
 
