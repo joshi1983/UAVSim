@@ -22,6 +22,7 @@ using namespace std;
 vector<ColouredTriangleSet> shapes;
 Texture *t=nullptr;
 int windowid;
+double yOffset = -1.3;
 
 string getAbsolutePathForFilename(const char * programPath, const char * filename)
 {
@@ -47,6 +48,11 @@ string getAbsolutePathForFilename(const char * programPath, const char * filenam
         result += '\\';
 
     return result + filename;
+}
+
+void verticalShift(double dy)
+{
+    yOffset += dy;
 }
 
 void initRenderer(const char * programPath, int _windowid)
@@ -94,20 +100,35 @@ void initRenderer(const char * programPath, int _windowid)
         shapes.push_back(ColouredTriangleSet(1, 1, 1));
 
         const double whiteMaxY = 3.26;
-        const double blade1MaxY = 3.4;
+        const double blade1MaxY = 3.412;
+        const double blade1AverageY = 3.412;
         for (auto t = triangles.begin(); t != triangles.end(); t++)
         {
             double maxY = -99999;
+            double minY = 999999;
+            double totalX = 0, totalY = 0, totalZ = 0;
             for (unsigned int vIndex = 0; vIndex < 3; vIndex++)
             {
                 maxY = max(maxY, t->vertices[vIndex].y);
+                minY = min(minY, t->vertices[vIndex].y);
+                totalX += t->vertices[vIndex].x;
+                totalY += t->vertices[vIndex].y;
+                totalZ += t->vertices[vIndex].z;
             }
-            if (maxY <= whiteMaxY)
-                shapes[0].triangles.push_back(*t); // white
-            else if (maxY <= blade1MaxY)
-                shapes[1].triangles.push_back(*t);
+            double averageY = (maxY + minY) * 0.5;
+            if (averageY <= whiteMaxY)
+                shapes[0].triangles.push_back(*t); // main body.
+            else if (abs(averageY - blade1AverageY) < 0.015)
+            {
+                if (abs(totalX) < abs(totalZ))
+                    shapes[1].triangles.push_back(*t); // lower propeller
+                else
+                    shapes[2].triangles.push_back(*t); // upper propeller
+            }
+            else if (averageY <= blade1MaxY)
+                shapes[1].triangles.push_back(*t); // lower propeller
             else
-                shapes[2].triangles.push_back(*t);
+                shapes[2].triangles.push_back(*t); // upper propeller
         }
     }
 }
@@ -129,7 +150,7 @@ void drawGround(double elevation)
     glColor3d(1, 1, 1);
     glPushMatrix();
         glRotated(-90, 1,0,0);
-        glTranslated(0,0,elevation);
+        glTranslated(0,0,elevation + yOffset);
         glBegin(GL_QUADS);
             glTexCoord2d(0,0);
             glVertex2d(left,top);
@@ -165,7 +186,7 @@ void render()
     glClear(GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
 
-        glTranslated(0,-1.3,-2.5);
+        glTranslated(0,yOffset,-2.5);
         glRotated(a * 0.04,0,1,0);
         drawGround(-2 + 1.8 * sin(t * 2));
         shapes[0].draw();

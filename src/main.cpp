@@ -22,6 +22,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 #include "io/model_importers/X3DFileImporter.hpp"
 #include "renderer.hpp"
 using namespace std;
@@ -50,6 +51,20 @@ static void display(void)
     render();
 
     glutSwapBuffers();
+}
+
+int lastY;
+
+static void mousePressOrUp(int button, int state,
+                                int x, int y)
+{
+    lastY = y;
+}
+
+static void mouseMoved(int x, int y)
+{
+    verticalShift((y - lastY) * 0.01);
+    lastY = y;
 }
 
 static void key(unsigned char key, int x, int y)
@@ -106,6 +121,8 @@ int main(int argc, char *argv[])
     glutReshapeFunc(resize);
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
+    glutMouseFunc(mousePressOrUp);
+    glutMotionFunc(mouseMoved);
     glutIdleFunc(idle);
 
     glClearColor(1,1,1,1);
