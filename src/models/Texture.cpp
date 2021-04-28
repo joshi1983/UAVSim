@@ -4,6 +4,7 @@
 #include <GL/glut.h>
 #include <gdiplus.h>
 #include <fstream>
+#include "../io/Files.hpp"
 using namespace std;
 
 void Texture::init()
@@ -15,8 +16,9 @@ void Texture::init()
 	Gdiplus::GdiplusStartup(&token, &gsi, nullptr);
 }
 
-Texture::Texture(const string & filename)
+Texture::Texture(const string & _filename)
 {
+    string filename = getAbsolutePathForFilename(_filename.c_str());
     ifstream file(filename);
     if (!file.is_open())
     {

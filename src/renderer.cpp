@@ -9,7 +9,6 @@
 #endif
 
 #include <iostream>
-#include <algorithm>
 #include <cmath>
 #include "io/model_importers/CompositeFileImporter.hpp"
 #include "io/model_exporters/UAVSimBinaryFileExporter.hpp"
@@ -17,38 +16,14 @@
 #include "models/ColouredTriangleSet.hpp"
 #include "models/Texture.hpp"
 #include "io/Files.hpp"
+#include "models/Sky.hpp"
 using namespace std;
 
 vector<ColouredTriangleSet> shapes;
 Texture *t=nullptr;
 int windowid;
 double yOffset = -1.3;
-
-string getAbsolutePathForFilename(const char * programPath, const char * filename)
-{
-    string result(programPath);
-    if (result.find("\\") == string::npos)
-        replace( result.begin(), result.end(), '/', '\\');
-    size_t index = result.rfind("src\\bin\\Debug\\");
-    if (index != string::npos)
-        result = result.substr(0, index);
-    else
-    {
-        index = result.rfind("src\\bin\\Release\\");
-        if (index != string::npos)
-            result = result.substr(0, index);
-        else
-        {
-            index = result.rfind("\\");
-            if (index != string::npos)
-                result = result.substr(0, index);
-        }
-    }
-    if (result[result.length() - 1] != '\\')
-        result += '\\';
-
-    return result + filename;
-}
+Sky *sky;
 
 void verticalShift(double dy)
 {
@@ -57,15 +32,16 @@ void verticalShift(double dy)
 
 void initRenderer(const char * programPath, int _windowid)
 {
+    setProgramPath(programPath);
     Texture::init();
     cout << "Loading textures..." << endl;
-    t = new Texture(getAbsolutePathForFilename(programPath, "data\\models\\grass-texture.jpg"));
+    t = new Texture("data\\models\\grass-texture.jpg");
     t->storeOpenGLTextureName(_windowid);
     windowid = _windowid;
-    string filename = getAbsolutePathForFilename(programPath, "data\\models\\top_assy.uavsim");
+    string filename = getAbsolutePathForFilename("data\\models\\top_assy.uavsim");
     bool cacheUsed = fileExists(filename);
     if (!cacheUsed)
-        filename = getAbsolutePathForFilename(programPath, "data\\models\\top_assy.wrl");
+        filename = getAbsolutePathForFilename("data\\models\\top_assy.wrl");
     CompositeFileImporter importer;
     cout << "Loading 3D models..." << endl;
     cout << "Loading: " << filename << endl;
@@ -80,6 +56,7 @@ void initRenderer(const char * programPath, int _windowid)
             filename = getAbsolutePathForFilename(programPath, "data\\models\\top_assy.uavsim");
             saver.save(*group, filename);
         }
+        sky = new Sky();
         vector<Triangle> triangles = group->getTriangles();
         delete group;
 
@@ -182,6 +159,7 @@ void render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     drawHorizonAndSky();
+    sky->draw(windowid);
 
     glClear(GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
