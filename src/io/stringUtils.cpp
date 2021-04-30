@@ -10,3 +10,13 @@ string trim(const string & s)
 
     return s.substr(starting, ending - starting + 1);
 }
+
+void convertToWCharString(const char * from, wchar_t * result)
+{
+    unsigned int i;
+    for (i = 0; from[i] != '\0'; i++)
+    {
+        result[i] = from[i];
+    }
+    result[i] = '\0';
+}

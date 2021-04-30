@@ -7,7 +7,7 @@ Sky::Sky(): texture("data\\models\\skybox_texture3.jpg")
 {
 }
 
-void Sky::draw(int windowid)
+void Sky::draw(int windowid, double cameraYaw)
 {
     const double D = 4;
     const double third = 1.0 / 3;
@@ -27,7 +27,7 @@ void Sky::draw(int windowid)
     glPushMatrix();
         glRotated(180, 1, 0, 0);
         glTranslated(0,0,-2);
-        glRotated(d, 0, 1, 0);
+        glRotated(cameraYaw, 0, 1, 0);
         /*
         Taken from:
         https://www.youtube.com/watch?v=DlOT8MJ7mrc

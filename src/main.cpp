@@ -25,6 +25,7 @@
 #include <iostream>
 #include "io/model_importers/X3DFileImporter.hpp"
 #include "renderer.hpp"
+#include "io/screenshots/screenshots.hpp"
 using namespace std;
 
 
@@ -115,7 +116,9 @@ int main(int argc, char *argv[])
     glutInitWindowPosition(10,10);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
-    int windowid = glutCreateWindow("UAV Simulator");
+    const char * windowTitle = "UAV Simulator";
+    int windowid = glutCreateWindow(windowTitle);
+    storeHWND(windowid, windowTitle);
     initRenderer(argv[0], windowid);
 
     glutReshapeFunc(resize);

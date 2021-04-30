@@ -16,7 +16,9 @@
 #include "models/ColouredTriangleSet.hpp"
 #include "models/Texture.hpp"
 #include "io/Files.hpp"
+#include "deployment/deploymentHelper.hpp"
 #include "models/Sky.hpp"
+#include "models/animation/DefaultAnimation.hpp"
 using namespace std;
 
 vector<ColouredTriangleSet> shapes;
@@ -24,6 +26,7 @@ Texture *t=nullptr;
 int windowid;
 double yOffset = -1.3;
 Sky *sky;
+Animation *animation;
 
 void verticalShift(double dy)
 {
@@ -33,12 +36,14 @@ void verticalShift(double dy)
 void initRenderer(const char * programPath, int _windowid)
 {
     setProgramPath(programPath);
+    initDirectories();
     Texture::init();
+    animation = new DefaultAnimation();
     cout << "Loading textures..." << endl;
     t = new Texture("data\\models\\grass-texture.jpg");
     t->storeOpenGLTextureName(_windowid);
     windowid = _windowid;
-    string filename = getAbsolutePathForFilename("data\\models\\top_assy.uavsim");
+    string filename = getAbsolutePathForFilename("data\\models\\cache\\top_assy.uavsim");
     bool cacheUsed = fileExists(filename);
     if (!cacheUsed)
         filename = getAbsolutePathForFilename("data\\models\\top_assy.wrl");
@@ -53,12 +58,13 @@ void initRenderer(const char * programPath, int _windowid)
         if (!cacheUsed)
         {
             UAVSimBinaryFileExporter saver;
-            filename = getAbsolutePathForFilename(programPath, "data\\models\\top_assy.uavsim");
+            filename = getAbsolutePathForFilename(programPath, "data\\models\\cache\\top_assy.uavsim");
             saver.save(*group, filename);
         }
         sky = new Sky();
         vector<Triangle> triangles = group->getTriangles();
         delete group;
+        double minY = 999999;
 
         for (auto t = triangles.begin(); t != triangles.end(); t++)
         {
@@ -67,7 +73,9 @@ void initRenderer(const char * programPath, int _windowid)
                 t->vertices[vertexIndex] = t->vertices[vertexIndex] * 10;
                 // translate so the axis of helicopter blade rotation is roughly on (0,0,0).
                 t->vertices[vertexIndex].x -= 0.599532;
+                t->vertices[vertexIndex].y += 0.0935;
                 t->vertices[vertexIndex].z -= 0.350633;
+                minY = min(minY, t->vertices[vertexIndex].y);
             }
             t->updateNormal();
         }
@@ -76,9 +84,9 @@ void initRenderer(const char * programPath, int _windowid)
         shapes.push_back(ColouredTriangleSet(1, 1, 1));
         shapes.push_back(ColouredTriangleSet(1, 1, 1));
 
-        const double whiteMaxY = 3.26;
-        const double blade1MaxY = 3.412;
-        const double blade1AverageY = 3.412;
+        const double whiteMaxY = 3.1665;
+        const double blade1MaxY = 3.3185;
+        const double blade1AverageY = 3.3185;
         for (auto t = triangles.begin(); t != triangles.end(); t++)
         {
             double maxY = -99999;
@@ -110,10 +118,10 @@ void initRenderer(const char * programPath, int _windowid)
     }
 }
 
-void drawGround(double elevation)
+void drawGround()
 {
-  const double left = -8;
-  const double top = -8;
+  const double left = -4;
+  const double top = -4;
   const double width = -left * 2;
   const double height = -top * 2;
 
@@ -125,20 +133,16 @@ void drawGround(double elevation)
     glBindTexture( GL_TEXTURE_2D, t->getOpenGLTextureName(windowid));
 
     glColor3d(1, 1, 1);
-    glPushMatrix();
-        glRotated(-90, 1,0,0);
-        glTranslated(0,0,elevation + yOffset);
-        glBegin(GL_QUADS);
-            glTexCoord2d(0,0);
-            glVertex2d(left,top);
-            glTexCoord2d(1,0);
-            glVertex2d(left+width,top);
-            glTexCoord2d(1,1);
-            glVertex2d(left+width,top+height);
-            glTexCoord2d(0,1);
-            glVertex2d(left,top+height);
-        glEnd();
-    glPopMatrix();
+    glBegin(GL_QUADS);
+        glTexCoord2d(0,0);
+        glVertex2d(left,top);
+        glTexCoord2d(1,0);
+        glVertex2d(left+width,top);
+        glTexCoord2d(1,1);
+        glVertex2d(left+width,top+height);
+        glTexCoord2d(0,1);
+        glVertex2d(left,top+height);
+    glEnd();
 
     glDisable(GL_TEXTURE_2D);
     glEnable(GL_LIGHT0);
@@ -155,25 +159,28 @@ void drawHorizonAndSky()
 void render()
 {
     const double t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    const double a = t*90.0;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    animation->getState(t, animationState);
     drawHorizonAndSky();
-    sky->draw(windowid);
+    sky->draw(windowid, animationState.yaw);
 
     glClear(GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
-
+        //glRotated(animationState.yaw,0,1,0);
+        glRotated(-90, 1, 0, 0);
+        glTranslated(animationState.x, animationState.z, animationState.y + yOffset);
+        glRotated(-animationState.yaw, 0, 0, 1);
+        drawGround();
+    glPopMatrix();
+    glPushMatrix();
         glTranslated(0,yOffset,-2.5);
-        glRotated(a * 0.04,0,1,0);
-        drawGround(-2 + 1.8 * sin(t * 2));
         shapes[0].draw();
         glPushMatrix();
-            glRotated(a * 5, 0, 1, 0);
+            glRotated(animationState.bladeAngle, 0, 1, 0);
             shapes[1].draw();
         glPopMatrix();
         glPushMatrix();
-            glRotated(-a * 5, 0, 1, 0);
+            glRotated(-animationState.bladeAngle, 0, 1, 0);
             shapes[2].draw();
         glPopMatrix();
     glPopMatrix();

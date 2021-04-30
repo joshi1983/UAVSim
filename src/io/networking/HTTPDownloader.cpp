@@ -1,3 +1,4 @@
+#include "HTTPDownloader.hpp"
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/beast/version.hpp>
@@ -46,15 +47,11 @@ bool parseUrl(const string& url, string & protocol, string & domain, string & po
 
 void downloadToFile(const std::string & url, const std::string & filename)
 {
-    string port = "80";
-    string host = "www.technocrazed.com";
-    string target = "/wp-content/uploads/2015/12/beautiful-wallpaper-download-13.jpg";
+    string port;
+    string host;
+    string target;
     string protocol;
-    if (!parseUrl(url, protocol, host, port, target))
-    {
-        cerr << "Unable to download from URL because it is invalid.  URL: " << url << endl;
-        throw exception();
-    }
+    parseUrl(url, protocol, host, port, target);
     cout << "protocol = " << protocol << endl;
     cout << "port = " << port << endl;
     cout << "host = " << host << endl;
@@ -68,7 +65,6 @@ void downloadToFile(const std::string & url, const std::string & filename)
         beast::tcp_stream stream(ioc);
   // Look up the domain name
         auto const results = resolver.resolve(host, port);
-        //socket_.set_verify_mode(boost::asio::ssl::context::verify_none);
 
         // Make the connection on the IP address we get from a lookup
         stream.connect(results);

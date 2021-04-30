@@ -8,7 +8,7 @@ class Sky
 		Texture texture;
 	public:
 		Sky();
-		void draw(int windowid);
+		void draw(int windowid, double cameraYaw);
 };
 
 #endif

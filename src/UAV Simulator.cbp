@@ -13,13 +13,25 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++1z" />
+					<Add option="-m64" />
 					<Add option="-m32" />
 					<Add option="-g" />
+					<Add option='&quot;-IC:\Program Files (x86)\CodeBlocks\MinGW\openssl\include&quot;' />
+					<Add option='&quot;-IC:\Program Files (x86)\CodeBlocks\MinGW\boost_1_76_0&quot;' />
+					<Add option="-D_WIN32_WINNT=0x0601" />
 				</Compiler>
 				<Linker>
+					<Add option="-static" />
+					<Add option="-m64" />
 					<Add option="-m32" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/boost_1_76_0/stage/lib/libboost_system-vc142-mt-x64-1_76.lib" />
 					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/lib/glut32.lib" />
 					<Add library="gdiplus" />
+					<Add library="ws2_32" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/openssl/lib/libssl.lib" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/openssl/lib/libcrypto.lib" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/boost_1_76_0/stage/lib/libboost_filesystem-vc142-mt-gd-x64-1_76.lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -30,9 +42,15 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option='&quot;-IC:\Program Files (x86)\CodeBlocks\MinGW\boost_1_76_0&quot;' />
+					<Add option='&quot;-IC:\Program Files (x86)\CodeBlocks\MinGW\openssl\include&quot;' />
+					<Add option="-D_WIN32_WINNT=0x0601" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/lib/glut32.lib" />
+					<Add library="gdiplus" />
+					<Add library="ws2_32" />
 				</Linker>
 			</Target>
 		</Build>
@@ -47,10 +65,19 @@
 			<Add library="gdi32" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
+		<Unit filename="AnimationProcessor.cpp" />
+		<Unit filename="AnimationProcessor.hpp" />
+		<Unit filename="deployment/deploymentHelper.cpp" />
+		<Unit filename="deployment/deploymentHelper.hpp" />
 		<Unit filename="io/Files.cpp" />
 		<Unit filename="io/Files.hpp" />
 		<Unit filename="io/XmlUtils.cpp" />
 		<Unit filename="io/XmlUtils.hpp" />
+		<Unit filename="io/animation_importers/AnimationImporter.hpp" />
+		<Unit filename="io/animation_importers/CSVAnimationImporter.cpp" />
+		<Unit filename="io/animation_importers/CSVAnimationImporter.hpp" />
+		<Unit filename="io/csv/CSVParser.cpp" />
+		<Unit filename="io/csv/CSVParser.hpp" />
 		<Unit filename="io/model_exporters/FileExporter.cpp" />
 		<Unit filename="io/model_exporters/FileExporter.hpp" />
 		<Unit filename="io/model_exporters/UAVSimBinaryFileExporter.cpp" />
@@ -76,6 +103,12 @@
 		<Unit filename="io/model_importers/X3D/IndexedFaceSet.cpp" />
 		<Unit filename="io/model_importers/X3D/Separator.cpp" />
 		<Unit filename="io/model_importers/X3D/Transform.cpp" />
+		<Unit filename="io/networking/HTTPDownloader.cpp" />
+		<Unit filename="io/networking/HTTPDownloader.hpp" />
+		<Unit filename="io/screenshots/screenshots.cpp" />
+		<Unit filename="io/screenshots/screenshots.hpp" />
+		<Unit filename="io/stringUtils.cpp" />
+		<Unit filename="io/stringUtils.hpp" />
 		<Unit filename="lib/TinyXML/tinystr.cpp" />
 		<Unit filename="lib/TinyXML/tinystr.h" />
 		<Unit filename="lib/TinyXML/tinyxml.cpp" />
@@ -93,6 +126,8 @@
 		<Unit filename="models/ModelNode.hpp" />
 		<Unit filename="models/ParentModelNode.cpp" />
 		<Unit filename="models/ParentModelNode.hpp" />
+		<Unit filename="models/Sky.cpp" />
+		<Unit filename="models/Sky.hpp" />
 		<Unit filename="models/Texture.cpp" />
 		<Unit filename="models/Texture.hpp" />
 		<Unit filename="models/TransformNode.cpp" />
@@ -101,6 +136,16 @@
 		<Unit filename="models/Triangle.hpp" />
 		<Unit filename="models/Vertex.cpp" />
 		<Unit filename="models/Vertex.hpp" />
+		<Unit filename="models/animation/Animation.hpp" />
+		<Unit filename="models/animation/AnimationState.cpp" />
+		<Unit filename="models/animation/AnimationState.hpp" />
+		<Unit filename="models/animation/DefaultAnimation.cpp" />
+		<Unit filename="models/animation/DefaultAnimation.hpp" />
+		<Unit filename="models/animation/StateSequenceAnimation.cpp" />
+		<Unit filename="models/animation/StateSequenceAnimation.hpp" />
+		<Unit filename="models/generators/MeshGenerator.hpp" />
+		<Unit filename="models/generators/Tree.cpp" />
+		<Unit filename="models/generators/Tree.hpp" />
 		<Unit filename="renderer.cpp" />
 		<Unit filename="renderer.hpp" />
 		<Extensions>
