@@ -1,5 +1,6 @@
 #include "AnimationState.hpp"
 #include <algorithm>
+#include <iostream>
 using namespace std;
 
 AnimationState::AnimationState(): bladeAngle(0),
@@ -8,22 +9,40 @@ AnimationState::AnimationState(): bladeAngle(0),
 
 }
 
+void AnimationState::setValue(const std::string& name, const double value)
+{
+    if (name > "r")
+    {
+        if (name == "x")
+            x = value;
+        else if (name == "y")
+            y = value;
+        else if (name == "z")
+            z = value;
+        else if (name == "yaw")
+            yaw = value;
+    }
+    else
+    {
+        if (name == "roll")
+            roll = value;
+        else if (name == "pitch")
+            pitch = value;
+        else if (name == "bladeangle")
+            bladeAngle = value;
+    }
+}
+
 void AnimationState::setValue(const std::string& name, const std::string& value)
 {
-    if (name == "x")
-        x = stod(value);
-    else if (name == "y")
-        y = stod(value);
-    else if (name == "z")
-        z = stod(value);
-    else if (name == "roll")
-        roll = stod(value);
-    else if (name == "yaw")
-        yaw = stod(value);
-    else if (name == "pitch")
-        pitch = stod(value);
-    else if (name == "bladeangle")
-        bladeAngle = stod(value);
+    try
+    {
+        setValue(name, stod(value));
+    }
+    catch ( invalid_argument &e)
+    {
+        cerr << "Problem converting " << value << " to double." << endl;
+    }
 }
 
 string AnimationState::sanitizeName(const string& name)

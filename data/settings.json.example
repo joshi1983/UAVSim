@@ -1,0 +1,23 @@
+{
+	"resolution": {
+		"width": 640,
+		"height": 480
+	},
+	"csv": {
+		"filename": "data/datapoints.csv",
+		"columns": {
+			"x": {
+				"to": "x",
+				"scale": 1
+			},
+			"y": {
+				"to": "y",
+				"scale": 1
+			},
+			"z": {
+				"to": "z",
+				"scale": 1
+			}
+		}
+	}
+}

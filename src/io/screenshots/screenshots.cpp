@@ -1,9 +1,21 @@
 #include "screenshots.hpp"
 #include <gdiplus.h>
+#if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
+#endif
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
+
 #include <iostream>
+#include "../../lib/rapidjson/pointer.h"
+#include "../../lib/rapidjson/document.h"
 #include "../stringUtils.hpp"
+#include "../config/Config.hpp"
 using namespace std;
+using namespace rapidjson;
 
 HWND screenshotWindow;
 
@@ -53,4 +65,28 @@ void saveScreenshot(const wchar_t * filename)
     DeleteDC(hDC);
     ReleaseDC(NULL, hWindow);
     DeleteObject(hBitmap);
+}
+
+void updateResolutionFromConfig()
+{
+    Value* bla =  Pointer("/auga97hfh").Get(UAVSimConfig::config.doc);
+    Value* csv =  Pointer("/csv").Get(UAVSimConfig::config.doc);
+    Value* res =  Pointer("/resolution").Get(UAVSimConfig::config.doc);
+    Value* width =  Pointer("/resolution/width").Get(UAVSimConfig::config.doc);
+    Value* height =  Pointer("/resolution/height").Get(UAVSimConfig::config.doc);
+    if (width != nullptr && height != nullptr && width->IsInt() && height->IsInt())
+    {
+        int w = width->GetInt();
+        int h = height->GetInt();
+        cout << "w = " << w << ", h = " << h << endl;
+        glutReshapeWindow(w, h);
+    }
+    else {
+        cout << "bla is null: " << (bla == nullptr) << endl;
+        cout << "csv is null: " << (csv == nullptr) << endl;
+        cout << "res is null: " << (res == nullptr) << endl;
+        cout << "width is null: " << (width == nullptr) << endl;
+        cout << "height is null: " << (height == nullptr) << endl;
+        cout << "width and height not found in config. width = " << width << ", height = " << height << endl;
+    }
 }

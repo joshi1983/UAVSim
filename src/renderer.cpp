@@ -19,6 +19,9 @@
 #include "deployment/deploymentHelper.hpp"
 #include "models/Sky.hpp"
 #include "models/animation/DefaultAnimation.hpp"
+#include "io/config/Config.hpp"
+#include "io/animation_importers/CSVAnimationImporter.hpp"
+#include "io/screenshots/screenshots.hpp"
 using namespace std;
 
 vector<ColouredTriangleSet> shapes;
@@ -36,8 +39,12 @@ void verticalShift(double dy)
 void initRenderer(const char * programPath, int _windowid)
 {
     setProgramPath(programPath);
+    UAVSimConfig::config.load();
     initDirectories();
     Texture::init();
+    updateResolutionFromConfig();
+    CSVAnimationImporter csvAnimationImporter;
+    csvAnimationImporter.loadFrom(getAbsolutePathForFilename("data\\datapoints.csv"));
     animation = new DefaultAnimation();
     cout << "Loading textures..." << endl;
     t = new Texture("data\\models\\grass-texture.jpg");
