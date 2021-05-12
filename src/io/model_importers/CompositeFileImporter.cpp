@@ -2,6 +2,7 @@
 #include "X3DFileImporter.hpp"
 #include "WRLFileImporter.hpp"
 #include "UAVSimBinaryFileImporter.hpp"
+#include "OSMFileImporter.hpp"
 
 using namespace std;
 
@@ -10,6 +11,7 @@ CompositeFileImporter::CompositeFileImporter(): FileImporter("")
 	importers.push_back(new X3DFileImporter());
 	importers.push_back(new WRLFileImporter());
 	importers.push_back(new UAVSimBinaryFileImporter());
+	importers.push_back(new OSMFileImporter());
 }
 
 CompositeFileImporter::~CompositeFileImporter()
