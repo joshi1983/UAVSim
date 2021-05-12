@@ -28,6 +28,7 @@ void Sky::draw(int windowid, double cameraYaw)
         glRotated(180, 1, 0, 0);
         glTranslated(0,0,-2);
         glRotated(cameraYaw, 0, 1, 0);
+
         /*
         Taken from:
         https://www.youtube.com/watch?v=DlOT8MJ7mrc
@@ -60,19 +61,20 @@ void Sky::draw(int windowid, double cameraYaw)
             glTexCoord2f(1,2*third); glVertex3f(-D,+D,-D);
             glTexCoord2f(3*quarter,2*third); glVertex3f(-D,+D,+D);
         glEnd();
+        // bottom
+        glBegin(GL_QUADS);
+            glTexCoord2f(quarter,1); glVertex3f(-D,+D,-D);
+            glTexCoord2f(quarter,2*third); glVertex3f(+D,+D,-D);
+            glTexCoord2f(2*quarter,2*third); glVertex3f(+D,+D,+D);
+            glTexCoord2f(2*quarter,1); glVertex3f(-D,+D,+D);
+        glEnd();
+
         // top
         glBegin(GL_QUADS);
-            glTexCoord2f(quarter,0); glVertex3f(-D,+D,-D);
-            glTexCoord2f(2*quarter,0); glVertex3f(+D,+D,-D);
-            glTexCoord2f(2*quarter,third); glVertex3f(+D,+D,+D);
-            glTexCoord2f(quarter,third); glVertex3f(-D,+D,+D);
-        glEnd();
-        // down
-        glBegin(GL_QUADS);
-            glTexCoord2f(2*quarter,1); glVertex3f(+D,-D,-D);
-            glTexCoord2f(quarter,1); glVertex3f(-D,-D,-D);
-            glTexCoord2f(quarter,2*third); glVertex3f(-D,-D,+D);
-            glTexCoord2f(2*quarter,2*third); glVertex3f(+D,-D,+D);
+            glTexCoord2f(quarter,third); glVertex3f(+D,-D,-D);
+            glTexCoord2f(quarter,0); glVertex3f(-D,-D,-D);
+            glTexCoord2f(2*quarter,0); glVertex3f(-D,-D,+D);
+            glTexCoord2f(2*quarter,third); glVertex3f(+D,-D,+D);
         glEnd();
 
     glPopMatrix();
