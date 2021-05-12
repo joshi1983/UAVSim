@@ -10,6 +10,7 @@ class StateSequenceAnimation: public Animation
 	public:
 		StateSequenceAnimation(std::vector<AnimationState> states);
 		virtual void getState(double t, AnimationState &state) const override;
+		virtual unsigned int getMaxT() const override;
 };
 
 #endif

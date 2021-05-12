@@ -17,3 +17,13 @@ void AnimationProcessor::processNextFrame()
 	saveScreenshot(filename);
 	frameIndex++;
 }
+
+unsigned int AnimationProcessor::getFrameIndex() const
+{
+    return frameIndex;
+}
+
+bool AnimationProcessor::isWithinAnimation() const
+{
+    return frameIndex < animation->getMaxT();
+}

@@ -6,7 +6,7 @@
 class AnimationImporter
 {
 	public:
-		virtual StateSequenceAnimation loadFrom(const std::string & filename) const = 0;
+		virtual StateSequenceAnimation* loadFrom(const std::string & filename) const = 0;
 };
 
 #endif

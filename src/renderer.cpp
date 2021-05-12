@@ -22,14 +22,17 @@
 #include "io/config/Config.hpp"
 #include "io/animation_importers/CSVAnimationImporter.hpp"
 #include "io/screenshots/screenshots.hpp"
+#include "AnimationProcessor.hpp"
 using namespace std;
 
 vector<ColouredTriangleSet> shapes;
 Texture *t=nullptr;
 int windowid;
+int renderCallCount = 0;
 double yOffset = -1.3;
 Sky *sky;
 Animation *animation;
+AnimationProcessor *animationProcessor = nullptr;
 
 void verticalShift(double dy)
 {
@@ -44,8 +47,11 @@ void initRenderer(const char * programPath, int _windowid)
     Texture::init();
     updateResolutionFromConfig();
     CSVAnimationImporter csvAnimationImporter;
-    csvAnimationImporter.loadFrom(getAbsolutePathForFilename("data\\datapoints.csv"));
-    animation = new DefaultAnimation();
+    animation = csvAnimationImporter.load();
+    if (animation != nullptr)
+        animationProcessor = new AnimationProcessor(animation, animationState);
+    else
+        animation = new DefaultAnimation();
     cout << "Loading textures..." << endl;
     t = new Texture("data\\models\\grass-texture.jpg");
     t->storeOpenGLTextureName(_windowid);
@@ -165,9 +171,21 @@ void drawHorizonAndSky()
 
 void render()
 {
+    renderCallCount++;
+    bool isSavingScreenshots = (animationProcessor != nullptr && renderCallCount > 10);
     const double t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+
+    if (isSavingScreenshots && animationProcessor->isWithinAnimation())
+    {
+        saveScreenshot(animationProcessor->getFrameIndex());
+    }
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    animation->getState(t, animationState);
+    if (isSavingScreenshots)
+        animationProcessor->processNextFrame();
+    else
+        animation->getState(t, animationState);
+
     drawHorizonAndSky();
     sky->draw(windowid, animationState.yaw);
 
@@ -191,4 +209,5 @@ void render()
             shapes[2].draw();
         glPopMatrix();
     glPopMatrix();
+
 }

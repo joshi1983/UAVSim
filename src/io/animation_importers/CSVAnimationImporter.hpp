@@ -5,7 +5,8 @@
 class CSVAnimationImporter: public AnimationImporter
 {
 	public:
-		virtual StateSequenceAnimation loadFrom(const std::string & filename) const override;
+	    StateSequenceAnimation* load() const;
+		virtual StateSequenceAnimation* loadFrom(const std::string & filename) const override;
 };
 
 #endif

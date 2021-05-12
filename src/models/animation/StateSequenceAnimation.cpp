@@ -14,3 +14,8 @@ void StateSequenceAnimation::getState(double t, AnimationState &state) const
 		tI = states.size() - 1;
 	state = states[tI];
 }
+
+unsigned int StateSequenceAnimation::getMaxT() const
+{
+    return states.size();
+}

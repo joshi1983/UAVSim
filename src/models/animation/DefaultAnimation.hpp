@@ -6,6 +6,7 @@ class DefaultAnimation: public Animation
 {
 	public:
 		virtual void getState(double t, AnimationState &state) const override;
+		virtual unsigned int getMaxT() const override;
 };
 
 #endif

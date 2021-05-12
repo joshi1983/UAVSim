@@ -14,6 +14,7 @@
 #include "../../lib/rapidjson/document.h"
 #include "../stringUtils.hpp"
 #include "../config/Config.hpp"
+#include "../Files.hpp"
 using namespace std;
 using namespace rapidjson;
 
@@ -31,6 +32,15 @@ void saveScreenshot(const char * filename)
     wchar_t convertedFilename[256];
     convertToWCharString(filename, convertedFilename);
     saveScreenshot(convertedFilename);
+}
+
+void saveScreenshot(unsigned int frameIndex)
+{
+    char filename[256];
+    sprintf(filename, "outputs\\frames\\frame_%08d.png", frameIndex);
+    string path = getAbsolutePathForFilename(filename);
+    saveScreenshot(path.c_str());
+    cout << "Should be saved with filename: " << path << endl;
 }
 
 void saveScreenshot(const wchar_t * filename)

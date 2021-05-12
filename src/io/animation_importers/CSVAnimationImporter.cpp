@@ -1,15 +1,30 @@
 #include "CSVAnimationImporter.hpp"
+#include <iostream>
+#include <map>
 #include "../csv/CSVParser.hpp"
 #include "../config/Config.hpp"
 #include "../../lib/rapidjson/pointer.h"
 #include "../../lib/rapidjson/document.h"
-#include <iostream>
-#include <map>
+#include "../Files.hpp"
 using namespace std;
 using namespace rapidjson;
 
-StateSequenceAnimation CSVAnimationImporter::loadFrom(const string & filename) const
+StateSequenceAnimation* CSVAnimationImporter::load() const
 {
+    Value * filenamePtr = Pointer("/csv/filename").Get(UAVSimConfig::config.doc);
+    string filename;
+    if (filenamePtr == nullptr)
+        filename = getAbsolutePathForFilename("data\\datapoints.csv");
+    else
+        filename = getAbsolutePathForFilename(filenamePtr->GetString());
+
+    return loadFrom(filename);
+}
+
+StateSequenceAnimation* CSVAnimationImporter::loadFrom(const string & filename) const
+{
+    if (!fileExists(filename))
+        return nullptr;
 	CSVParser parser(',', true, true, true);
 	vector<vector<string>> values = parser.parseFile(filename);
 	vector<string> headers;
@@ -49,6 +64,6 @@ StateSequenceAnimation CSVAnimationImporter::loadFrom(const string & filename) c
         }
         states.push_back(state);
     }
-	StateSequenceAnimation result(states);
+	StateSequenceAnimation* result = new StateSequenceAnimation(states);
 	return result;
 }

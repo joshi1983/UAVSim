@@ -11,6 +11,8 @@ class AnimationProcessor
 	public:
 		AnimationProcessor(Animation* animation, AnimationState & animationState);
 		void processNextFrame();
+		unsigned int getFrameIndex() const;
+		bool isWithinAnimation() const;
 };
 
 #endif
