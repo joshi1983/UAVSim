@@ -7,6 +7,45 @@
 #include "../io/Files.hpp"
 using namespace std;
 
+uint8_t* getTextureDataFrom(Gdiplus::Bitmap & bitmap)
+{
+    using namespace Gdiplus;
+	unsigned int w = bitmap.GetWidth(), h = bitmap.GetHeight();
+	const int byteCount = 3;
+    int widthStep = w * byteCount;
+
+    if (widthStep%4 != 0)
+        widthStep = (1+widthStep/4)*4;
+	Gdiplus::BitmapData bitmapData;
+	Gdiplus::Rect rect(0, 0, w, h);
+    bitmap.LockBits(&rect, ImageLockModeRead, PixelFormat32bppARGB, &bitmapData);
+    unsigned char *pSourcePixels = (unsigned char*)bitmapData.Scan0;
+    // get destination pointer and copy pixels
+    uint8_t *data = new uint8_t[h * widthStep];
+    if (data != NULL)
+    {
+        uint8_t * pDestPixels = data;
+        for (unsigned int y = 0; y < h; ++y)
+        {
+            // copy a row
+            for (unsigned int x = 0; x < w; x++)
+            {
+                unsigned int destIndex = x*3;
+                unsigned int sourceIndex = x*4;
+                pDestPixels[destIndex+2] = pSourcePixels[sourceIndex];
+                pDestPixels[destIndex+1] = pSourcePixels[sourceIndex+1];
+                pDestPixels[destIndex] = pSourcePixels[sourceIndex+2];
+            }
+
+            // advance row pointers
+            pSourcePixels += bitmapData.Stride;
+            pDestPixels += widthStep;
+        }
+    }
+    bitmap.UnlockBits(&bitmapData);
+	return data;
+}
+
 void Texture::init()
 {
     ULONG_PTR token;
@@ -67,7 +106,6 @@ unsigned int Texture::getHeight() const
   return bitmap->GetHeight();
 }
 
-
 GLuint Texture::generateTextureForWindow(int windowid)
 {
     GLuint  openGLName=0;
@@ -90,29 +128,11 @@ GLuint Texture::generateTextureForWindow(int windowid)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    int byteCount = 3;
-    int widthStep = getWidth() * byteCount;
-
-    if (widthStep%4 != 0)
-        widthStep = (1+widthStep/4)*4;
-    uint8_t* data = new uint8_t[widthStep*getHeight()];
+    uint8_t* data = getTextureDataFrom(*bitmap);
     if (data==NULL)
     {
         cerr << "Texture::init unable to allocate required memory."<<endl;
         return -1;
-    }
-    for (unsigned int y=0;y<getHeight();y++)
-    {
-        for (unsigned int x=0;x<getWidth();x++)
-        {
-            Gdiplus::Color c;
-            bitmap->GetPixel(x,y, &c);
-
-            int index=(x*byteCount+y*widthStep);
-            data[index]=c.GetRed();
-            data[index+1]=c.GetGreen();
-            data[index+2]=c.GetBlue();
-        }
     }
     // build our texture MIP maps
     gluBuild2DMipmaps( GL_TEXTURE_2D, 3, getWidth(), getHeight(), GL_RGB, GL_UNSIGNED_BYTE, data);
