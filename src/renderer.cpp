@@ -20,6 +20,7 @@
 #include "models/Sky.hpp"
 #include "models/animation/DefaultAnimation.hpp"
 #include "io/config/Config.hpp"
+#include "lib/rapidjson/pointer.h"
 #include "io/animation_importers/CSVAnimationImporter.hpp"
 #include "io/screenshots/screenshots.hpp"
 #include "AnimationProcessor.hpp"
@@ -29,7 +30,8 @@ vector<ColouredTriangleSet> shapes;
 Texture *t=nullptr;
 int windowid;
 int renderCallCount = 0;
-double yOffset = -1.3;
+double yOffset = -2.1;
+bool isShowingGround = true;
 Sky *sky;
 Animation *animation;
 AnimationProcessor *animationProcessor = nullptr;
@@ -37,6 +39,17 @@ AnimationProcessor *animationProcessor = nullptr;
 void verticalShift(double dy)
 {
     yOffset += dy;
+}
+
+bool isConfigShowingGround()
+{
+    UAVSimConfig& c = UAVSimConfig::config;
+    string path = string("/showGround");
+    rapidjson::Value* a =  rapidjson::Pointer(path.c_str()).Get(c.doc);
+    if (a != nullptr)
+        return a->GetBool();
+    else
+        return true;
 }
 
 void initRenderer(const char * programPath, int _windowid)
@@ -61,6 +74,7 @@ void initRenderer(const char * programPath, int _windowid)
     if (!cacheUsed)
         filename = getAbsolutePathForFilename("data\\models\\top_assy.wrl");
     CompositeFileImporter importer;
+    isShowingGround = isConfigShowingGround();
     cout << "Loading 3D models..." << endl;
     cout << "Loading: " << filename << endl;
     GroupNode * group = importer.load(filename);
@@ -172,7 +186,7 @@ void drawHorizonAndSky()
 void render()
 {
     renderCallCount++;
-    bool isSavingScreenshots = (animationProcessor != nullptr && renderCallCount > 10);
+    bool isSavingScreenshots = (animationProcessor != nullptr && renderCallCount > 100);
     const double t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
 
     if (isSavingScreenshots && animationProcessor->isWithinAnimation())
@@ -187,18 +201,23 @@ void render()
         animation->getState(t, animationState);
 
     drawHorizonAndSky();
-    sky->draw(windowid, animationState.yaw);
+    sky->draw(windowid, animationState.yaw, 10);
 
     glClear(GL_DEPTH_BUFFER_BIT);
+    if (isShowingGround)
+    {
+        glPushMatrix();
+            //glRotated(animationState.yaw,0,1,0);
+            glRotated(-90, 1, 0, 0);
+            glTranslated(animationState.x, animationState.z, animationState.y + yOffset);
+            glRotated(-animationState.yaw, 0, 0, 1);
+            drawGround();
+        glPopMatrix();
+    }
     glPushMatrix();
-        //glRotated(animationState.yaw,0,1,0);
-        glRotated(-90, 1, 0, 0);
-        glTranslated(animationState.x, animationState.z, animationState.y + yOffset);
-        glRotated(-animationState.yaw, 0, 0, 1);
-        drawGround();
-    glPopMatrix();
-    glPushMatrix();
-        glTranslated(0,yOffset,-2.5);
+        glTranslated(0,yOffset,-3.0);
+        glRotated(10, 1, 0, 0);
+        glRotated(10, 0, 1, 0);
         shapes[0].draw();
         glPushMatrix();
             glRotated(animationState.bladeAngle, 0, 1, 0);

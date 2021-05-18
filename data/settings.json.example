@@ -3,6 +3,7 @@
 		"width": 640,
 		"height": 480
 	},
+	"showGround": true,
 	"csv": {
 		"filename": "data/datapoints.csv",
 		"columns": {
