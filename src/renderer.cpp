@@ -111,9 +111,9 @@ void initRenderer(const char * programPath, int _windowid)
         shapes.push_back(ColouredTriangleSet(1, 1, 1));
         shapes.push_back(ColouredTriangleSet(1, 1, 1));
 
-        const double whiteMaxY = 3.1665;
-        const double blade1MaxY = 3.3185;
-        const double blade1AverageY = 3.3185;
+        const double whiteMaxY = 3.2;
+        const double blade1MaxY = 3.5;
+        const double blade1AverageY = 3.5;
         for (auto t = triangles.begin(); t != triangles.end(); t++)
         {
             double maxY = -99999;
@@ -191,7 +191,8 @@ void render()
 
     if (isSavingScreenshots && animationProcessor->isWithinAnimation())
     {
-        saveScreenshot(animationProcessor->getFrameIndex());
+        string filename = animationProcessor->getFileName();
+        saveScreenshot(filename.c_str());
     }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

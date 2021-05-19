@@ -34,15 +34,6 @@ void saveScreenshot(const char * filename)
     saveScreenshot(convertedFilename);
 }
 
-void saveScreenshot(unsigned int frameIndex)
-{
-    char filename[256];
-    sprintf(filename, "outputs\\frames\\frame_%08d.png", frameIndex);
-    string path = getAbsolutePathForFilename(filename);
-    saveScreenshot(path.c_str());
-    cout << "Should be saved with filename: " << path << endl;
-}
-
 void saveScreenshot(const wchar_t * filename)
 {
 	RECT r;
@@ -79,7 +70,6 @@ void saveScreenshot(const wchar_t * filename)
 
 void updateResolutionFromConfig()
 {
-    Value* bla =  Pointer("/auga97hfh").Get(UAVSimConfig::config.doc);
     Value* csv =  Pointer("/csv").Get(UAVSimConfig::config.doc);
     Value* res =  Pointer("/resolution").Get(UAVSimConfig::config.doc);
     Value* width =  Pointer("/resolution/width").Get(UAVSimConfig::config.doc);
@@ -92,7 +82,6 @@ void updateResolutionFromConfig()
         glutReshapeWindow(w, h);
     }
     else {
-        cout << "bla is null: " << (bla == nullptr) << endl;
         cout << "csv is null: " << (csv == nullptr) << endl;
         cout << "res is null: " << (res == nullptr) << endl;
         cout << "width is null: " << (width == nullptr) << endl;
