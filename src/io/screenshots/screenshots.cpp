@@ -9,7 +9,11 @@
 #include <GL/glut.h>
 #endif
 
+#include <queue>
 #include <iostream>
+#include <thread>
+#include <chrono>
+#include "../../lib/SharedQueue/SharedQueue.cpp"
 #include "../../lib/rapidjson/pointer.h"
 #include "../../lib/rapidjson/document.h"
 #include "../stringUtils.hpp"
@@ -18,6 +22,58 @@
 using namespace std;
 using namespace rapidjson;
 
+void saverThreadRun();
+thread th(&saverThreadRun);
+
+// Create a string with last error message
+std::string GetLastErrorStdStr()
+{
+  DWORD error = GetLastError();
+  if (error)
+  {
+    LPVOID lpMsgBuf;
+    DWORD bufLen = FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER |
+        FORMAT_MESSAGE_FROM_SYSTEM |
+        FORMAT_MESSAGE_IGNORE_INSERTS,
+        NULL,
+        error,
+        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+        (LPTSTR) &lpMsgBuf,
+        0, NULL );
+    if (bufLen)
+    {
+      LPCSTR lpMsgStr = (LPCSTR)lpMsgBuf;
+      std::string result(lpMsgStr, lpMsgStr+bufLen);
+
+      LocalFree(lpMsgBuf);
+
+      return result;
+    }
+  }
+  return std::string();
+}
+
+class ScreenShotSaveTask
+{
+    public:
+        ScreenShotSaveTask(Gdiplus::Bitmap*, const wstring &filename);
+        Gdiplus::Bitmap* bitmap;
+        wstring filename;
+        ~ScreenShotSaveTask();
+};
+
+ScreenShotSaveTask::ScreenShotSaveTask(Gdiplus::Bitmap* bitmap, const wstring &filename): bitmap(bitmap), filename(filename)
+{
+
+}
+
+ScreenShotSaveTask::~ScreenShotSaveTask()
+{
+    delete bitmap;
+}
+
+SharedQueue<ScreenShotSaveTask *> screenshotQueue;
 HWND screenshotWindow;
 
 void storeHWND(int windowid, const char * title)
@@ -25,6 +81,47 @@ void storeHWND(int windowid, const char * title)
     HDC hdc = wglGetCurrentDC();
     screenshotWindow = WindowFromDC(hdc);
     //screenshotWindow = GetForegroundWindow();
+}
+
+bool canSaveScreenshot()
+{
+    return screenshotQueue.size() < 10;
+}
+
+void saverThreadRun()
+{
+    const CLSID pngEncoderClsId = { 0x557cf406, 0x1a04, 0x11d3,{ 0x9a,0x73,0x00,0x00,0xf8,0x1e,0xf3,0x2e } };
+    while (true)
+    {
+        if (!screenshotQueue.empty())
+        {
+            while (!screenshotQueue.empty())
+            {
+                ScreenShotSaveTask* task = screenshotQueue.front();
+                screenshotQueue.pop_front();
+
+                Gdiplus::Status result = task->bitmap->Save(task->filename.c_str(), &pngEncoderClsId, NULL);
+                if (result != Gdiplus::Status::Ok)
+                {
+                    if (result == Gdiplus::Status::Win32Error)
+                    {
+                        cerr << "Win32Error" << endl;
+                        cerr << GetLastErrorStdStr() << endl;
+                    }
+                    else if (result == Gdiplus::Status::WrongState)
+                        cerr << "WrongState" << endl;
+                    else if (result == Gdiplus::Status::NotImplemented)
+                        cerr << "NotImplemented" << endl;
+                    cerr << "Saving failed with status: " << result << endl;
+                }
+                delete task;
+            }
+        }
+        else {
+            // sleep for 10 miliseconds.
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+    }
 }
 
 void saveScreenshot(const char * filename)
@@ -56,10 +153,8 @@ void saveScreenshot(const wchar_t * filename)
     HGDIOBJ old_obj = SelectObject(hDC, hBitmap);
     BOOL    bRet = BitBlt(hDC, 0, 0, w, h, hWindow, x1, y1, SRCCOPY);
 
-    Gdiplus::Bitmap image(hBitmap, NULL);
-    const CLSID pngEncoderClsId = { 0x557cf406, 0x1a04, 0x11d3,{ 0x9a,0x73,0x00,0x00,0xf8,0x1e,0xf3,0x2e } };
-
-    image.Save(filename, &pngEncoderClsId, NULL);
+    Gdiplus::Bitmap *image = new Gdiplus::Bitmap(hBitmap, NULL);
+    screenshotQueue.push_back(new ScreenShotSaveTask(image, wstring(filename)));
 
     // clean-up
     SelectObject(hDC, old_obj);

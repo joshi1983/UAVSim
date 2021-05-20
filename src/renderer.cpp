@@ -186,21 +186,29 @@ void drawHorizonAndSky()
 void render()
 {
     renderCallCount++;
+    static bool isFrameProcessed = false;
     bool isSavingScreenshots = (animationProcessor != nullptr && renderCallCount > 100);
+    bool _canSaveScreenshot = canSaveScreenshot();
     const double t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
 
-    if (isSavingScreenshots && animationProcessor->isWithinAnimation())
+    if (_canSaveScreenshot && isSavingScreenshots && animationProcessor->isWithinAnimation() && isFrameProcessed)
     {
         string filename = animationProcessor->getFileName();
         saveScreenshot(filename.c_str());
     }
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if (isSavingScreenshots)
-        animationProcessor->processNextFrame();
+    {
+        if (_canSaveScreenshot)
+        {
+            animationProcessor->processNextFrame();
+            isFrameProcessed = true;
+        }
+    }
     else
         animation->getState(t, animationState);
 
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     drawHorizonAndSky();
     sky->draw(windowid, animationState.yaw, 10);
 
