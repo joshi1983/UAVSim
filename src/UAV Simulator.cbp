@@ -113,6 +113,8 @@
 		<Unit filename="io/screenshots/screenshots.hpp" />
 		<Unit filename="io/stringUtils.cpp" />
 		<Unit filename="io/stringUtils.hpp" />
+		<Unit filename="lib/SharedQueue/SharedQueue.cpp" />
+		<Unit filename="lib/SharedQueue/SharedQueue.hpp" />
 		<Unit filename="lib/TinyXML/tinystr.cpp" />
 		<Unit filename="lib/TinyXML/tinystr.h" />
 		<Unit filename="lib/TinyXML/tinyxml.cpp" />
@@ -159,6 +161,8 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="models/ColouredTriangleSet.cpp" />
 		<Unit filename="models/ColouredTriangleSet.hpp" />
+		<Unit filename="models/Ground.cpp" />
+		<Unit filename="models/Ground.hpp" />
 		<Unit filename="models/GroupNode.cpp" />
 		<Unit filename="models/GroupNode.hpp" />
 		<Unit filename="models/LeafNode.cpp" />

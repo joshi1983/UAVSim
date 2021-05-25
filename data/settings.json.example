@@ -4,8 +4,10 @@
 		"height": 480
 	},
 	"showGround": true,
+	"frameOutputDirectory": "outputs/frames",
 	"csv": {
 		"filename": "data/datapoints.csv",
+		"framesPerRow": 1,
 		"columns": {
 			"x": {
 				"to": "x",

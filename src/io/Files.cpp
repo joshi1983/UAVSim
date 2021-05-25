@@ -2,6 +2,7 @@
 #include <fstream>
 #include <algorithm>
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 static string programPath;
@@ -34,6 +35,9 @@ string getAbsolutePathForFilename(const char * filename)
 
 string getAbsolutePathForFilename(const char * programPath, const char * filename)
 {
+    // if filename is already an absolute path, just return it.
+    if (strlen(filename) > 1 && filename[1] == ':')
+        return string(filename);
     string result(programPath);
     if (result.find("\\") == string::npos)
         replace( result.begin(), result.end(), '/', '\\');

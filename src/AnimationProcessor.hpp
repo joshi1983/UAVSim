@@ -9,6 +9,7 @@ class AnimationProcessor
 		AnimationState& animationState;
 		unsigned int frameIndex;
 		unsigned int blurFrameCount;
+		double getT() const;
 	public:
 		AnimationProcessor(Animation* animation, AnimationState & animationState);
 		void processNextFrame();
