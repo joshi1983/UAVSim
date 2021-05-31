@@ -1,6 +1,8 @@
 # UAV Simulator
 
-This project is a unmanned aerial vehicle(UAV) environment simulator.
+This project is a unmanned aerial vehicle(UAV) environment simulator and animation rendering tool.
+
+UAVSim can be used to create animations from CSV files where each row describes the state of the UAV, camera, and environment.
 
 ## Installation/Deployment
 glut32.dll is required by the running application.
