@@ -2,6 +2,7 @@
 #include "../Files.hpp"
 #include "../../lib/rapidjson/filereadstream.h"
 #include "../../lib/rapidjson/error/en.h"
+#include "../../lib/rapidjson/pointer.h"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -27,4 +28,24 @@ void UAVSimConfig::load()
     }
     else
         cerr << filename << " not found so default settings will be used." << endl;
+}
+
+bool UAVSimConfig::getDefaultedBool(string path, bool defaultedValue) const
+{
+    UAVSimConfig& c = UAVSimConfig::config;
+    rapidjson::Value* a =  rapidjson::Pointer(path.c_str()).Get(c.doc);
+    if (a != nullptr && a->IsBool())
+        return a->GetBool();
+    else
+        return defaultedValue;
+}
+
+double UAVSimConfig::getDefaultedDouble(string path, double defaultedValue) const
+{
+    UAVSimConfig& c = UAVSimConfig::config;
+    rapidjson::Value* a =  rapidjson::Pointer(path.c_str()).Get(c.doc);
+    if (a != nullptr && a->IsDouble())
+        return a->GetDouble();
+    else
+        return defaultedValue;
 }
