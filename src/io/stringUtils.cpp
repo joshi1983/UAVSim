@@ -1,6 +1,48 @@
 #include "stringUtils.hpp"
 #include <algorithm>
+#include <cctype>
+#include <sstream>
 using namespace std;
+
+/*
+Copied from: https://java2blog.com/split-string-space-cpp/
+*/
+void tokenize(string const &str, const char delim, vector<string> &out)
+{
+    // construct a stream from the string
+    stringstream ss(str);
+
+    string s;
+    while (getline(ss, s, delim)) {
+        out.push_back(s);
+    }
+}
+
+/*
+Replaces all whitespaces with ' ' and
+consecutive whitespaces are reduced to a single ' '.
+*/
+string simplifyWhitespaces(const string &s)
+{
+	char * resultChars = new char[s.length() + 1];
+	char * resultPtr = resultChars;
+	for (unsigned int i = 0; i < s.length(); i++)
+	{
+		char c = s[i];
+		if (isspace(c) && (i == 0 || !isspace(s[i - 1])))
+		{
+			*(resultPtr++) = ' ';
+		}
+		else if (!isspace(c))
+		{
+			*(resultPtr++) = c;
+		}
+	}
+	*resultPtr = '\0'; // mark end of string
+	string result(resultChars);
+	delete [] resultChars; // prevent memory leak.
+	return result;
+}
 
 string trim(const string & s)
 {
