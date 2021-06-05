@@ -11,6 +11,7 @@ class IntersectionVertexFilter: public VertexFilter
 		IntersectionVertexFilter(const std::vector<VertexFilter *>& filters);
 		virtual bool isIncluded(const Vertex& v) const override;
 		virtual ~IntersectionVertexFilter();
+		virtual std::string str() const;
 };
 
 #endif

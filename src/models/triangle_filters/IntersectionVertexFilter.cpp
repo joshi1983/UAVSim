@@ -1,4 +1,5 @@
 #include "IntersectionVertexFilter.hpp"
+#include <sstream>
 using namespace std;
 
 IntersectionVertexFilter::IntersectionVertexFilter(const std::vector<VertexFilter*>& filters):
@@ -8,9 +9,9 @@ IntersectionVertexFilter::IntersectionVertexFilter(const std::vector<VertexFilte
 
 bool IntersectionVertexFilter::isIncluded(const Vertex&v) const
 {
-	for (auto it = filters.begin(); it != filters.end(); it++)
+	for (auto& filter: filters)
 	{
-		if (!(*it)->isIncluded(v))
+		if (!filter->isIncluded(v))
 			return false;
 	}
 	return true;
@@ -19,4 +20,20 @@ bool IntersectionVertexFilter::isIncluded(const Vertex&v) const
 IntersectionVertexFilter::~IntersectionVertexFilter()
 {
     // FIXME: make sure all filters are deleted.
+}
+
+string IntersectionVertexFilter::str() const
+{
+    stringstream s;
+    s << "\"intersects\": [";
+    bool needsComma = false;
+	for (auto& filter: filters)
+    {
+        if (needsComma)
+            s << ", ";
+        s << filter->str();
+        needsComma = true;
+    }
+    s << "]";
+    return s.str();
 }

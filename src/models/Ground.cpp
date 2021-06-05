@@ -42,11 +42,11 @@ void Ground::draw(int windowid, const AnimationState & animationState, double yO
     {
         glPushMatrix();
 
-            glTranslated(0, animationState.cameraY * scale, animationState.cameraZ * scale);
             glRotated(-90, 1, 0, 0);
             glTranslated(animationState.x * scale, animationState.z * scale, (yOffset - animationState.y) * scale);
+            glTranslated(0, -animationState.cameraZ * scale, -animationState.cameraY * scale);
             glRotated(-animationState.yaw, 0, 0, 1);
-
+            glTranslated(0, animationState.cameraZ * scale, animationState.cameraY * scale);
             glBindTexture( GL_TEXTURE_2D, grass->getOpenGLTextureName(windowid));
             double textureScale = 1.0 / scale;
             glBegin(GL_QUADS);

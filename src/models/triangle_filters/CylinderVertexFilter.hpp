@@ -7,10 +7,11 @@ class CylinderVertexFilter: public VertexFilter
 	private:
 		Vertex position;
 		double radius;
-		double dx, dy, dz;
+		Vertex direction;
 	public:
 		CylinderVertexFilter(double radius, double px, double py, double pz, double dx, double dy, double dz);
 		virtual bool isIncluded(const Vertex&v) const override;
+		virtual std::string str() const override;
 };
 
 #endif

@@ -75,6 +75,16 @@ Distance of camera to UAV
 Vertical(up/down) angle of the camera in degrees.
 The default value is 0 which means pointing the camera to the horizon through the UAV.
 
+### steer-angle-1
+The angle 1 in degrees for the UAV's steerable column.  
+The steerable column is the axis of rotation for the UAV's propeller blades.
+
+### steer-angle-2
+The angle 2 in degrees for the UAV's steerable column.  
+The steerable column is the axis of rotation for the UAV's propeller blades.
+
+steer-angle-2 is at 90 degrees to steer-angle-1.
+
 ### roll
 The UAV's roll rotation in degrees in relation to the ground.
 

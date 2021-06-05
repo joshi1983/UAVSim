@@ -1,5 +1,6 @@
 #ifndef VERTEX_HEADER
 #define VERTEX_HEADER
+#include <string>
 
 class Vertex
 {
@@ -12,7 +13,11 @@ class Vertex
 		Vertex operator*(double scale) const;
 		double dot(const Vertex& other) const;
 		double magnitude() const;
+		void normalize();
 		Vertex cross(const Vertex & other) const;
+		std::string str() const;
 };
+
+Vertex operator*(double scale, const Vertex & v);
 
 #endif

@@ -9,6 +9,7 @@ class SphereVertexFilter: public VertexFilter
 	public:
 		SphereVertexFilter(double cx, double cy, double cz, double radius);
 		virtual bool isIncluded(const Vertex&v) const override;
+		virtual std::string str() const override;
 };
 
 #endif
