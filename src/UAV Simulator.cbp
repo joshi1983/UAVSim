@@ -195,8 +195,6 @@
 		<Unit filename="models/generators/MeshGenerator.hpp" />
 		<Unit filename="models/generators/Tree.cpp" />
 		<Unit filename="models/generators/Tree.hpp" />
-		<Unit filename="models/triangle_filters/ConfiguredTriangleFilter.cpp" />
-		<Unit filename="models/triangle_filters/ConfiguredTriangleFilter.hpp" />
 		<Unit filename="models/triangle_filters/CubeVertexFilter.cpp" />
 		<Unit filename="models/triangle_filters/CubeVertexFilter.hpp" />
 		<Unit filename="models/triangle_filters/CylinderVertexFilter.cpp" />
@@ -207,8 +205,11 @@
 		<Unit filename="models/triangle_filters/SphereVertexFilter.hpp" />
 		<Unit filename="models/triangle_filters/TriangleFilter.cpp" />
 		<Unit filename="models/triangle_filters/TriangleFilter.hpp" />
+		<Unit filename="models/triangle_filters/TriangleFilterFactory.cpp" />
+		<Unit filename="models/triangle_filters/TriangleFilterFactory.hpp" />
 		<Unit filename="models/triangle_filters/UnionVertexFilter.cpp" />
 		<Unit filename="models/triangle_filters/UnionVertexFilter.hpp" />
+		<Unit filename="models/triangle_filters/VertexFilter.cpp" />
 		<Unit filename="models/triangle_filters/VertexFilter.hpp" />
 		<Unit filename="renderer.cpp" />
 		<Unit filename="renderer.hpp" />
