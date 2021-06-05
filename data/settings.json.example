@@ -3,6 +3,22 @@
 		"width": 640,
 		"height": 480
 	},
+	"uav": {
+		"scale": 10,
+		"translate": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"steerable_assembly": {
+			"pivot": {
+				"x": 0.0,
+				"y": 3.0,
+				"z": 0.0
+			},
+			"servo_pivot_y": 2.5
+		}
+	},
 	"showGround": true,
 	"frameOutputDirectory": "outputs/frames",
 	"csv": {

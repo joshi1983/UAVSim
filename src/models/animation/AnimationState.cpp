@@ -9,7 +9,8 @@ double blendVal(double val1, double val2, double ratio)
 }
 
 AnimationState::AnimationState(): bladeAngle(0),
-	pitch(0), yaw(0), roll(0), x(0), y(0), z(0), cameraY(0), cameraZ(0), cameraPitch(0)
+	pitch(0), yaw(0), roll(0), x(0), y(0), z(0), steerAngle1(0), steerAngle2(0),
+	cameraY(0), cameraZ(-3), cameraPitch(0)
 {
 
 }
@@ -24,6 +25,8 @@ AnimationState AnimationState::blend(const AnimationState& state1, const Animati
     result.x = blendVal(state1.x, state2.x, ratio);
     result.y = blendVal(state1.y, state2.y, ratio);
     result.z = blendVal(state1.z, state2.z, ratio);
+    result.steerAngle1 = blendVal(state1.steerAngle1, state2.steerAngle1, ratio);
+    result.steerAngle2 = blendVal(state1.steerAngle2, state2.steerAngle2, ratio);
     result.cameraY = blendVal(state1.cameraY, state2.cameraY, ratio);
     result.cameraZ = blendVal(state1.cameraZ, state2.cameraZ, ratio);
     result.cameraPitch = blendVal(state1.cameraPitch, state2.cameraPitch, ratio);
@@ -43,7 +46,14 @@ void AnimationState::setValue(const std::string& name, const double value)
     }
     else if (name > "r")
     {
-        if (name == "roll")
+        if (name[0] == 's')
+        {
+            if (name == "steer-angle-1")
+                steerAngle1 = value;
+            else if (name == "steer-angle-2")
+                steerAngle2 = value;
+        }
+        else if (name == "roll")
             roll = value;
         else if (name == "x")
             x = value;
@@ -80,7 +90,7 @@ string AnimationState::sanitizeName(const string& name)
     string result(name);
     transform(result.begin(), result.end(),result.begin(), ::tolower);
     // remove any non-letter.
-    result.erase(remove_if(result.begin(), result.end(), [](char c) { return !isalpha(c); } ), result.end());
+    result.erase(remove_if(result.begin(), result.end(), [](char c) { return !isalnum(c); } ), result.end());
 
     if (result == "angle" || result == "bladeangle")
         result = "blade-angle";
@@ -90,6 +100,10 @@ string AnimationState::sanitizeName(const string& name)
         result = "camera-z";
     else if (result == "camerapitch")
         result = "camera-pitch";
+    else if (result == "steerangle1")
+        result = "steer-angle-1";
+    else if (result == "steerangle2")
+        result = "steer-angle-2";
 
     return result;
 }

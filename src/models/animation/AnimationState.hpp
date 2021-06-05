@@ -13,6 +13,7 @@ class AnimationState
 		double bladeAngle;
 		double pitch, yaw, roll;
 		double x, y, z;
+		double steerAngle1, steerAngle2;
 		double cameraY, cameraZ;
 		double cameraPitch;
 };

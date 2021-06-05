@@ -152,9 +152,13 @@ void saveScreenshot(const wchar_t * filename)
     HBITMAP hBitmap = CreateCompatibleBitmap(hWindow, w, h);
     HGDIOBJ old_obj = SelectObject(hDC, hBitmap);
     BOOL    bRet = BitBlt(hDC, 0, 0, w, h, hWindow, x1, y1, SRCCOPY);
-
-    Gdiplus::Bitmap *image = new Gdiplus::Bitmap(hBitmap, NULL);
-    screenshotQueue.push_back(new ScreenShotSaveTask(image, wstring(filename)));
+    if (!bRet)
+        cerr << "BitBlt failed." << endl;
+    else
+    {
+        Gdiplus::Bitmap *image = new Gdiplus::Bitmap(hBitmap, NULL);
+        screenshotQueue.push_back(new ScreenShotSaveTask(image, wstring(filename)));
+    }
 
     // clean-up
     SelectObject(hDC, old_obj);
