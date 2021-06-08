@@ -14,9 +14,9 @@ UAVSimConfig::UAVSimConfig()
 {
 }
 
-void UAVSimConfig::load()
+void UAVSimConfig::load(const std::string & filename_)
 {
-    string filename = getAbsolutePathForFilename("data\\settings.json");
+    string filename = getAbsolutePathForFilename(filename_.c_str());
     if (fileExists(filename))
     {
         char buffer[65536];
@@ -30,22 +30,34 @@ void UAVSimConfig::load()
         cerr << filename << " not found so default settings will be used." << endl;
 }
 
-bool UAVSimConfig::getDefaultedBool(string path, bool defaultedValue) const
+void UAVSimConfig::load()
 {
-    UAVSimConfig& c = UAVSimConfig::config;
-    rapidjson::Value* a =  rapidjson::Pointer(path.c_str()).Get(c.doc);
+    load("data\\settings.json");
+}
+
+bool UAVSimConfig::getDefaultedBool(string path, bool defaultedValue)
+{
+    rapidjson::Value* a =  rapidjson::Pointer(path.c_str()).Get(this->doc);
     if (a != nullptr && a->IsBool())
         return a->GetBool();
     else
         return defaultedValue;
 }
 
-double UAVSimConfig::getDefaultedDouble(string path, double defaultedValue) const
+double UAVSimConfig::getDefaultedDouble(string path, double defaultedValue)
 {
-    UAVSimConfig& c = UAVSimConfig::config;
-    rapidjson::Value* a =  rapidjson::Pointer(path.c_str()).Get(c.doc);
-    if (a != nullptr && a->IsDouble())
+    rapidjson::Value* a =  rapidjson::Pointer(path.c_str()).Get(doc);
+    if (a != nullptr && a->IsNumber())
         return a->GetDouble();
+    else
+        return defaultedValue;
+}
+
+string UAVSimConfig::getDefaultedString(string path, string defaultedValue)
+{
+    rapidjson::Value* a =  rapidjson::Pointer(path.c_str()).Get(doc);
+    if (a != nullptr && a->IsString())
+        return a->GetString();
     else
         return defaultedValue;
 }

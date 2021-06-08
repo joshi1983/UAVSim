@@ -26,19 +26,18 @@ double servoPivotY;
 
 void updateSteeringPivot(UAVSimConfig& c)
 {
-    steeringPivot.x = c.getDefaultedDouble("/uav/steerable_assembly/pivot/x", 0);
-    steeringPivot.y = c.getDefaultedDouble("/uav/steerable_assembly/pivot/y", 3);
-    steeringPivot.z = c.getDefaultedDouble("/uav/steerable_assembly/pivot/z", 0);
-    servoPivotY = c.getDefaultedDouble("/uav/steerable_assembly/servo_pivot_y", 2.5);
+    steeringPivot.x = c.getDefaultedDouble("/steerable_assembly/pivot/x", 0);
+    steeringPivot.y = c.getDefaultedDouble("/steerable_assembly/pivot/y", 3);
+    steeringPivot.z = c.getDefaultedDouble("/steerable_assembly/pivot/z", 0);
+    servoPivotY = c.getDefaultedDouble("/steerable_assembly/servo_pivot_y", 2.5);
 }
 
-void processTransformation(vector<Triangle>& triangles)
+void processTransformation(vector<Triangle>& triangles, UAVSimConfig& c)
 {
-    UAVSimConfig& c = UAVSimConfig::config;
-    double scale = c.getDefaultedDouble("/uav/scale", 10);
-    double tx = c.getDefaultedDouble("/uav/translate/x", 0);
-    double ty = c.getDefaultedDouble("/uav/translate/y", 0);
-    double tz = c.getDefaultedDouble("/uav/translate/z", 0);
+    double scale = c.getDefaultedDouble("/scale", 10);
+    double tx = c.getDefaultedDouble("/translate/x", 0);
+    double ty = c.getDefaultedDouble("/translate/y", 0);
+    double tz = c.getDefaultedDouble("/translate/z", 0);
 
     for (auto t = triangles.begin(); t != triangles.end(); t++)
     {
@@ -62,36 +61,70 @@ TriangleFilter* createTriangleFilterFrom(const char * configPath, UAVSimConfig& 
         return nullptr;
 }
 
-UAV::UAV()
+string getCachedFilenameFrom(const string & fname)
 {
-    string filename = getAbsolutePathForFilename("data\\models\\cache\\uav.uavsim");
+    string lastPart;
+    // get last index of '/'.
+    int slashIndex1 = fname.rfind("/");
+    // get last index of '\\'.
+    int slashIndex2 = fname.rfind("\\");
+    int index = max(slashIndex1, slashIndex2);
+    if (index < 0)
+        lastPart = fname;
+    else
+        lastPart = fname.substr(index + 1);
+    index = lastPart.rfind(".");
+    if (index >= 0)
+        lastPart = lastPart.substr(0, index); // remove file extension.
+    return string("data/models/cache/") + lastPart + ".uavsim";
+}
+
+bool loadTrianglesFromModel(UAVSimConfig& c, vector<Triangle>& triangles)
+{
+    string configuredFilename = c.getDefaultedString("/model", "data/models/uav.wrl");
+    string cachedFilename = getCachedFilenameFrom(configuredFilename);
+    string filename = getAbsolutePathForFilename(cachedFilename.c_str());
     bool cacheUsed = fileExists(filename);
     if (!cacheUsed)
-        filename = getAbsolutePathForFilename("data\\models\\uav.wrl");
+        filename = getAbsolutePathForFilename(configuredFilename.c_str());
     CompositeFileImporter importer;
     GroupNode * group = importer.load(filename);
     if (group == NULL)
+    {
         cerr << "Unable to load from 3D file: " << filename << endl;
+        return false;
+    }
     else
     {
         if (!cacheUsed)
         {
             UAVSimBinaryFileExporter saver;
-            filename = getAbsolutePathForFilename("data\\models\\cache\\uav.uavsim");
+            filename = getAbsolutePathForFilename(cachedFilename.c_str());
             saver.save(*group, filename);
         }
-        vector<Triangle> triangles = group->getTriangles();
+        triangles = group->getTriangles();
         delete group;
-        processTransformation(triangles);
+        return true;
+    }
+}
+
+UAV::UAV()
+{
+    UAVSimConfig c;
+    c.load(UAVSimConfig::config.getDefaultedString("/uav", "uav.json"));
+    vector<Triangle> triangles;
+    if (loadTrianglesFromModel(c, triangles))
+    {
+        cerr << "Loaded triangles: " << triangles.size() << endl;
+        processTransformation(triangles, c);
 
         // white part.
         for (int i = 0; i < 8; i++)
             shapes.push_back(ColouredTriangleSet(1, 1, 1));
 
-        UAVSimConfig& c = UAVSimConfig::config;
         updateSteeringPivot(c);
 
-        rapidjson::Value* a = rapidjson::Pointer("/uav/delete").Get(c.doc);
+        rapidjson::Value* a = rapidjson::Pointer("/delete").Get(c.doc);
         if (a != nullptr)
         {
             // remove unneeded triangles so the loaded model is more efficient.
@@ -100,16 +133,14 @@ UAV::UAV()
             delete deletableTriangleFilter;
         }
 
-        TriangleFilter * blade1Filter = createTriangleFilterFrom("/uav/steerable_assembly/blade1", c);
-        TriangleFilter * blade2Filter = createTriangleFilterFrom("/uav/steerable_assembly/blade2", c);
-        TriangleFilter * steerableColumnFilter = createTriangleFilterFrom("/uav/steerable_assembly/steerable_column", c);
-        TriangleFilter * servo1Filter = createTriangleFilterFrom("/uav/steerable_assembly/servo1_arm", c);
-        TriangleFilter * servo2Filter = createTriangleFilterFrom("/uav/steerable_assembly/servo2_arm", c);
-        TriangleFilter * servo3Filter = createTriangleFilterFrom("/uav/steerable_assembly/servo3_arm", c);
-        TriangleFilter * servo4Filter = createTriangleFilterFrom("/uav/steerable_assembly/servo4_arm", c);
+        TriangleFilter * blade1Filter = createTriangleFilterFrom("/steerable_assembly/blade1", c);
+        TriangleFilter * blade2Filter = createTriangleFilterFrom("/steerable_assembly/blade2", c);
+        TriangleFilter * steerableColumnFilter = createTriangleFilterFrom("/steerable_assembly/steerable_column", c);
+        TriangleFilter * servo1Filter = createTriangleFilterFrom("/steerable_assembly/servo1_arm", c);
+        TriangleFilter * servo2Filter = createTriangleFilterFrom("/steerable_assembly/servo2_arm", c);
+        TriangleFilter * servo3Filter = createTriangleFilterFrom("/steerable_assembly/servo3_arm", c);
+        TriangleFilter * servo4Filter = createTriangleFilterFrom("/steerable_assembly/servo4_arm", c);
 
-        const double whiteMaxY = 3.7;
-        const double blade1MaxY = 3.85;
         for (auto t = triangles.begin(); t != triangles.end(); t++)
         {
             double maxY = -99999;
@@ -131,12 +162,8 @@ UAV::UAV()
                 shapes[6].triangles.push_back(*t);
             else if (servo1Filter != nullptr && servo4Filter->isIncluded(*t))
                 shapes[7].triangles.push_back(*t);
-            else if (maxY <= whiteMaxY)
-                shapes[0].triangles.push_back(*t); // main body.
-            else if (maxY <= blade1MaxY)
-                shapes[1].triangles.push_back(*t); // lower propeller
             else
-                shapes[2].triangles.push_back(*t); // upper propeller
+                shapes[0].triangles.push_back(*t); // main body.
         }
 	}
 }
