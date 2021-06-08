@@ -19,6 +19,9 @@
 #else
 #include <GL/glut.h>
 #endif
+#ifdef _DEBUG
+    #include "tests/UnitTests.hpp"
+#endif // defined
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -111,6 +114,9 @@ const GLfloat high_shininess[] = { 100.0f };
 
 int main(int argc, char *argv[])
 {
+    #ifdef _DEBUG
+    runAllUnitTests();
+    #endif // defined
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);

@@ -11,6 +11,7 @@ class Vertex
 		Vertex(const Vertex & other);
 		Vertex operator-(const Vertex& other) const;
 		Vertex operator*(double scale) const;
+		Vertex operator=(const Vertex& other);
 		double dot(const Vertex& other) const;
 		double magnitude() const;
 		void normalize();

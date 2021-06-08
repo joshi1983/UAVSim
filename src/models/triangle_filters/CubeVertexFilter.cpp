@@ -11,16 +11,16 @@ CubeVertexFilter::CubeVertexFilter(
 
 bool CubeVertexFilter::isIncluded(const Vertex&v) const
 {
-	return v.x >= minX && v.x <= maxX &&
-		v.y >= minY && v.y <= maxY &&
-		v.z >= minZ && v.z <= maxZ;
+	return (v.x >= minX) && (v.x <= maxX) &&
+		(v.y >= minY) && (v.y <= maxY) &&
+		(v.z >= minZ) && (v.z <= maxZ);
 }
 
 string CubeVertexFilter::str() const
 {
     stringstream s;
-    s << "{\"type\": \"cube\", \"minx\": " << minX
-        << ", \"miny\": " << minY << ", \"minz\": "
+    s << "{\"type\": \"cube\", \"minX\": " << minX
+        << ", \"minY\": " << minY << ", \"minZ\": "
         << minZ << ", \"maxX\": " << maxX << ", \"maxY\": " <<
         maxY << ", \"maxZ\": " << maxZ << "}";
     return s.str();

@@ -20,6 +20,7 @@
 					<Add option='&quot;-IC:\Program Files (x86)\CodeBlocks\MinGW\openssl\include&quot;' />
 					<Add option='&quot;-IC:\Program Files (x86)\CodeBlocks\MinGW\boost_1_76_0&quot;' />
 					<Add option="-D_WIN32_WINNT=0x0601" />
+					<Add option="-D_DEBUG" />
 				</Compiler>
 				<Linker>
 					<Add option="-static" />
@@ -213,6 +214,12 @@
 		<Unit filename="models/triangle_filters/VertexFilter.hpp" />
 		<Unit filename="renderer.cpp" />
 		<Unit filename="renderer.hpp" />
+		<Unit filename="tests/TriangleFiltersTest.cpp" />
+		<Unit filename="tests/TriangleFiltersTest.hpp" />
+		<Unit filename="tests/UnitTest.cpp" />
+		<Unit filename="tests/UnitTest.hpp" />
+		<Unit filename="tests/UnitTests.cpp" />
+		<Unit filename="tests/UnitTests.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

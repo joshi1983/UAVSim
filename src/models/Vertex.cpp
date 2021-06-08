@@ -20,6 +20,13 @@ Vertex Vertex::operator-(const Vertex& other) const
 	return Vertex(x - other.x, y - other.y, z - other.z);
 }
 
+Vertex Vertex::operator=(const Vertex& other)
+{
+    x = other.x;
+    y = other.y;
+    z = other.z;
+}
+
 Vertex Vertex::operator*(double scale) const
 {
 	return Vertex(scale * x, scale * y, scale * z);
