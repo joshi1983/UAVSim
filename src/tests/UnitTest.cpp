@@ -10,9 +10,10 @@ UnitTest::UnitTest(const string &name): name(name)
 void UnitTest::printResults()
 {
     messages.clear();
-	for (UnitTestFunc m: testFunctions)
+	for (pair<string, UnitTestFunc> m: testFunctions)
 	{
-		 (*m)(*this);
+	    testFunctionName = m.first;
+		 (*m.second)(*this);
 	}
 	if (messages.size() == 0)
         cout << "All " << name << " tests passed." << endl;
@@ -28,5 +29,5 @@ void UnitTest::printResults()
 void UnitTest::assertTrue(bool result, const std::string & message)
 {
 	if (!result)
-		messages.push_back(message);
+		messages.push_back(testFunctionName + ": " + message);
 }

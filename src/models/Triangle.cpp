@@ -5,9 +5,9 @@ using namespace std;
 void Triangle::updateNormal()
 {
 	// perform cross product.
-	Vertex a = vertices[1] - vertices[0];
-	Vertex b = vertices[2] - vertices[0];
-	Vertex result = a.cross(b);
+	Vector3D a = vertices[1].p - vertices[0].p;
+	Vector3D b = vertices[2].p - vertices[0].p;
+	Vector3D result = a.cross(b);
 	cachedNormal = result * (1 / result.magnitude());
 }
 

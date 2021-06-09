@@ -5,9 +5,9 @@
 class CylinderVertexFilter: public VertexFilter
 {
 	private:
-		Vertex position;
+		Vector3D position;
 		double radius;
-		Vertex direction;
+		Vector3D direction;
 	public:
 		CylinderVertexFilter(double radius, double px, double py, double pz, double dx, double dy, double dz);
 		virtual bool isIncluded(const Vertex&v) const override;

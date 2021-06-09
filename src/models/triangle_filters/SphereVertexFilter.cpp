@@ -8,7 +8,7 @@ SphereVertexFilter::SphereVertexFilter(double cx, double cy, double cz, double r
 
 bool SphereVertexFilter::isIncluded(const Vertex& v) const
 {
-	return (v - Vertex(cx, cy, cz)).magnitude() <= radius;
+	return (v.p - Vector3D(cx, cy, cz)).magnitude() <= radius;
 }
 
 string SphereVertexFilter::str() const

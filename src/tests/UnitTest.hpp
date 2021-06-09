@@ -10,9 +10,10 @@ typedef void (*UnitTestFunc)(UnitTest&);
 class UnitTest {
 	private:
 	    std::string name;
+	    std::string testFunctionName;
 		std::vector<std::string> messages;
     protected:
-		std::vector<UnitTestFunc> testFunctions;
+		std::vector<std::pair<std::string, UnitTestFunc>> testFunctions;
 		UnitTest(const std::string &name);
 	public:
 		void printResults();

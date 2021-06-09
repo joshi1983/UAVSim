@@ -11,9 +11,9 @@ CubeVertexFilter::CubeVertexFilter(
 
 bool CubeVertexFilter::isIncluded(const Vertex&v) const
 {
-	return (v.x >= minX) && (v.x <= maxX) &&
-		(v.y >= minY) && (v.y <= maxY) &&
-		(v.z >= minZ) && (v.z <= maxZ);
+	return (v.p.x >= minX) && (v.p.x <= maxX) &&
+		(v.p.y >= minY) && (v.p.y <= maxY) &&
+		(v.p.z >= minZ) && (v.p.z <= maxZ);
 }
 
 string CubeVertexFilter::str() const

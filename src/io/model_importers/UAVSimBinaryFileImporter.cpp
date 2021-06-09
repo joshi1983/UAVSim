@@ -33,9 +33,9 @@ GroupNode* UAVSimBinaryFileImporter::load(const string & filename) const
         for (unsigned int vertexIndex = 0; vertexIndex < 3; vertexIndex++)
         {
             in.read((char*)coordinates, sizeof(coordinates));
-            triangle.vertices[vertexIndex].x = coordinates[0];
-            triangle.vertices[vertexIndex].y = coordinates[1];
-            triangle.vertices[vertexIndex].z = coordinates[2];
+            triangle.vertices[vertexIndex].p.x = coordinates[0];
+            triangle.vertices[vertexIndex].p.y = coordinates[1];
+            triangle.vertices[vertexIndex].p.z = coordinates[2];
         }
         triangles.push_back(triangle);
 	}

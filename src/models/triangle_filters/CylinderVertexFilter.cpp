@@ -16,7 +16,7 @@ bool CylinderVertexFilter::isIncluded(const Vertex&v) const
     This is based on math explained at:
     https://www.geometrictools.com/Documentation/DistancePointLine.pdf
     */
-    Vertex displacement = (v - position);
+    Vector3D displacement = (v.p - position);
     double t = displacement.dot(direction);
 	double distanceFromLine = (t * direction - displacement).magnitude();
 	return distanceFromLine <= radius;

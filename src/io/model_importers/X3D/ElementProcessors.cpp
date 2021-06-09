@@ -9,9 +9,9 @@ typedef map<string, ModelNode*(*)(const TiXmlElement&)> nameFunctionMap;
 
 void vertexCopy(Vertex & result, const vector<double>& values, unsigned int startIndex)
 {
-    result.x = values[startIndex];
-    result.y = values[startIndex + 1];
-    result.z = values[startIndex + 2];
+    result.p.x = values[startIndex];
+    result.p.y = values[startIndex + 1];
+    result.p.z = values[startIndex + 2];
 }
 
 void addTriangle(const vector<int>& indexes, unsigned int index1, int index2, int index3,

@@ -21,7 +21,7 @@
 using namespace std;
 
 vector<ColouredTriangleSet> shapes;
-Vertex steeringPivot;
+Vector3D steeringPivot;
 double servoPivotY;
 
 void updateSteeringPivot(UAVSimConfig& c)
@@ -43,10 +43,10 @@ void processTransformation(vector<Triangle>& triangles, UAVSimConfig& c)
     {
         for (int vertexIndex = 0; vertexIndex < 3; vertexIndex++)
         {
-            t->vertices[vertexIndex] = t->vertices[vertexIndex] * scale;
-            t->vertices[vertexIndex].x += tx;
-            t->vertices[vertexIndex].y += ty;
-            t->vertices[vertexIndex].z += tz;
+            t->vertices[vertexIndex].p = t->vertices[vertexIndex].p * scale;
+            t->vertices[vertexIndex].p.x += tx;
+            t->vertices[vertexIndex].p.y += ty;
+            t->vertices[vertexIndex].p.z += tz;
         }
         t->updateNormal();
     }
@@ -143,11 +143,6 @@ UAV::UAV()
 
         for (auto t = triangles.begin(); t != triangles.end(); t++)
         {
-            double maxY = -99999;
-            for (unsigned int vIndex = 0; vIndex < 3; vIndex++)
-            {
-                maxY = max(maxY, t->vertices[vIndex].y);
-            }
             if (blade2Filter != nullptr && blade2Filter->isIncluded(*t))
                 shapes[2].triangles.push_back(*t); // upper propeller
             else if (blade1Filter != nullptr && blade1Filter->isIncluded(*t))

@@ -1,24 +1,17 @@
 #ifndef VERTEX_HEADER
 #define VERTEX_HEADER
 #include <string>
+#include "Vector3D.hpp"
 
 class Vertex
 {
 	public:
-		double x, y, z;
+		Vector3D p;
 		Vertex();
 		Vertex(double x, double y, double z);
 		Vertex(const Vertex & other);
-		Vertex operator-(const Vertex& other) const;
-		Vertex operator*(double scale) const;
-		Vertex operator=(const Vertex& other);
-		double dot(const Vertex& other) const;
-		double magnitude() const;
-		void normalize();
-		Vertex cross(const Vertex & other) const;
+		Vertex& operator=(const Vertex& other);
 		std::string str() const;
 };
-
-Vertex operator*(double scale, const Vertex & v);
 
 #endif

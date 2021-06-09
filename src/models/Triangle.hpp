@@ -8,7 +8,7 @@ class Triangle
 {
 	public:
 		Vertex vertices[3];
-		Vertex cachedNormal;
+		Vector3D cachedNormal;
 		void updateNormal();
 		std::string str() const;
 };

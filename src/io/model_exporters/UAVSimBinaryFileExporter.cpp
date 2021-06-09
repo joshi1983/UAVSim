@@ -32,9 +32,9 @@ void UAVSimBinaryFileExporter::save(const GroupNode& groupNode, const string & f
     {
         for (unsigned int vertexIndex = 0; vertexIndex < 3; vertexIndex++) {
             const Vertex & v = it->vertices[vertexIndex];
-            coordinates[0] = v.x;
-            coordinates[1] = v.y;
-            coordinates[2] = v.z;
+            coordinates[0] = v.p.x;
+            coordinates[1] = v.p.y;
+            coordinates[2] = v.p.z;
             out.write((char *) coordinates, sizeof(coordinates));
         }
     }

@@ -21,12 +21,12 @@ void ColouredTriangleSet::draw() const
 	glBegin(GL_TRIANGLES);
 	for (auto it = triangles.begin(); it != triangles.end(); it++)
 	{
-		const Vertex &normal = it->cachedNormal;
+		const Vector3D &normal = it->cachedNormal;
 		glNormal3f(normal.x, normal.y, normal.z);
 		for (int i = 0; i < 3; i++)
 		{
 			const Vertex &v = it->vertices[i];
-			glVertex3f(v.x, v.y, v.z);
+			glVertex3f(v.p.x, v.p.y, v.p.z);
 		}
 	}
 	glEnd();

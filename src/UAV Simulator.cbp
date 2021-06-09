@@ -184,6 +184,8 @@
 		<Unit filename="models/Triangle.hpp" />
 		<Unit filename="models/UAV.cpp" />
 		<Unit filename="models/UAV.hpp" />
+		<Unit filename="models/Vector3D.cpp" />
+		<Unit filename="models/Vector3D.hpp" />
 		<Unit filename="models/Vertex.cpp" />
 		<Unit filename="models/Vertex.hpp" />
 		<Unit filename="models/animation/Animation.hpp" />
@@ -214,12 +216,16 @@
 		<Unit filename="models/triangle_filters/VertexFilter.hpp" />
 		<Unit filename="renderer.cpp" />
 		<Unit filename="renderer.hpp" />
+		<Unit filename="tests/TriangleFilterFactoryTest.cpp" />
+		<Unit filename="tests/TriangleFilterFactoryTest.hpp" />
 		<Unit filename="tests/TriangleFiltersTest.cpp" />
 		<Unit filename="tests/TriangleFiltersTest.hpp" />
 		<Unit filename="tests/UnitTest.cpp" />
 		<Unit filename="tests/UnitTest.hpp" />
 		<Unit filename="tests/UnitTests.cpp" />
 		<Unit filename="tests/UnitTests.hpp" />
+		<Unit filename="tests/Vector3DTest.cpp" />
+		<Unit filename="tests/Vector3DTest.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

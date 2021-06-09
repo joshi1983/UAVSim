@@ -79,7 +79,7 @@ VertexFilter* createCylinderVertexFilter(const Value* obj)
     double toX, toY, toZ;
     getCoordinates(&obj->FindMember("from")->value, fromX, fromY, fromZ);
     getCoordinates(&obj->FindMember("to")->value, toX, toY, toZ);
-    Vertex d = Vertex(toX, toY, toZ) - Vertex(fromX, fromY, fromZ);
+    Vector3D d = Vector3D(toX, toY, toZ) - Vector3D(fromX, fromY, fromZ);
     return new CylinderVertexFilter(radius, fromX, fromY, fromZ, d.x, d.y, d.z);
 }
 
