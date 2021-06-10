@@ -13,6 +13,7 @@ class UAVSimConfig
 		void load();
         bool getDefaultedBool(std::string path, bool defaultedValue);
         double getDefaultedDouble(std::string path, double defaultedValue);
+        int getDefaultedInt(std::string path, int defaultedValue);
         std::string getDefaultedString(std::string path, std::string defaultedValue);
         static UAVSimConfig config;
 };

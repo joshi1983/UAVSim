@@ -61,3 +61,13 @@ string UAVSimConfig::getDefaultedString(string path, string defaultedValue)
     else
         return defaultedValue;
 }
+
+int UAVSimConfig::getDefaultedInt(std::string path, int defaultedValue)
+{
+    rapidjson::Value* a =  rapidjson::Pointer(path.c_str()).Get(doc);
+    if (a != nullptr && a->IsInt())
+        return a->GetInt();
+    else
+        return defaultedValue;
+}
+

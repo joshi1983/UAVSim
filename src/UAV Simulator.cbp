@@ -112,6 +112,8 @@
 		<Unit filename="io/model_importers/X3D/Transform.cpp" />
 		<Unit filename="io/networking/HTTPDownloader.cpp" />
 		<Unit filename="io/networking/HTTPDownloader.hpp" />
+		<Unit filename="io/screenshots/bitmapBlender.cpp" />
+		<Unit filename="io/screenshots/bitmapBlender.hpp" />
 		<Unit filename="io/screenshots/screenshots.cpp" />
 		<Unit filename="io/screenshots/screenshots.hpp" />
 		<Unit filename="io/stringUtils.cpp" />

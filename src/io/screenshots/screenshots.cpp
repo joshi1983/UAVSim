@@ -9,7 +9,6 @@
 #include <GL/glut.h>
 #endif
 
-#include <queue>
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -19,11 +18,13 @@
 #include "../stringUtils.hpp"
 #include "../config/Config.hpp"
 #include "../Files.hpp"
+#include "bitmapBlender.hpp"
 using namespace std;
 using namespace rapidjson;
 
 void saverThreadRun();
 thread th(&saverThreadRun);
+bool isBlendingMotionBlurFrames = true;
 
 // Create a string with last error message
 std::string GetLastErrorStdStr()
@@ -124,6 +125,12 @@ void saverThreadRun()
     }
 }
 
+void switchedMotionBlurGroup(const string& filename)
+{
+    if (isBlendingMotionBlurFrames)
+        saveMotionBlurredFrameTo(filename.c_str());
+}
+
 void saveScreenshot(const char * filename)
 {
     wchar_t convertedFilename[256];
@@ -157,7 +164,10 @@ void saveScreenshot(const wchar_t * filename)
     else
     {
         Gdiplus::Bitmap *image = new Gdiplus::Bitmap(hBitmap, NULL);
-        screenshotQueue.push_back(new ScreenShotSaveTask(image, wstring(filename)));
+        if (isBlendingMotionBlurFrames)
+            addFrame(image);
+        else
+            screenshotQueue.push_back(new ScreenShotSaveTask(image, wstring(filename)));
     }
 
     // clean-up
@@ -169,22 +179,8 @@ void saveScreenshot(const wchar_t * filename)
 
 void updateResolutionFromConfig()
 {
-    Value* csv =  Pointer("/csv").Get(UAVSimConfig::config.doc);
-    Value* res =  Pointer("/resolution").Get(UAVSimConfig::config.doc);
-    Value* width =  Pointer("/resolution/width").Get(UAVSimConfig::config.doc);
-    Value* height =  Pointer("/resolution/height").Get(UAVSimConfig::config.doc);
-    if (width != nullptr && height != nullptr && width->IsInt() && height->IsInt())
-    {
-        int w = width->GetInt();
-        int h = height->GetInt();
-        cout << "w = " << w << ", h = " << h << endl;
-        glutReshapeWindow(w, h);
-    }
-    else {
-        cout << "csv is null: " << (csv == nullptr) << endl;
-        cout << "res is null: " << (res == nullptr) << endl;
-        cout << "width is null: " << (width == nullptr) << endl;
-        cout << "height is null: " << (height == nullptr) << endl;
-        cout << "width and height not found in config. width = " << width << ", height = " << height << endl;
-    }
+    int w = UAVSimConfig::config.getDefaultedInt("/resolution/width", 640);
+    int h = UAVSimConfig::config.getDefaultedInt("/resolution/height", 480);
+    glutReshapeWindow(w, h);
+    isBlendingMotionBlurFrames = UAVSimConfig::config.getDefaultedBool("/csv/blurBeforeSave", true);
 }

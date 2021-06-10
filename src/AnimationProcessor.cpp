@@ -56,12 +56,26 @@ string AnimationProcessor::getFileName() const
 	return getAbsolutePathForFilename(filenameBuffer2);
 }
 
+string AnimationProcessor::getBlurGroupFileName() const
+{
+	char filenameBuffer[256];
+	char filenameBuffer2[256];
+    sprintf(filenameBuffer, "frame_%08d.png", frameIndex / blurFrameCount);
+    sprintf(filenameBuffer2, "%s%s", outputPath.c_str(), filenameBuffer);
+	return getAbsolutePathForFilename(filenameBuffer2);
+}
+
 double AnimationProcessor::getT() const
 {
     if (blurBetweenRows)
         return (frameIndex / blurFrameCount) + (frameIndex % blurFrameCount) * 0.5 / blurFrameCount;
     else
         return frameIndex;
+}
+
+bool AnimationProcessor::isSwitchingMotionBlurGroup() const
+{
+    return blurFrameCount > 1 && (frameIndex % blurFrameCount == blurFrameCount - 1);
 }
 
 void AnimationProcessor::processNextFrame()

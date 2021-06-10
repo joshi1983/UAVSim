@@ -81,6 +81,8 @@ void render()
     {
         string filename = animationProcessor->getFileName();
         saveScreenshot(filename.c_str());
+        if (animationProcessor->isSwitchingMotionBlurGroup())
+            switchedMotionBlurGroup(animationProcessor->getBlurGroupFileName());
     }
 
     if (isSavingScreenshots)

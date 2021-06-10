@@ -13,6 +13,8 @@ class AnimationProcessor
 	public:
 		AnimationProcessor(Animation* animation, AnimationState & animationState);
 		void processNextFrame();
+		bool isSwitchingMotionBlurGroup() const;
+		std::string getBlurGroupFileName() const;
 		std::string getFileName() const;
 		unsigned int getFrameIndex() const;
 		bool isWithinAnimation() const;

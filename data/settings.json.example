@@ -24,6 +24,7 @@
 	"csv": {
 		"filename": "data/datapoints.csv",
 		"framesPerRow": 1,
+		"blurBeforeSave": true,
 		"columns": {
 			"x": {
 				"to": "x",
