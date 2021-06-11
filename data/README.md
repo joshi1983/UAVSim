@@ -7,7 +7,6 @@ If you don't have a file named settings.json, copy and rename settings.json.exam
 resolution specifies the width and height of the viewport and resolution for saved animation frames.
 These dimensions can't be larger than the screen resolution.
 
-
 ## showGround
 Expected value is true or false.
 Specify true if you want ground to be rendered.
@@ -74,6 +73,13 @@ Distance of camera to UAV
 ### camera-pitch
 Vertical(up/down) angle of the camera in degrees.
 The default value is 0 which means pointing the camera to the horizon through the UAV.
+
+### camera-scale
+camera-scale defaults to 1 and is like a zoom factor for the view.
+The camera-scale should be greater than 0.
+
+2 would zoom in.
+0.5 would zoom out.
 
 ### steer-angle-1
 The angle 1 in degrees for the UAV's steerable column.  

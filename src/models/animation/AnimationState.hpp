@@ -16,6 +16,7 @@ class AnimationState
 		double steerAngle1, steerAngle2;
 		double cameraY, cameraZ;
 		double cameraPitch;
+		double cameraScale;
 };
 
 #endif

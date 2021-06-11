@@ -27,7 +27,7 @@ using namespace std;
 UAV * uav = nullptr;
 int windowid;
 int renderCallCount = 0;
-double yOffset = -2.1;
+double yOffset = -1.1;
 bool isShowingGround = true;
 bool isShowingSky = true;
 Sky *sky;
@@ -64,6 +64,24 @@ void initRenderer(const char * programPath, int _windowid)
     uav = new UAV();
 }
 
+void updateFrustrum(const AnimationState & animationState)
+{
+    int width = glutGet(GLUT_WINDOW_WIDTH);
+    int height = glutGet(GLUT_WINDOW_HEIGHT);
+    const float ar = (float) width / (float) height;
+
+    glViewport(0, 0, width, height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    double nearZ = 0.1;
+    double zoomScale = nearZ * animationState.cameraScale;
+    glFrustum(-ar * zoomScale, ar * zoomScale, -zoomScale, zoomScale, nearZ, 20.0);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    cerr << "ar = " << ar << ", width = " << width << ", height = " << height << ", zoomScale = "<< zoomScale << endl;
+}
+
 void drawHorizonAndSky()
 {
     glClearColor(0.3, 0.5, 1,0.0);
@@ -96,6 +114,7 @@ void render()
     else
         animation->getState(t, animationState);
 
+    updateFrustrum(animationState);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
         glRotated(animationState.cameraPitch, 1, 0, 0);

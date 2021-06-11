@@ -10,7 +10,7 @@ double blendVal(double val1, double val2, double ratio)
 
 AnimationState::AnimationState(): bladeAngle(0),
 	pitch(0), yaw(0), roll(0), x(0), y(0), z(0), steerAngle1(0), steerAngle2(0),
-	cameraY(0), cameraZ(-3), cameraPitch(0)
+	cameraY(0), cameraZ(-3), cameraPitch(0), cameraScale(1)
 {
 
 }
@@ -30,6 +30,7 @@ AnimationState AnimationState::blend(const AnimationState& state1, const Animati
     result.cameraY = blendVal(state1.cameraY, state2.cameraY, ratio);
     result.cameraZ = blendVal(state1.cameraZ, state2.cameraZ, ratio);
     result.cameraPitch = blendVal(state1.cameraPitch, state2.cameraPitch, ratio);
+    result.cameraScale = blendVal(state1.cameraScale, state2.cameraScale, ratio);
     return result;
 }
 
@@ -43,6 +44,8 @@ void AnimationState::setValue(const std::string& name, const double value)
             cameraZ = value;
         else if (name == "camera-pitch")
             cameraPitch = value;
+        else if (name == "camera-scale")
+            cameraScale = value;
     }
     else if (name > "r")
     {
@@ -100,6 +103,8 @@ string AnimationState::sanitizeName(const string& name)
         result = "camera-z";
     else if (result == "camerapitch")
         result = "camera-pitch";
+    else if (result == "camerascale")
+        result = "camera-scale";
     else if (result == "steerangle1")
         result = "steer-angle-1";
     else if (result == "steerangle2")

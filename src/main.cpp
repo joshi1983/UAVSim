@@ -37,19 +37,6 @@ static int stacks = 16;
 
 /* GLUT callback Handlers */
 
-static void resize(int width, int height)
-{
-    const float ar = (float) width / (float) height;
-
-    glViewport(0, 0, width, height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glFrustum(-ar, ar, -1.0, 1.0, 1, 5.0);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity() ;
-}
-
 static void display(void)
 {
     render();
@@ -127,7 +114,6 @@ int main(int argc, char *argv[])
     storeHWND(windowid, windowTitle);
     initRenderer(argv[0], windowid);
 
-    glutReshapeFunc(resize);
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
     glutMouseFunc(mousePressOrUp);
