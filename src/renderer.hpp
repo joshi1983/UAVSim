@@ -5,6 +5,7 @@
 void initRenderer(const char * programPath, int windowid);
 void verticalShift(double dy);
 void render();
+void updateFrustrum(const AnimationState & animationState, double nearZ, double farZ);
 
 static AnimationState animationState;
 

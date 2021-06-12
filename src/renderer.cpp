@@ -66,6 +66,13 @@ void initRenderer(const char * programPath, int _windowid)
 
 void updateFrustrum(const AnimationState & animationState)
 {
+    double farZ = abs(animationState.cameraZ) + uav->model.getBoundingSphereRadius();
+    double nearZ = max(0.1, abs(animationState.cameraZ) - uav->model.getBoundingSphereRadius());
+    updateFrustrum(animationState, nearZ, farZ);
+}
+
+void updateFrustrum(const AnimationState & animationState, double nearZ, double farZ)
+{
     int width = glutGet(GLUT_WINDOW_WIDTH);
     int height = glutGet(GLUT_WINDOW_HEIGHT);
     const float ar = (float) width / (float) height;
@@ -73,13 +80,11 @@ void updateFrustrum(const AnimationState & animationState)
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    double nearZ = 0.1;
     double zoomScale = nearZ * animationState.cameraScale;
-    glFrustum(-ar * zoomScale, ar * zoomScale, -zoomScale, zoomScale, nearZ, 20.0);
+    glFrustum(-ar * zoomScale, ar * zoomScale, -zoomScale, zoomScale, nearZ, farZ);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    cerr << "ar = " << ar << ", width = " << width << ", height = " << height << ", zoomScale = "<< zoomScale << endl;
 }
 
 void drawHorizonAndSky()
@@ -93,7 +98,6 @@ void render()
     static bool isFrameProcessed = false;
     bool isSavingScreenshots = (animationProcessor != nullptr && renderCallCount > 100);
     bool _canSaveScreenshot = canSaveScreenshot();
-    const double t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
 
     if (_canSaveScreenshot && isSavingScreenshots && animationProcessor->isWithinAnimation() && isFrameProcessed)
     {
@@ -112,7 +116,10 @@ void render()
         }
     }
     else
+    {
+        const double t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
         animation->getState(t, animationState);
+    }
 
     updateFrustrum(animationState);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

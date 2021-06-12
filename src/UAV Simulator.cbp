@@ -186,6 +186,8 @@
 		<Unit filename="models/Triangle.hpp" />
 		<Unit filename="models/UAV.cpp" />
 		<Unit filename="models/UAV.hpp" />
+		<Unit filename="models/UAVModel.cpp" />
+		<Unit filename="models/UAVModel.hpp" />
 		<Unit filename="models/Vector3D.cpp" />
 		<Unit filename="models/Vector3D.hpp" />
 		<Unit filename="models/Vertex.cpp" />
