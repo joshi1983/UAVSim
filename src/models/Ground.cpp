@@ -25,10 +25,12 @@ void Ground::init(int windowid)
 
 void Ground::draw(int windowid, const AnimationState & animationState, double yOffset) const
 {
-  const double left = -10;
+  const double left = -150;
   const double top = 0;
   const double width = -left * 2;
-  const double height = 10 * 2;
+  const double height = 150 * 2;
+  const double beachWidth = height * 0.005;
+  const double beachHeight = 0.2;
 
     glDisable(GL_LIGHT0);
     glDisable(GL_NORMALIZE);
@@ -38,45 +40,55 @@ void Ground::draw(int windowid, const AnimationState & animationState, double yO
     glDisable(GL_DEPTH_TEST);
 
     glColor3d(1, 1, 1);
-    for (double scale = 0.005; scale < 5; scale *= 4)
-    {
+    glPushMatrix();
+
+		glTranslated(0, 0, animationState.cameraZ);
+
+        glRotated(-animationState.yaw, 0, 1, 0);
+
+        glTranslated(animationState.x, (yOffset - animationState.y) + animationState.cameraY, animationState.z);
+
+        glBindTexture( GL_TEXTURE_2D, grass->getOpenGLTextureName(windowid));
+        double textureScale = 15.0;
+        glBegin(GL_QUADS);
+            glTexCoord2d(0,0);
+            glVertex3d(left+width, 0, top);
+            glTexCoord2d(textureScale,0);
+            glVertex3d(left, 0, top);
+            glTexCoord2d(textureScale,textureScale);
+            glVertex3d(left, 0, top+height);
+            glTexCoord2d(0,textureScale);
+            glVertex3d(left+width, 0, top+height);
+        glEnd();
+
+        double top1 = top - height - beachWidth;
+        glBindTexture( GL_TEXTURE_2D, water->getOpenGLTextureName(windowid));
         glPushMatrix();
-
-            glRotated(-90, 1, 0, 0);
-            glTranslated(animationState.x * scale, animationState.z * scale, (yOffset - animationState.y) * scale);
-            glTranslated(0, -animationState.cameraZ * scale, -animationState.cameraY * scale);
-            glRotated(-animationState.yaw, 0, 0, 1);
-            glTranslated(0, animationState.cameraZ * scale, animationState.cameraY * scale);
-            glBindTexture( GL_TEXTURE_2D, grass->getOpenGLTextureName(windowid));
-            double textureScale = 1.0 / scale;
+            glTranslated(0, -beachHeight, 0);
             glBegin(GL_QUADS);
                 glTexCoord2d(0,0);
-                glVertex2d(left,top);
+                glVertex3d(left+width, 0, top1);
                 glTexCoord2d(textureScale,0);
-                glVertex2d(left+width,top);
+                glVertex3d(left, 0, top1);
                 glTexCoord2d(textureScale,textureScale);
-                glVertex2d(left+width,top+height);
+                glVertex3d(left, 0, -beachWidth);
                 glTexCoord2d(0,textureScale);
-                glVertex2d(left,top+height);
+                glVertex3d(left+width, 0, -beachWidth);
             glEnd();
-
-            double top2 = top - height;
-            glBindTexture( GL_TEXTURE_2D, water->getOpenGLTextureName(windowid));
-            glBegin(GL_QUADS);
-                glTexCoord2d(0,0);
-                glVertex2d(left,top2);
-                glTexCoord2d(textureScale,0);
-                glVertex2d(left+width,top2);
-                glTexCoord2d(textureScale,textureScale);
-                glVertex2d(left+width,top);
-                glTexCoord2d(0,textureScale);
-                glVertex2d(left,top);
-            glEnd();
-
         glPopMatrix();
-    }
 
-    glDisable(GL_TEXTURE_2D);
+        // Draw beach.
+        glDisable(GL_TEXTURE_2D);
+        glColor3d(1, 0.8, 0.5);
+        glBegin(GL_QUADS);
+            glVertex3d(left+width, -beachHeight, -beachWidth);
+            glVertex3d(left, -beachHeight, -beachWidth);
+            glVertex3d(left,0, 0);
+            glVertex3d(left+width,0, 0);
+        glEnd();
+
+    glPopMatrix();
+
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHT0);
     glEnable(GL_NORMALIZE);
