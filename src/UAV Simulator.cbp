@@ -33,6 +33,7 @@
 					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/openssl/lib/libssl.lib" />
 					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/openssl/lib/libcrypto.lib" />
 					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/boost_1_76_0/stage/lib/libboost_filesystem-vc142-mt-gd-x64-1_76.lib" />
+					<Add library="wsock32" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -112,6 +113,18 @@
 		<Unit filename="io/model_importers/X3D/Transform.cpp" />
 		<Unit filename="io/networking/HTTPDownloader.cpp" />
 		<Unit filename="io/networking/HTTPDownloader.hpp" />
+		<Unit filename="io/networking/HTTPServer.cpp" />
+		<Unit filename="io/networking/HTTPServer.hpp" />
+		<Unit filename="io/networking/http_server/fail.cpp" />
+		<Unit filename="io/networking/http_server/fail.hpp" />
+		<Unit filename="io/networking/http_server/listener.cpp" />
+		<Unit filename="io/networking/http_server/listener.hpp" />
+		<Unit filename="io/networking/http_server/mime_types.cpp" />
+		<Unit filename="io/networking/http_server/mime_types.hpp" />
+		<Unit filename="io/networking/http_server/path_cat.cpp" />
+		<Unit filename="io/networking/http_server/path_cat.hpp" />
+		<Unit filename="io/networking/http_server/session.cpp" />
+		<Unit filename="io/networking/http_server/session.hpp" />
 		<Unit filename="io/screenshots/bitmapBlender.cpp" />
 		<Unit filename="io/screenshots/bitmapBlender.hpp" />
 		<Unit filename="io/screenshots/screenshots.cpp" />

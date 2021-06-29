@@ -4,8 +4,12 @@
 
 class DefaultAnimation: public Animation
 {
+    private:
+        bool isControlledRemotely = false;
+        AnimationState remoteState;
 	public:
-		virtual void getState(double t, AnimationState &state) const override;
+	    void setAnimationState(const AnimationState & newState);
+        virtual void getState(double t, AnimationState &state) const override;
 		virtual unsigned int getMaxT() const override;
 };
 

@@ -4,20 +4,14 @@
 #include "../csv/CSVParser.hpp"
 #include "../config/Config.hpp"
 #include "../../lib/rapidjson/pointer.h"
-#include "../../lib/rapidjson/document.h"
 #include "../Files.hpp"
 using namespace std;
 using namespace rapidjson;
 
 StateSequenceAnimation* CSVAnimationImporter::load() const
 {
-    Value * filenamePtr = Pointer("/csv/filename").Get(UAVSimConfig::config.doc);
-    string filename;
-    if (filenamePtr == nullptr)
-        filename = getAbsolutePathForFilename("data\\datapoints.csv");
-    else
-        filename = getAbsolutePathForFilename(filenamePtr->GetString());
-
+    string filename = UAVSimConfig::config.getDefaultedString("/csv/filename", "data\\datapoints.csv");
+    filename = getAbsolutePathForFilename(filename.c_str());
     return loadFrom(filename);
 }
 

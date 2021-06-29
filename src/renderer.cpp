@@ -22,6 +22,7 @@
 #include "AnimationProcessor.hpp"
 #include "models/UAV.hpp"
 #include "io/config/Config.hpp"
+#include "io/networking/HTTPServer.hpp"
 using namespace std;
 
 UAV * uav = nullptr;
@@ -54,7 +55,14 @@ void initRenderer(const char * programPath, int _windowid)
     if (animation != nullptr)
         animationProcessor = new AnimationProcessor(animation, animationState);
     else
+    {
         animation = new DefaultAnimation();
+        cout << "About to run server." << endl;
+        DefaultAnimation* defaultAnimation = dynamic_cast<DefaultAnimation*>(animation);
+        startHttpServer(8080, getAbsolutePathForFilename("data/htdocs"), *defaultAnimation);
+        cout << "Server should be running." << endl;
+    }
+
     windowid = _windowid;
     isShowingGround = UAVSimConfig::config.getDefaultedBool("/showGround", true);
     isShowingSky = UAVSimConfig::config.getDefaultedBool("/showSky", true);
