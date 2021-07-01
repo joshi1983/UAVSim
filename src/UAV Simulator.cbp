@@ -115,6 +115,8 @@
 		<Unit filename="io/networking/HTTPDownloader.hpp" />
 		<Unit filename="io/networking/HTTPServer.cpp" />
 		<Unit filename="io/networking/HTTPServer.hpp" />
+		<Unit filename="io/networking/http_server/api_handlers.cpp" />
+		<Unit filename="io/networking/http_server/api_handlers.hpp" />
 		<Unit filename="io/networking/http_server/fail.cpp" />
 		<Unit filename="io/networking/http_server/fail.hpp" />
 		<Unit filename="io/networking/http_server/listener.cpp" />

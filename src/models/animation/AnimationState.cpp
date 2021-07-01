@@ -88,6 +88,17 @@ void AnimationState::setValue(const std::string& name, const std::string& value)
     }
 }
 
+vector<string> AnimationState::getSupportedNames()
+{
+    vector<string> result = {"blade-angle", "camera-y", "camera-z",
+    "camera-scale", "camera-pitch",
+    "pitch", "roll",
+    "steer-angle-1", "steer-angle-2",
+    "x", "y", "yaw", "z"
+    };
+    return result;
+}
+
 string AnimationState::sanitizeName(const string& name)
 {
     string result(name);
