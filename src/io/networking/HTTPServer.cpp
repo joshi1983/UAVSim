@@ -16,6 +16,7 @@
 #include <vector>
 #include "http_server/session.hpp"
 #include "http_server/listener.hpp"
+#include "../config/Config.hpp"
 
 namespace net = boost::asio;            // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
@@ -51,8 +52,9 @@ void runServer(unsigned short port, std::string docPath)
     ioc.run();
 }
 
-void startHttpServer(unsigned short port, std::string docPath, DefaultAnimation & animation)
+void startHttpServer(std::string docPath, DefaultAnimation & animation)
 {
+    unsigned short port = UAVSimConfig::config.getDefaultedInt("/httpServerPort", 8080);
     // call runHttpServer in a separate thread.
     new std::thread(&runServer, port, docPath);
 }

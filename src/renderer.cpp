@@ -57,10 +57,8 @@ void initRenderer(const char * programPath, int _windowid)
     else
     {
         animation = new DefaultAnimation();
-        cout << "About to run server." << endl;
         DefaultAnimation* defaultAnimation = dynamic_cast<DefaultAnimation*>(animation);
-        startHttpServer(8080, getAbsolutePathForFilename("data/htdocs"), *defaultAnimation);
-        cout << "Server should be running." << endl;
+        startHttpServer(getAbsolutePathForFilename("data/htdocs"), *defaultAnimation);
     }
 
     windowid = _windowid;

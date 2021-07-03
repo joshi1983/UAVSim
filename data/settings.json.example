@@ -1,4 +1,5 @@
 {
+	"httpServerPort": 8080,
 	"resolution": {
 		"width": 640,
 		"height": 480

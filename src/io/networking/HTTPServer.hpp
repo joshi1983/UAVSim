@@ -3,6 +3,6 @@
 #include <string>
 #include "../../models/animation/DefaultAnimation.hpp"
 
-void startHttpServer(unsigned short port, std::string docRoot, DefaultAnimation & animation);
+void startHttpServer(std::string docRoot, DefaultAnimation & animation);
 
 #endif

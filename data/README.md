@@ -2,6 +2,12 @@
 The data directory contains the settings.json file for UAVSim.
 If you don't have a file named settings.json, copy and rename settings.json.example.
 
+## httpServerPort
+
+Port number for the HTTP server that is used when you're not processing a CSV file.
+
+This server is available for interacting with test code.
+
 ## resolution
 
 resolution specifies the width and height of the viewport and resolution for saved animation frames.
