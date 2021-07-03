@@ -3,6 +3,12 @@
 #include <iostream>
 using namespace std;
 
+AnimateStateKey::AnimateStateKey(const std::string& name, double rangeMin, double rangeMax):
+    name(name), rangeMin(rangeMin), rangeMax(rangeMax)
+{
+
+}
+
 double blendVal(double val1, double val2, double ratio)
 {
     return val1 * (1 - ratio) + val2 * ratio;
@@ -34,46 +40,63 @@ AnimationState AnimationState::blend(const AnimationState& state1, const Animati
     return result;
 }
 
+double AnimationState::get(const std::string& name)
+{
+    double *valPointer = getValuePointer(name);
+    if (valPointer != nullptr)
+        return *valPointer;
+    else
+        return 0;
+}
+
 void AnimationState::setValue(const std::string& name, const double value)
+{
+    double *valPointer = getValuePointer(name);
+    if (valPointer != nullptr)
+        *valPointer = value;
+}
+
+double* AnimationState::getValuePointer(const std::string& name)
 {
     if (name[0] == 'c')
     {
         if (name == "camera-y")
-            cameraY = value;
+            return &cameraY;
         else if (name == "camera-z")
-            cameraZ = value;
+            return &cameraZ;
         else if (name == "camera-pitch")
-            cameraPitch = value;
+            return &cameraPitch;
         else if (name == "camera-scale")
-            cameraScale = value;
+            return &cameraScale;
     }
     else if (name > "r")
     {
         if (name[0] == 's')
         {
             if (name == "steer-angle-1")
-                steerAngle1 = value;
+                return &steerAngle1;
             else if (name == "steer-angle-2")
-                steerAngle2 = value;
+                return &steerAngle2;
         }
         else if (name == "roll")
-            roll = value;
+            return &roll;
         else if (name == "x")
-            x = value;
+            return &x;
         else if (name == "y")
-            y = value;
+            return &y;
         else if (name == "z")
-            z = value;
+            return &z;
         else if (name == "yaw")
-            yaw = value;
+            return &yaw;
     }
     else
     {
         if (name == "pitch")
-            pitch = value;
+            return &pitch;
         else if (name == "blade-angle")
-            bladeAngle = value;
+            return &bladeAngle;
     }
+    return nullptr;
 }
 
 void AnimationState::setValue(const std::string& name, const std::string& value)
@@ -88,14 +111,48 @@ void AnimationState::setValue(const std::string& name, const std::string& value)
     }
 }
 
-vector<string> AnimationState::getSupportedNames()
+vector<AnimateStateKey> AnimationState::getSupportedNames()
 {
-    vector<string> result = {"blade-angle", "camera-y", "camera-z",
+    vector<string> resultNames = {"blade-angle", "camera-y", "camera-z",
     "camera-scale", "camera-pitch",
     "pitch", "roll",
     "steer-angle-1", "steer-angle-2",
     "x", "y", "yaw", "z"
     };
+    vector<AnimateStateKey> result;
+    for (std::string& name: resultNames)
+    {
+        double rMax = 4;
+        double rMin = 0;
+        if (name == "camera-z" || name == "camera-y")
+        {
+            rMin = -5;
+            rMax = 5;
+        }
+        else if (name == "y")
+        {
+            rMax = 50;
+            rMin = 0;
+        }
+        else if (name == "steer-angle-1" || name == "steer-angle-2")
+        {
+            rMax = 25;
+            rMin = -25;
+        }
+        else if ((name.find("angle") != string::npos) || name == "yaw" || name == "roll" || name == "pitch" || name == "camera-pitch")
+            rMax = 360;
+        else if (name == "camera-scale")
+        {
+            rMin = 0.1;
+            rMax = 5;
+        }
+        else if (name == "x" || name == "z")
+        {
+            rMin = -20;
+            rMax = 20;
+        }
+        result.push_back(AnimateStateKey(name, rMin, rMax));
+    }
     return result;
 }
 

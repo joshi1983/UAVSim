@@ -8,9 +8,11 @@ class DefaultAnimation: public Animation
         bool isControlledRemotely = false;
         AnimationState remoteState;
 	public:
+	    DefaultAnimation();
 	    void setAnimationState(const AnimationState & newState);
         virtual void getState(double t, AnimationState &state) const override;
 		virtual unsigned int getMaxT() const override;
+		static DefaultAnimation* main;
 };
 
 #endif

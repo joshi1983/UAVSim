@@ -3,6 +3,7 @@
 #include <memory>
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
+#include "../../../models/animation/DefaultAnimation.hpp"
 
 // Handles an HTTP server connection
 class session : public std::enable_shared_from_this<session>
@@ -45,5 +46,7 @@ public:
         std::size_t bytes_transferred);
     void do_close();
 };
+
+void setDefaultAnimation(DefaultAnimation& _defaultAnimation);
 
 #endif

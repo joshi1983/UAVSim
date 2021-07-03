@@ -2,6 +2,14 @@
 #include <cmath>
 #include <limits>
 
+DefaultAnimation* DefaultAnimation::main = nullptr;
+
+DefaultAnimation::DefaultAnimation()
+{
+    if (DefaultAnimation::main == nullptr)
+        DefaultAnimation::main = this;
+}
+
 void DefaultAnimation::setAnimationState(const AnimationState & newState)
 {
     remoteState = newState;

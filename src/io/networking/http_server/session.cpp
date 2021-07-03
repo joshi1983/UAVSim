@@ -5,6 +5,7 @@
 #include <boost/beast/version.hpp>
 #include "mime_types.hpp"
 #include "path_cat.hpp"
+#include <iostream>
 #include "api_handlers.hpp"
 
 namespace beast = boost::beast; // from <boost/beast.hpp>
@@ -70,7 +71,8 @@ handle_request(
 
     // Make sure we can handle the method
     if( req.method() != http::verb::get &&
-        req.method() != http::verb::head)
+        req.method() != http::verb::head &&
+        req.method() != http::verb::post)
         return send(bad_request("Unknown HTTP-method"));
 
     // Request path must be absolute and not contain "..".
@@ -81,16 +83,32 @@ handle_request(
 
     if (isAPITarget(req.target()))
     {
-        std::string resultContent = handleAPIGetRequest(req.target());
-        http::file_body::value_type body;
-        auto const size = resultContent.size();
-        http::response<http::string_body> res{ http::status::ok, req.version() };
-        res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-        res.set(http::field::content_type, mime_type(".json"));
-        res.content_length(size);
-        res.body() = resultContent;
-        res.keep_alive(req.keep_alive());
-        return send(std::move(res));
+        if (req.method() == http::verb::get)
+        {
+            std::string resultContent = handleAPIGetRequest(req.target());
+            http::file_body::value_type body;
+            auto const size = resultContent.size();
+            http::response<http::string_body> res{ http::status::ok, req.version() };
+            res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+            res.set(http::field::content_type, mime_type(".json"));
+            res.content_length(size);
+            res.body() = resultContent;
+            res.keep_alive(req.keep_alive());
+            return send(std::move(res));
+        }
+        else
+        {
+            std::string resultContent = handleAPIPostRequest(req.target(), req.body().data());
+            http::file_body::value_type body;
+            auto const size = resultContent.size();
+            http::response<http::string_body> res{ http::status::ok, req.version() };
+            res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+            res.set(http::field::content_type, mime_type(".json"));
+            res.content_length(size);
+            res.body() = resultContent;
+            res.keep_alive(req.keep_alive());
+            return send(std::move(res));
+        }
     }
 
     // Build the path to the requested file

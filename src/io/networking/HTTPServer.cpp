@@ -17,7 +17,6 @@
 #include "http_server/session.hpp"
 #include "http_server/listener.hpp"
 
-DefaultAnimation* defaultAnimation = nullptr;
 namespace net = boost::asio;            // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
@@ -54,7 +53,6 @@ void runServer(unsigned short port, std::string docPath)
 
 void startHttpServer(unsigned short port, std::string docPath, DefaultAnimation & animation)
 {
-    defaultAnimation = &animation;
     // call runHttpServer in a separate thread.
     new std::thread(&runServer, port, docPath);
 }
