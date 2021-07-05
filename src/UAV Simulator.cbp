@@ -34,6 +34,7 @@
 					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/openssl/lib/libcrypto.lib" />
 					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/boost_1_76_0/stage/lib/libboost_filesystem-vc142-mt-gd-x64-1_76.lib" />
 					<Add library="wsock32" />
+					<Add library="ole32" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -53,6 +54,9 @@
 					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/lib/glut32.lib" />
 					<Add library="gdiplus" />
 					<Add library="ws2_32" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/boost_1_76_0/stage/lib/libboost_filesystem-vc142-mt-gd-x64-1_76.lib" />
+					<Add library="wsock32" />
+					<Add library="ole32" />
 				</Linker>
 			</Target>
 		</Build>

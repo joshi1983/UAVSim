@@ -7,6 +7,10 @@
 #include "path_cat.hpp"
 #include <iostream>
 #include "api_handlers.hpp"
+#include <vector>
+#include <string>
+#include <fstream>
+#include "../../Files.hpp"
 
 namespace beast = boost::beast; // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
@@ -85,16 +89,44 @@ handle_request(
     {
         if (req.method() == http::verb::get)
         {
-            std::string resultContent = handleAPIGetRequest(req.target());
-            http::file_body::value_type body;
-            auto const size = resultContent.size();
-            http::response<http::string_body> res{ http::status::ok, req.version() };
-            res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-            res.set(http::field::content_type, mime_type(".json"));
-            res.content_length(size);
-            res.body() = resultContent;
-            res.keep_alive(req.keep_alive());
-            return send(std::move(res));
+            if (isAPIBinaryGetTarget(req.target()))
+            {
+                std::string mime;
+                std::vector<unsigned char> resultContent = handleAPIGetBinaryRequest(req.target(), mime);
+                char *buffer = new char[resultContent.size()];
+                for (unsigned int i = 0; i < resultContent.size(); i++)
+                {
+                    buffer[i] = resultContent[i];
+                }
+                beast::error_code ec;
+                auto const size = resultContent.size();
+                http::response<http::buffer_body> res;
+                res.result(http::status::ok);
+                res.version(req.version());
+                res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+                res.set(http::field::content_type, mime);
+                res.content_length(size);
+                res.body().data = buffer;
+                res.body().size = size;
+                res.body().more = true;
+                res.keep_alive(req.keep_alive());
+                send(std::move(res));
+                delete [] buffer;
+                return;
+            }
+            else
+            {
+                std::string resultContent = handleAPIGetRequest(req.target());
+                http::file_body::value_type body;
+                auto const size = resultContent.size();
+                http::response<http::string_body> res{ http::status::ok, req.version() };
+                res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+                res.set(http::field::content_type, mime_type(".json"));
+                res.content_length(size);
+                res.body() = resultContent;
+                res.keep_alive(req.keep_alive());
+                return send(std::move(res));
+            }
         }
         else
         {

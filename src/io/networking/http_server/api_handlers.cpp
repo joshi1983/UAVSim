@@ -7,6 +7,7 @@
 #include "../../../lib/rapidjson/error/en.h"
 #include <iostream>
 #include <sstream>
+#include "../../screenshots/screenshots.hpp"
 namespace beast = boost::beast; // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
 using namespace std;
@@ -96,4 +97,30 @@ string handleAPIPostRequest(const boost::beast::string_view &target, const boost
         return setAnimationStateKeys(doc);
     }
     return string("{}");
+}
+
+bool isAPIBinaryGetTarget(const boost::beast::string_view &target)
+{
+    return target == "/api/screenshot";
+}
+
+std::vector<unsigned char> getScreenshot(const boost::beast::string_view &target, string & mime)
+{
+    mime = "image/png";
+    std::vector<unsigned char> result;
+    getScreenshotPNGRawData(result);
+
+    return result;
+}
+
+std::vector<unsigned char> handleAPIGetBinaryRequest(const boost::beast::string_view &target, string & mime)
+{
+    if (target == "/api/screenshot")
+    {
+        return getScreenshot(target, mime);
+    }
+    std::vector<unsigned char> result;
+
+
+    return result;
 }

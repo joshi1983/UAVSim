@@ -25,6 +25,7 @@ using namespace rapidjson;
 void saverThreadRun();
 thread th(&saverThreadRun);
 bool isBlendingMotionBlurFrames = true;
+const CLSID pngEncoderClsId = { 0x557cf406, 0x1a04, 0x11d3,{ 0x9a,0x73,0x00,0x00,0xf8,0x1e,0xf3,0x2e } };
 
 // Create a string with last error message
 std::string GetLastErrorStdStr()
@@ -91,7 +92,6 @@ bool canSaveScreenshot()
 
 void saverThreadRun()
 {
-    const CLSID pngEncoderClsId = { 0x557cf406, 0x1a04, 0x11d3,{ 0x9a,0x73,0x00,0x00,0xf8,0x1e,0xf3,0x2e } };
     while (true)
     {
         if (!screenshotQueue.empty())
@@ -138,8 +138,9 @@ void saveScreenshot(const char * filename)
     saveScreenshot(convertedFilename);
 }
 
-void saveScreenshot(const wchar_t * filename)
+Gdiplus::Bitmap * getScreenshotBitmap()
 {
+    Gdiplus::Bitmap *image = nullptr;
 	RECT r;
     int x1=0, y1=0, x2=0, y2=0, w=0, h=0;
 	GetClientRect(screenshotWindow, &r);
@@ -163,11 +164,7 @@ void saveScreenshot(const wchar_t * filename)
         cerr << "BitBlt failed." << endl;
     else
     {
-        Gdiplus::Bitmap *image = new Gdiplus::Bitmap(hBitmap, NULL);
-        if (isBlendingMotionBlurFrames)
-            addFrame(image);
-        else
-            screenshotQueue.push_back(new ScreenShotSaveTask(image, wstring(filename)));
+        image = new Gdiplus::Bitmap(hBitmap, NULL);
     }
 
     // clean-up
@@ -175,6 +172,53 @@ void saveScreenshot(const wchar_t * filename)
     DeleteDC(hDC);
     ReleaseDC(NULL, hWindow);
     DeleteObject(hBitmap);
+    return image;
+}
+
+void saveScreenshot(const wchar_t * filename)
+{
+    Gdiplus::Bitmap *image = getScreenshotBitmap();
+    if (image != nullptr)
+    {
+        if (isBlendingMotionBlurFrames)
+            addFrame(image);
+        else
+            screenshotQueue.push_back(new ScreenShotSaveTask(image, wstring(filename)));
+    }
+}
+
+void getScreenshotPNGRawData(std::vector<unsigned char>& result)
+{
+    Gdiplus::Bitmap *image = getScreenshotBitmap();
+    IStream* istream = nullptr;
+    HGLOBAL hg=NULL;
+    if (CreateStreamOnHGlobal(hg, FALSE, (LPSTREAM*)&istream)!=S_OK)
+        cerr << "error on creating an empty IStream" << endl;
+
+    image->Save(istream, &pngEncoderClsId, nullptr);
+    STATSTG stats;
+    istream->Stat(&stats,STATFLAG_DEFAULT);
+    int buffsize=(int)stats.cbSize.QuadPart;
+    char *pBuff = new char[buffsize];
+    ULONG ulBytesRead;
+    LARGE_INTEGER lg;
+    lg.QuadPart = 0;
+    istream->Seek(lg, STREAM_SEEK_SET, NULL);
+
+     //Read the stream to pBuff
+    if (istream->Read(pBuff, buffsize, &ulBytesRead)!=S_OK)
+        cerr << "error on saving IStream to buffer";
+
+
+    //release will automatically free the memory allocated in CreateStreamOnHGlobal
+    istream->Release();
+    for (int i = 0; i < buffsize; i++) {
+        result.push_back(pBuff[i]);
+    }
+
+    delete[] pBuff;
+
+    delete image;
 }
 
 void updateResolutionFromConfig()
