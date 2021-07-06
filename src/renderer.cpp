@@ -23,6 +23,7 @@
 #include "models/UAV.hpp"
 #include "io/config/Config.hpp"
 #include "io/networking/HTTPServer.hpp"
+#include "devices/Devices.hpp"
 using namespace std;
 
 UAV * uav = nullptr;
@@ -49,6 +50,7 @@ void initRenderer(const char * programPath, int _windowid)
     Texture::init();
     Ground::init(_windowid);
     ground = new Ground();
+    Devices::getInstance();
     updateResolutionFromConfig();
     CSVAnimationImporter csvAnimationImporter;
     animation = csvAnimationImporter.load();

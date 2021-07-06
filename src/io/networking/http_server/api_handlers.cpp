@@ -1,4 +1,5 @@
 #include "api_handlers.hpp"
+#include "device_api_handlers.hpp"
 #include "../../../models/animation/AnimationState.hpp"
 #include "../../../models/animation/DefaultAnimation.hpp"
 #include "../../../lib/rapidjson/document.h"
@@ -8,6 +9,7 @@
 #include <iostream>
 #include <sstream>
 #include "../../screenshots/screenshots.hpp"
+#include "../../JsonUtils.hpp"
 namespace beast = boost::beast; // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
 using namespace std;
@@ -38,13 +40,8 @@ string getAnimationStateKeys()
     }
     document.AddMember("supportedKeys", keysArray, allocator);
 
-    rapidjson::StringBuffer strbuf;
-    strbuf.Clear();
-
-    rapidjson::Writer<rapidjson::StringBuffer> writer(strbuf);
-    document.Accept(writer);
-
-    string result = strbuf.GetString();
+    string result;
+    rapidJsonDocumentToString(document, result);
     return result;
 }
 
@@ -52,6 +49,8 @@ string handleAPIGetRequest(const boost::beast::string_view &target)
 {
     if (target == "/api/csv-inputs")
         return getAnimationStateKeys();
+    else if (target == "/api/devices")
+        return getDevicesJSON();
 
     return string("{\"message\": \"The specified API request path is not supported\"}");
 }
@@ -87,10 +86,10 @@ string handleAPIPostRequest(const boost::beast::string_view &target, const boost
         if (doc.HasParseError())
         {
             stringstream ss;
-            ss << "Parse failed with message: ";
+            ss << "\"Parse failed with message: ";
             ss << GetParseError_En(doc.GetParseError());
             string msg = ss.str();
-            ss.str("");
+            ss.str("\"");
             // FIXME: convert msgs to JSON.
             return msg;
         }
@@ -120,7 +119,6 @@ std::vector<unsigned char> handleAPIGetBinaryRequest(const boost::beast::string_
         return getScreenshot(target, mime);
     }
     std::vector<unsigned char> result;
-
 
     return result;
 }
