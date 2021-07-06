@@ -1,0 +1,38 @@
+.csv-inputs {
+	margin: 5px;
+}
+
+.csv-inputs h2 {
+	margin-bottom: 10px;
+	margin-top: 0;
+}
+
+.csv-inputs > div > div {
+	display: flex;
+	border-bottom: 1px solid #eee;
+}
+
+.csv-inputs > div > div:hover {
+	border-bottom-color: #ddd;
+}
+
+.csv-inputs > div > div > label {
+	width: 120px;
+	display: inline-block;
+}
+
+.csv-inputs > div > div > label,
+.csv-inputs > div > div > .max,
+.csv-inputs > div > div > .min {
+	font-weight: bold;
+	flex-grow: 0;
+}
+
+.csv-inputs > div > div > .max,
+.csv-inputs > div > div > .min {
+	width: 80px;
+}
+
+.csv-inputs > div > div > input {
+	flex-grow: 1;
+}
