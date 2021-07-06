@@ -24,6 +24,7 @@
 	"frameOutputDirectory": "outputs/frames",
 	"csv": {
 		"filename": "data/datapoints.csv",
+		"saveFrames": true,
 		"framesPerRow": 1,
 		"blurBeforeSave": true,
 		"columns": {
