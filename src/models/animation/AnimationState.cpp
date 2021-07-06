@@ -14,7 +14,7 @@ double blendVal(double val1, double val2, double ratio)
     return val1 * (1 - ratio) + val2 * ratio;
 }
 
-AnimationState::AnimationState(): bladeAngle(0),
+AnimationState::AnimationState(): blade1Angle(0), blade2Angle(0),
 	pitch(0), yaw(0), roll(0), x(0), y(0), z(0), steerAngle1(0), steerAngle2(0),
 	cameraY(0), cameraZ(-3), cameraPitch(0), cameraScale(1)
 {
@@ -24,7 +24,8 @@ AnimationState::AnimationState(): bladeAngle(0),
 AnimationState AnimationState::blend(const AnimationState& state1, const AnimationState& state2, double ratio)
 {
     AnimationState result;
-    result.bladeAngle = blendVal(state1.bladeAngle, state2.bladeAngle, ratio);
+    result.blade1Angle = blendVal(state1.blade1Angle, state2.blade1Angle, ratio);
+    result.blade2Angle = blendVal(state1.blade2Angle, state2.blade2Angle, ratio);
     result.pitch = blendVal(state1.pitch, state2.pitch, ratio);
     result.yaw = blendVal(state1.yaw, state2.yaw, ratio);
     result.roll = blendVal(state1.roll, state2.roll, ratio);
@@ -93,8 +94,10 @@ double* AnimationState::getValuePointer(const std::string& name)
     {
         if (name == "pitch")
             return &pitch;
-        else if (name == "blade-angle")
-            return &bladeAngle;
+        else if (name == "blade-1-angle")
+            return &blade1Angle;
+        else if (name == "blade-2-angle")
+            return &blade2Angle;
     }
     return nullptr;
 }
@@ -113,7 +116,7 @@ void AnimationState::setValue(const std::string& name, const std::string& value)
 
 vector<AnimateStateKey> AnimationState::getSupportedNames()
 {
-    vector<string> resultNames = {"blade-angle", "camera-y", "camera-z",
+    vector<string> resultNames = {"blade-1-angle", "blade-2-angle", "camera-y", "camera-z",
     "camera-scale", "camera-pitch",
     "pitch", "roll",
     "steer-angle-1", "steer-angle-2",
@@ -163,8 +166,10 @@ string AnimationState::sanitizeName(const string& name)
     // remove any non-letter.
     result.erase(remove_if(result.begin(), result.end(), [](char c) { return !isalnum(c); } ), result.end());
 
-    if (result == "angle" || result == "bladeangle")
-        result = "blade-angle";
+    if (result == "blade1angle")
+        result = "blade-1-angle";
+    else if (result == "blade2angle")
+        result = "blade-2-angle";
     else if (result == "cameray")
         result = "camera-y";
     else if (result == "cameraz")

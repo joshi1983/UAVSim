@@ -23,7 +23,8 @@ void DefaultAnimation::getState(double t, AnimationState &state) const
     else
     {
         AnimationState newState;
-        newState.bladeAngle = t * 20.0;
+        newState.blade1Angle = t * 20.0;
+        newState.blade2Angle = -t * 20.0;
         newState.yaw = 50;
         newState.x = 0;
         newState.y = 0.1 + 0.1 * sin(t * 0.1);

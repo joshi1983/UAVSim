@@ -41,11 +41,11 @@ void UAV::draw(const AnimationState & animationState, double yOffset) const
             glTranslated(-model.steeringPivot.x, -model.steeringPivot.y, -model.steeringPivot.z);
             model.shapes[3].draw();
             glPushMatrix();
-                glRotated(animationState.bladeAngle, 0, 1, 0);
+                glRotated(animationState.blade1Angle, 0, 1, 0);
                 model.shapes[1].draw();
             glPopMatrix();
             glPushMatrix();
-                glRotated(-animationState.bladeAngle, 0, 1, 0);
+                glRotated(animationState.blade2Angle, 0, 1, 0);
                 model.shapes[2].draw();
             glPopMatrix();
 		glPopMatrix();

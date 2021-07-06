@@ -24,7 +24,7 @@ class AnimationState
 		double get(const std::string& name);
 		static std::string sanitizeName(const std::string& name);
 		static std::vector<AnimateStateKey> getSupportedNames();
-		double bladeAngle;
+		double blade1Angle, blade2Angle;
 		double pitch, yaw, roll;
 		double x, y, z;
 		double steerAngle1, steerAngle2;

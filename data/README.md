@@ -57,9 +57,11 @@ Every column can be renamed "to" a new recognized name.
 ## CSV columns
 The following columns are either supported or expected to become supported by UAVSim.
 
-### blade-angle
+### blade-1-angle
 The UAV propeller blade angle in degrees.
-The 2 propellers will have the exact opposite angle.
+
+### blade-2-angle
+The second UAV propeller blade angle in degrees.
 
 ### x
 x-coordinate of the UAV in relation to the initial position on the ground
