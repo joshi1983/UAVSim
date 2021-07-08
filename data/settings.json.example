@@ -22,9 +22,13 @@
 	},
 	"showGround": true,
 	"frameOutputDirectory": "outputs/frames",
+	"ffmpeg": {
+		"fps": 60,
+		"video_filename": "output.mp4"
+	},
 	"csv": {
 		"filename": "data/datapoints.csv",
-		"saveFrames": true,
+		"isSavingFrames": true,
 		"framesPerRow": 1,
 		"blurBeforeSave": true,
 		"columns": {

@@ -23,7 +23,7 @@
 #include "models/UAV.hpp"
 #include "io/config/Config.hpp"
 #include "io/networking/HTTPServer.hpp"
-#include "devices/Devices.hpp"
+#include "models/animation/ffmpeg.hpp"
 using namespace std;
 
 UAV * uav = nullptr;
@@ -36,6 +36,7 @@ Sky *sky;
 Animation *animation;
 AnimationProcessor *animationProcessor = nullptr;
 Ground *ground = nullptr;
+bool isSavingFrames;
 
 void verticalShift(double dy)
 {
@@ -46,11 +47,11 @@ void initRenderer(const char * programPath, int _windowid)
 {
     setProgramPath(programPath);
     UAVSimConfig::config.load();
+    isSavingFrames = UAVSimConfig::config.getDefaultedBool("/csv/isSavingFrames", true);
     initDirectories();
     Texture::init();
     Ground::init(_windowid);
     ground = new Ground();
-    Devices::getInstance();
     updateResolutionFromConfig();
     CSVAnimationImporter csvAnimationImporter;
     animation = csvAnimationImporter.load();
@@ -106,13 +107,24 @@ void render()
     static bool isFrameProcessed = false;
     bool isSavingScreenshots = (animationProcessor != nullptr && renderCallCount > 100);
     bool _canSaveScreenshot = canSaveScreenshot();
+    static bool isVideoGenerated = false;
 
-    if (_canSaveScreenshot && isSavingScreenshots && animationProcessor->isWithinAnimation() && isFrameProcessed)
+    if (_canSaveScreenshot && isSavingFrames && isSavingScreenshots && isFrameProcessed)
     {
-        string filename = animationProcessor->getFileName();
-        saveScreenshot(filename.c_str());
-        if (animationProcessor->isSwitchingMotionBlurGroup())
-            switchedMotionBlurGroup(animationProcessor->getBlurGroupFileName());
+        if (animationProcessor->isWithinAnimation())
+        {
+            string filename = animationProcessor->getFileName();
+            saveScreenshot(filename.c_str());
+            if (animationProcessor->isSwitchingMotionBlurGroup())
+                switchedMotionBlurGroup(animationProcessor->getBlurGroupFileName());
+        }
+        else if ((!isVideoGenerated) && isFFMPEGAvailable())
+        {
+            cout << "About to create video. isVideoGenerated = " << isVideoGenerated << endl;
+            isVideoGenerated = true;
+            animationProcessor->deleteFrameAfterAnimation();
+            createVideoFile();
+        }
     }
 
     if (isSavingScreenshots)

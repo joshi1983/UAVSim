@@ -236,6 +236,8 @@
 		<Unit filename="models/animation/DefaultAnimation.hpp" />
 		<Unit filename="models/animation/StateSequenceAnimation.cpp" />
 		<Unit filename="models/animation/StateSequenceAnimation.hpp" />
+		<Unit filename="models/animation/ffmpeg.cpp" />
+		<Unit filename="models/animation/ffmpeg.hpp" />
 		<Unit filename="models/generators/MeshGenerator.hpp" />
 		<Unit filename="models/generators/Tree.cpp" />
 		<Unit filename="models/generators/Tree.hpp" />

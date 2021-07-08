@@ -1,0 +1,1 @@
+ffmpeg -framerate $$FPS$$  -i "$$FRAME_OUTPUT_DIRECTORY$$/frame_%%08d.png" -c:v libx264 -vf "fps=$$FPS$$,format=yuv420p" -r $$FPS$$ "$$VIDEO_FILE_NAME$$" -y

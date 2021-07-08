@@ -10,6 +10,7 @@ class AnimationProcessor
 		unsigned int frameIndex;
 		unsigned int blurFrameCount;
 		double getT() const;
+		static std::string getFileName(int frameIndex, int blurFrameCount);
 	public:
 		AnimationProcessor(Animation* animation, AnimationState & animationState);
 		void processNextFrame();
@@ -18,6 +19,10 @@ class AnimationProcessor
 		std::string getFileName() const;
 		unsigned int getFrameIndex() const;
 		bool isWithinAnimation() const;
+		void deleteFrameAfterAnimation() const;
+            // FIXME: delete next frame index if it exists so the mp4 doesn't show old frames
+            // that existed before the new frames were generated\.
+
 };
 
 #endif

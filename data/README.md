@@ -2,6 +2,22 @@
 The data directory contains the settings.json file for UAVSim.
 If you don't have a file named settings.json, copy and rename settings.json.example.
 
+
+## frameOutputDirectory
+Specify the directory to save images to.
+Note that any slashes should be in the / direction.
+JSON-parsing errors may happen if the slashes are in the other direction.
+
+## ffmpeg
+If you download ffmpeg and make it available from the PATH environment variable, UAVSim can use it to make an mp4 out of your animations every time the frames are made.
+
+### ffmpeg.fps
+This is the frames per second that you want for a generated mp4 file.
+Typical values would be 24, 30, or 60 but others should work.
+
+### ffmpeg.video_filename
+The video_filename is the name for your generated video.  The extension should be .mp4.
+
 ## httpServerPort
 
 Port number for the HTTP server that is used when you're not processing a CSV file.
@@ -17,11 +33,6 @@ These dimensions can't be larger than the screen resolution.
 Expected value is true or false.
 Specify true if you want ground to be rendered.
 false will hide the ground.
-
-## frameOutputDirectory
-Specify the directory to save images to.
-Note that any slashes should be in the / direction.
-JSON-parsing errors may happen if the slashes are in the other direction.
 
 ## csv
 The csv object should say everything about how a CSV file is processed.
@@ -53,6 +64,13 @@ Every column can be renamed "to" a new recognized name.
 				"to": "y",
 				"scale": -1
 			}
+
+## csv.isSavingFrames
+isSavingFrames indicates if you want to save animation frames created from a referenced CSV file.
+Set this to false if you just want to view the animation as quickly and smoothly as possible in UAV Simulator.
+Don't specify it or set it to true, if you want to make an animation.
+
+This defaults to true if you don't specify it properly.
 
 ## CSV columns
 The following columns are either supported or expected to become supported by UAVSim.

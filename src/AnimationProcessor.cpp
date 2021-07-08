@@ -42,8 +42,15 @@ AnimationProcessor::AnimationProcessor(Animation* animation,
         blurBetweenRows = a->GetBool();
     }
 }
+void AnimationProcessor::deleteFrameAfterAnimation() const
+{
+    double maxT = animation->getMaxT();
+    int maxFrameIndex = (int)(maxT + 0.01);
+    string filename = AnimationProcessor::getFileName(maxFrameIndex, 1);
+    remove(filename.c_str()); // if it doesn't exist, this will do nothing and that is ok.
+}
 
-string AnimationProcessor::getFileName() const
+std::string AnimationProcessor::getFileName(int frameIndex, int blurFrameCount)
 {
 	char filenameBuffer[256];
 	char filenameBuffer2[256];
@@ -54,6 +61,11 @@ string AnimationProcessor::getFileName() const
 
     sprintf(filenameBuffer2, "%s%s", outputPath.c_str(), filenameBuffer);
 	return getAbsolutePathForFilename(filenameBuffer2);
+}
+
+string AnimationProcessor::getFileName() const
+{
+    return getFileName(frameIndex, blurFrameCount);
 }
 
 string AnimationProcessor::getBlurGroupFileName() const
