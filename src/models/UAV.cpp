@@ -17,8 +17,8 @@ void UAV::draw(const AnimationState & animationState, double yOffset) const
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
 		glTranslated(0, animationState.cameraY + yOffset, animationState.cameraZ);
-        glRotated(-animationState.pitch, 0, 0, 1);
-        glRotated(-animationState.roll, 1, 0, 0);
+        glRotated(-animationState.roll, 0, 0, 1);
+        glRotated(-animationState.pitch, 1, 0, 0);
 		model.shapes[0].draw();
 		glPushMatrix();
             glTranslated(0, model.servoPivotY, 0);
