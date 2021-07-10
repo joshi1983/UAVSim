@@ -1,0 +1,32 @@
+
+nav ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+}
+
+nav ul li {
+	flex: 3;
+}
+
+nav a {
+	text-decoration: none;
+	color: #333;
+	font-weight: bold;
+}
+
+nav a:hover {
+	color: #000;
+	text-decoration: underline;
+}
+
+@media screen and (min-width: 720px) {
+	nav {
+		position: absolute;
+		width: 320px;
+		top: 0;
+		right: 0;
+		padding-top: 5px;
+	}
+}

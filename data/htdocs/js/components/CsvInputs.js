@@ -10,7 +10,9 @@ class CsvInputs extends React.Component {
   async componentDidMount() {
 	const response1 = await fetch('/api/csv-inputs');
 	const response = await response1.json();
-	this.setState({'supportedKeys': response.supportedKeys});
+	const supportedKeys = response.supportedKeys;
+	supportedKeys.sort((sk1, sk2) => { return sk1.name.localeCompare(sk2.name); });
+	this.setState({'supportedKeys': supportedKeys});
   }
 
   _animationStateUpdated() {
@@ -52,7 +54,8 @@ class CsvInputs extends React.Component {
 		var inputDivs = React.createElement('div', {
 				'key': 'csv-inputs-list'
 			}, this.state.supportedKeys.map(function(supportedKey, index) {
-			supportedKey = Object.assign({}, supportedKey); // avoid mutating state.
+			supportedKey = Object.assign({}, supportedKey); 
+			// shallow copy to avoid mutating state.
 			supportedKey.setAnimationStateKey = setAnimationStateKey;
 			supportedKey.key = 'csv-input-parent-' + index;
 			return React.createElement(CsvInput, supportedKey, null);

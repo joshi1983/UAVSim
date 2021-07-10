@@ -1,5 +1,7 @@
 @import url('style_header.css');
+@import url('style_nav.css');
 @import url('csv-inputs.css');
+@import url('devices.css');
 
 html, body {
 	padding: 0;
@@ -8,4 +10,8 @@ html, body {
 
 #root {
 	padding-top: 10px;
+}
+
+.active[aria-current="page"] {
+	text-decoration: underline;
 }
