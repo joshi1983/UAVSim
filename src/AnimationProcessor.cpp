@@ -9,39 +9,22 @@
 using namespace std;
 using namespace rapidjson;
 
-string outputPath = "outputs/frames/";
-bool blurBetweenRows = false;
+string outputPath;
+bool blurBetweenRows;
 
 AnimationProcessor::AnimationProcessor(Animation* animation,
 	AnimationState & animationState):
 	animation(animation), animationState(animationState), frameIndex(0)
 {
     UAVSimConfig& c = UAVSimConfig::config;
-    string path("/csv/blurFrameCount");
-    Value* a =  Pointer(path.c_str()).Get(c.doc);
-    if (a != nullptr)
-    {
-        blurFrameCount = a->GetUint();
-        cerr << "Loaded blurFrameCount of " << blurFrameCount << endl;
-    }
-    else
-        blurFrameCount = 1;
-    path = "/frameOutputDirectory";
-    a =  Pointer(path.c_str()).Get(c.doc);
-    if (a != nullptr)
-    {
-        outputPath = a->GetString();
-    }
+    blurFrameCount = c.getDefaultedInt("/csv/blurFrameCount", 1);
+    outputPath = c.getDefaultedString("/frameOutputDirectory", "outputs/frames/");
     if (outputPath[outputPath.length() - 1] != '/')
         outputPath += '/';
 
-    path = "/csv/blurBetweenRows";
-    a =  Pointer(path.c_str()).Get(c.doc);
-    if (a != nullptr)
-    {
-        blurBetweenRows = a->GetBool();
-    }
+    blurBetweenRows = c.getDefaultedBool("/csv/blurBetweenRows", false);
 }
+
 void AnimationProcessor::deleteFrameAfterAnimation() const
 {
     double maxT = animation->getMaxT();
