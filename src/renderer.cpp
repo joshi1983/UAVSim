@@ -75,8 +75,9 @@ void initRenderer(const char * programPath, int _windowid)
 
 void updateFrustrum(const AnimationState & animationState)
 {
-    double farZ = max(150.0, abs(animationState.cameraZ) + uav->model.getBoundingSphereRadius());
-    double nearZ = max(0.1, abs(animationState.cameraZ) - uav->model.getBoundingSphereRadius());
+    UAVModel* model = UAVModel::getInstance();
+    double farZ = max(150.0, abs(animationState.cameraZ) + model->getBoundingSphereRadius());
+    double nearZ = max(0.1, abs(animationState.cameraZ) - model->getBoundingSphereRadius());
     updateFrustrum(animationState, nearZ, farZ);
 }
 

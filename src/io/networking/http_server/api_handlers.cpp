@@ -10,6 +10,7 @@
 #include <sstream>
 #include "../../screenshots/screenshots.hpp"
 #include "../../JsonUtils.hpp"
+#include "../../model_exporters/UAVSimBinaryExporter.hpp"
 namespace beast = boost::beast; // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
 using namespace std;
@@ -100,7 +101,17 @@ string handleAPIPostRequest(const boost::beast::string_view &target, const boost
 
 bool isAPIBinaryGetTarget(const boost::beast::string_view &target)
 {
-    return target == "/api/screenshot";
+    return target == "/api/screenshot" || target == "/api/uav-model";
+}
+
+std::vector<unsigned char> getUAVModel(string & mime)
+{
+    mime = "application/octet-stream";
+    UAVSimBinaryExporter exporter;
+    vector<unsigned char> result;
+    exporter.write(UAVModel::getInstance(), result);
+
+    return result;
 }
 
 std::vector<unsigned char> getScreenshot(const boost::beast::string_view &target, string & mime)
@@ -117,6 +128,10 @@ std::vector<unsigned char> handleAPIGetBinaryRequest(const boost::beast::string_
     if (target == "/api/screenshot")
     {
         return getScreenshot(target, mime);
+    }
+    else if (target == "/api/uav-model")
+    {
+        return getUAVModel(mime);
     }
     std::vector<unsigned char> result;
 

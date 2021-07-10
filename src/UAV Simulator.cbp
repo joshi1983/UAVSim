@@ -104,6 +104,10 @@
 		<Unit filename="io/csv/CSVParser.hpp" />
 		<Unit filename="io/model_exporters/FileExporter.cpp" />
 		<Unit filename="io/model_exporters/FileExporter.hpp" />
+		<Unit filename="io/model_exporters/UAVModelExporter.cpp" />
+		<Unit filename="io/model_exporters/UAVModelExporter.hpp" />
+		<Unit filename="io/model_exporters/UAVSimBinaryExporter.cpp" />
+		<Unit filename="io/model_exporters/UAVSimBinaryExporter.hpp" />
 		<Unit filename="io/model_exporters/UAVSimBinaryFileExporter.cpp" />
 		<Unit filename="io/model_exporters/UAVSimBinaryFileExporter.hpp" />
 		<Unit filename="io/model_importers/CompositeFileImporter.cpp" />

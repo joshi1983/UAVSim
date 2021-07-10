@@ -2,6 +2,16 @@
 #include <sstream>
 using namespace std;
 
+Triangle::Triangle()
+{
+}
+
+Triangle::Triangle(const Triangle& triangle): vertices(triangle.vertices),
+    cachedNormal(triangle.cachedNormal)
+{
+
+}
+
 void Triangle::updateNormal()
 {
 	// perform cross product.

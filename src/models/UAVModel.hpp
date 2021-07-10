@@ -8,13 +8,16 @@ class UAVModel
     private:
         double boundingSphereRadius;
 		void updateSteeringPivot(UAVSimConfig& c);
+        UAVModel();
 		static void processTransformation(std::vector<Triangle>& triangles, UAVSimConfig& c);
+		static UAVModel* singleton;
     public:
         std::vector<ColouredTriangleSet> shapes;
         Vector3D steeringPivot;
         double servoPivotY;
-        UAVModel();
 		double getBoundingSphereRadius() const;
+        void getTriangles(std::vector<Triangle>& result) const;
+		static UAVModel* getInstance();
 };
 
 #endif

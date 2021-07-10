@@ -7,6 +7,8 @@
 class Triangle
 {
 	public:
+	    Triangle();
+	    Triangle(const Triangle& triangle);
 		Vertex vertices[3];
 		Vector3D cachedNormal;
 		void updateNormal();

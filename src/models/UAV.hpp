@@ -6,7 +6,6 @@
 class UAV
 {
     public:
-        UAVModel model;
 		void draw(const AnimationState & state, double yOffset) const;
 };
 

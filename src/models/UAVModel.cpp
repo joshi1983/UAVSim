@@ -9,6 +9,8 @@
 #include <iostream>
 using namespace std;
 
+UAVModel* UAVModel::singleton = nullptr;
+
 double getBoundingRadius(const vector<Triangle>& triangles)
 {
     double m = 0;
@@ -107,6 +109,7 @@ bool loadTrianglesFromModel(UAVSimConfig& c, vector<Triangle>& triangles)
 
 UAVModel::UAVModel()
 {
+    UAVModel::singleton = this;
     UAVSimConfig c;
     c.load(UAVSimConfig::config.getDefaultedString("/uav", "uav.json"));
     vector<Triangle> triangles;
@@ -161,7 +164,27 @@ UAVModel::UAVModel()
 	}
 }
 
+UAVModel* UAVModel::getInstance()
+{
+    if (UAVModel::singleton == nullptr)
+        UAVModel::singleton = new UAVModel();
+
+    return UAVModel::singleton;
+}
+
 double UAVModel::getBoundingSphereRadius() const
 {
     return boundingSphereRadius;
+}
+
+void UAVModel::getTriangles(std::vector<Triangle>& result) const
+{
+    // loop through shapes.
+    for (const ColouredTriangleSet& tset: shapes)
+    {
+        for (const Triangle& triangle: tset.triangles)
+        {
+            result.push_back(triangle);
+        }
+    }
 }
