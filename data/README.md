@@ -66,17 +66,27 @@ The second UAV propeller blade angle in degrees.
 ### x
 x-coordinate of the UAV in relation to the initial position on the ground
 
+The unit is meters.
+
 ### y
 y-coordinate/elevation of UAV above the initial position on the ground
+
+The unit is meters.
 
 ### z
 z-coordinate of UAV in relation to initial position on the ground.
 
+The unit is meters.
+
 ### camera-y
-Vertical position of camera in relation to UAV
+Vertical position of camera in relation to UAV.
+
+The unit is meters.
 
 ### camera-z
 Distance of camera to UAV
+
+The unit is meters.
 
 ### camera-pitch
 Vertical(up/down) angle of the camera in degrees.
