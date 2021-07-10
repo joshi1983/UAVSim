@@ -37,7 +37,6 @@ void Ground::draw(int windowid, const AnimationState & animationState, double yO
     glDisable(GL_COLOR_MATERIAL);
     glDisable(GL_LIGHTING);
     glEnable( GL_TEXTURE_2D );
-    glDisable(GL_DEPTH_TEST);
 
     glColor3d(1, 1, 1);
     glPushMatrix();
@@ -63,6 +62,9 @@ void Ground::draw(int windowid, const AnimationState & animationState, double yO
 
         double top1 = top - height - beachWidth;
         glBindTexture( GL_TEXTURE_2D, water->getOpenGLTextureName(windowid));
+        double waterAnimationOffset = cos(animationState.waterAnimationT);
+        double waveHeight = (waterAnimationOffset + 1) * 0.05;
+        double waveWidth = waveHeight * beachWidth / beachHeight;
         glPushMatrix();
             glTranslated(0, -beachHeight, 0);
             glBegin(GL_QUADS);
@@ -71,9 +73,9 @@ void Ground::draw(int windowid, const AnimationState & animationState, double yO
                 glTexCoord2d(textureScale,0);
                 glVertex3d(left, 0, top1);
                 glTexCoord2d(textureScale,textureScale);
-                glVertex3d(left, 0, -beachWidth);
+                glVertex3d(left, waveHeight, -beachWidth + waveWidth);
                 glTexCoord2d(0,textureScale);
-                glVertex3d(left+width, 0, -beachWidth);
+                glVertex3d(left+width, waveHeight, -beachWidth + waveWidth);
             glEnd();
         glPopMatrix();
 
@@ -89,7 +91,6 @@ void Ground::draw(int windowid, const AnimationState & animationState, double yO
 
     glPopMatrix();
 
-    glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHT0);
     glEnable(GL_NORMALIZE);
     glEnable(GL_COLOR_MATERIAL);

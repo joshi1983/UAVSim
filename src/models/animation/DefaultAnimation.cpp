@@ -32,6 +32,7 @@ void DefaultAnimation::getState(double t, AnimationState &state) const
         newState.steerAngle1 = 15 * sin(t);
         newState.steerAngle2 = 15 * sin(t * 0.5);
         newState.cameraZ = -3;
+        newState.waterAnimationT = t;
 
         state = newState;
     }

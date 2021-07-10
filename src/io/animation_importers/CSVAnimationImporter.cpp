@@ -24,6 +24,12 @@ StateSequenceAnimation* CSVAnimationImporter::loadFrom(const string & filename) 
 	vector<string> headers;
 	vector<AnimationState> states;
 	map<unsigned int, double> scaleFactors;
+	UAVSimConfig &config = UAVSimConfig::config;
+	double fps = config.getDefaultedDouble("/ffmpeg/fps", 30);
+	int csvRowsPerFrame = config.getDefaultedDouble("/csv/blurFrameCount", 1);
+	if (config.getDefaultedBool("/csv/blurBetweenRows", true))
+        csvRowsPerFrame = 1;
+
 	if (values.size() > 0) {
         const vector<string>& firstLine = values[0];
         UAVSimConfig& c = UAVSimConfig::config;
@@ -41,6 +47,7 @@ StateSequenceAnimation* CSVAnimationImporter::loadFrom(const string & filename) 
     for (unsigned int i = 1; i < values.size(); i++)
     {
         AnimationState state;
+        state.updateForT(i / fps / csvRowsPerFrame);
 		for (unsigned int j = 0; j < headers.size() && j < values[i].size(); j++)
         {
             string key = headers[j];

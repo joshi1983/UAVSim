@@ -21,6 +21,7 @@ class AnimationState
 		static AnimationState blend(const AnimationState& state1, const AnimationState& state2, double ratio);
 		void setValue(const std::string& name, const std::string& value);
 		void setValue(const std::string& name, const double value);
+		void updateForT(double t);
 		double get(const std::string& name);
 		static std::string sanitizeName(const std::string& name);
 		static std::vector<AnimateStateKey> getSupportedNames();
@@ -31,6 +32,7 @@ class AnimationState
 		double cameraY, cameraZ;
 		double cameraPitch;
 		double cameraScale;
+		double waterAnimationT;
 };
 
 #endif

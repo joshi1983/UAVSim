@@ -16,7 +16,7 @@ double blendVal(double val1, double val2, double ratio)
 
 AnimationState::AnimationState(): blade1Angle(0), blade2Angle(0),
 	pitch(0), yaw(0), roll(0), x(0), y(0), z(0), steerAngle1(0), steerAngle2(0),
-	cameraY(0), cameraZ(-3), cameraPitch(0), cameraScale(1)
+	cameraY(0), cameraZ(-3), cameraPitch(0), cameraScale(1), waterAnimationT(0)
 {
 
 }
@@ -38,7 +38,13 @@ AnimationState AnimationState::blend(const AnimationState& state1, const Animati
     result.cameraZ = blendVal(state1.cameraZ, state2.cameraZ, ratio);
     result.cameraPitch = blendVal(state1.cameraPitch, state2.cameraPitch, ratio);
     result.cameraScale = blendVal(state1.cameraScale, state2.cameraScale, ratio);
+    result.waterAnimationT = blendVal(state1.waterAnimationT, state2.waterAnimationT, ratio);
     return result;
+}
+
+void AnimationState::updateForT(double t)
+{
+    waterAnimationT = t;
 }
 
 double AnimationState::get(const std::string& name)
@@ -81,6 +87,8 @@ double* AnimationState::getValuePointer(const std::string& name)
         }
         else if (name == "roll")
             return &roll;
+        else if (name == "water-animation-t")
+            return &waterAnimationT;
         else if (name == "x")
             return &x;
         else if (name == "y")
@@ -120,6 +128,7 @@ vector<AnimateStateKey> AnimationState::getSupportedNames()
     "camera-scale", "camera-pitch",
     "pitch", "roll",
     "steer-angle-1", "steer-angle-2",
+    "water-animation-t",
     "x", "y", "yaw", "z"
     };
     vector<AnimateStateKey> result;
@@ -182,6 +191,8 @@ string AnimationState::sanitizeName(const string& name)
         result = "steer-angle-1";
     else if (result == "steerangle2")
         result = "steer-angle-2";
+    else if (result == "wateranimationt")
+        result = "water-animation-t";
 
     return result;
 }
