@@ -24,6 +24,7 @@
 #include "io/config/Config.hpp"
 #include "io/networking/HTTPServer.hpp"
 #include "models/animation/ffmpeg.hpp"
+#include "io/networking/browserLauncher.hpp"
 using namespace std;
 
 UAV * uav = nullptr;
@@ -62,6 +63,8 @@ void initRenderer(const char * programPath, int _windowid)
         animation = new DefaultAnimation();
         DefaultAnimation* defaultAnimation = dynamic_cast<DefaultAnimation*>(animation);
         startHttpServer(getAbsolutePathForFilename("data/htdocs"), *defaultAnimation);
+        if (UAVSimConfig::config.getDefaultedBool("/httpServer/launchBrowser", true))
+            launchRelativeDocument("/");
     }
 
     windowid = _windowid;

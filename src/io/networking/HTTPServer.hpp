@@ -4,5 +4,6 @@
 #include "../../models/animation/DefaultAnimation.hpp"
 
 void startHttpServer(std::string docRoot, DefaultAnimation & animation);
+unsigned short getHttpServerPort();
 
 #endif

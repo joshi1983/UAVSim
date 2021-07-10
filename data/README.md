@@ -1,7 +1,8 @@
-# Settings Directory
-The data directory contains the settings.json file for UAVSim.
-If you don't have a file named settings.json, copy and rename settings.json.example.
+# data Directory
 
+The data directory contains the settings.json file for UAVSim.
+
+If you don't have a file named settings.json, copy and rename settings.json.example.
 
 ## frameOutputDirectory
 Specify the directory to save images to.
@@ -18,11 +19,19 @@ Typical values would be 24, 30, or 60 but others should work.
 ### ffmpeg.video_filename
 The video_filename is the name for your generated video.  The extension should be .mp4.
 
-## httpServerPort
+## httpServer
+httpServer configures settings for UAVSim's HTTP Server.
+
+### httpServer.port
 
 Port number for the HTTP server that is used when you're not processing a CSV file.
 
 This server is available for interacting with test code.
+
+### httpServer.launchBrowser
+Determines if a web browser should be opened if/when the HTTP Server starts.
+
+launchBrowser defaults to true.
 
 ## resolution
 

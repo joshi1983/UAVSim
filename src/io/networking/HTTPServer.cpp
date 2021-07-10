@@ -52,9 +52,13 @@ void runServer(unsigned short port, std::string docPath)
     ioc.run();
 }
 
+unsigned short getHttpServerPort()
+{
+	return UAVSimConfig::config.getDefaultedInt("/httpServer/port", 8080);
+}
+
 void startHttpServer(std::string docPath, DefaultAnimation & animation)
 {
-    unsigned short port = UAVSimConfig::config.getDefaultedInt("/httpServerPort", 8080);
     // call runHttpServer in a separate thread.
-    new std::thread(&runServer, port, docPath);
+    new std::thread(&runServer, getHttpServerPort(), docPath);
 }
