@@ -16,4 +16,7 @@ This project was developed and tested in Windows 10 Home using Code::Blocks 17.2
 
 ## Folder Structure
 - src contains all c and c++ source files.
-- data/models contains all VRML and X3D files used by the simulator.
+- data/models contains all 3D model files used by the simulator.
+- data/htdocs contains static files for a web application hosted by UAVSim.
+- outputs/frames is a default location for outputted animation frames.
+- client/python contains Python scripts that mock Python scripts that could talk to real sensors and actuators physically connected to a Raspberry PI.
