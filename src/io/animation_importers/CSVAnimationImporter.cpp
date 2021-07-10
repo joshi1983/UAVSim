@@ -26,18 +26,15 @@ StateSequenceAnimation* CSVAnimationImporter::loadFrom(const string & filename) 
 	map<unsigned int, double> scaleFactors;
 	if (values.size() > 0) {
         const vector<string>& firstLine = values[0];
+        UAVSimConfig& c = UAVSimConfig::config;
 		for (unsigned int i = 0; i < firstLine.size(); i++)
 		{
-            string key = firstLine[i];
-            UAVSimConfig& c = UAVSimConfig::config;
-            string path = string("/csv/columns/") + key + "/to";
-            Value* a =  Pointer(path.c_str()).Get(c.doc);
-            if (a != nullptr)
-                key = a->GetString();
-            path = string("/csv/columns/") + key + "/scale";
-            a = Pointer(path.c_str()).Get(c.doc);
-            if (a != nullptr)
-                scaleFactors[i] = a->GetDouble();
+            string path = string("/csv/columns/") + firstLine[i] + "/to";
+            string key = c.getDefaultedString(path, firstLine[i]);
+            path = string("/csv/columns/") + firstLine[i] + "/scale";
+            if (scaleFactors.count(i) == 0)
+                scaleFactors[i] = 1; // default to 1.
+            scaleFactors[i] = c.getDefaultedDouble(path, scaleFactors[i]);
             headers.push_back(AnimationState::sanitizeName(key));
 		}
 	}

@@ -2,6 +2,7 @@
 #include "TriangleFiltersTest.hpp"
 #include "TriangleFilterFactoryTest.hpp"
 #include "Vector3DTest.hpp"
+#include "AnimationStateTest.hpp"
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -12,7 +13,8 @@ void runAllUnitTests()
 	vector<UnitTest> unitTests({
 		TriangleFiltersTest(),
         TriangleFilterFactoryTest(),
-		Vector3DTest()
+		Vector3DTest(),
+		AnimationStateTest()
 	});
     for (UnitTest & test: unitTests)
     {
