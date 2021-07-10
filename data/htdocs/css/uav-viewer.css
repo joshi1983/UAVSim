@@ -1,0 +1,15 @@
+.uav-viewer-statistics > div {
+	display: flex;
+	width: 100%;
+	border-bottom: 1px solid #eee;
+}
+
+.uav-viewer-statistics > div:hover {
+	border-bottom-color: #ddd;
+}
+
+.uav-viewer-statistics label {
+	font-weight: bold;
+	width: 120px;
+	flex-shrink: 0;
+}

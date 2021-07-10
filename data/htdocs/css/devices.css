@@ -7,6 +7,12 @@
 	margin-top: 0;
 }
 
+.devices .device-image {
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center center;
+}
+
 .device-headings {
 	font-weight: bold;
 }
@@ -18,7 +24,9 @@
 }
 
 .devices-container > div > div {
-	flex: 1;
+	flex: 3;
+	flex-grow: 1;
+	flex-shrink: 0;
 }
 
 .devices-container > div:hover {

@@ -9,7 +9,7 @@ class Devices extends React.Component {
 		const response = await response1.json();
 		this.setState({'devices': response});
 	}
-  
+
 	render() {
 		const h2 = React.createElement('h2', {'key': 'devices-h2'}, 'Devices');
 		if (this.state.devices === undefined) {
@@ -20,7 +20,7 @@ class Devices extends React.Component {
 			}, [h2, loadingMessage]);
 		}
 		else {
-			const headingChildren = ['Name', 'Type', 'Position'].map(function(innerText) {
+			const headingChildren = ['Name', 'Type', 'Position', 'Image', 'Specs'].map(function(innerText) {
 				return React.createElement('div', {
 					'key': 'device-heading-' + innerText
 				}, innerText);
@@ -30,13 +30,11 @@ class Devices extends React.Component {
 				'className': 'device-headings'
 			}, headingChildren);
 			const devicesE = this.state.devices.map(function(device, index) {
-				const name = React.createElement('div', {'key': 'device-name-' + index}, device.name);
-				const type = React.createElement('div', {'key': 'device-type-' + index}, device.type);
-				const positionText = ['x', 'y', 'z'].map(function(key) {
-					return device.position[key];
-				}).join(',');
-				const position = React.createElement('div', {'key': 'device-position-' + index}, positionText);
-				return React.createElement('div', {'key': 'device-' + index}, [name, type, position]);
+				return React.createElement(DeviceRow, {
+					'key': 'device-' + index,
+					'index': index,
+					'device': device
+				}, null);
 			});
 			devicesE.unshift(headings);
 			const container = React.createElement('div', {'key': 'devices-container', 'className': 'devices-container'}, devicesE);

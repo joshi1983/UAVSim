@@ -2,6 +2,7 @@
 @import url('style_nav.css');
 @import url('csv-inputs.css');
 @import url('devices.css');
+@import url('uav-viewer.css');
 
 html, body {
 	padding: 0;
