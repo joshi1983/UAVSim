@@ -16,7 +16,7 @@ double blendVal(double val1, double val2, double ratio)
 
 AnimationState::AnimationState(): blade1Angle(0), blade2Angle(0),
 	pitch(0), yaw(0), roll(0), x(0), y(0), z(0), steerAngle1(0), steerAngle2(0),
-	cameraY(0), cameraZ(-3), cameraPitch(0), cameraScale(1), waterAnimationT(0)
+	cameraY(0), cameraZ(-0.3), cameraPitch(0), cameraScale(1), waterAnimationT(0)
 {
 
 }
@@ -138,8 +138,8 @@ vector<AnimateStateKey> AnimationState::getSupportedNames()
         double rMin = 0;
         if (name == "camera-z" || name == "camera-y")
         {
-            rMin = -5;
-            rMax = 5;
+            rMin = -1;
+            rMax = 1;
         }
         else if (name == "y")
         {
@@ -174,7 +174,6 @@ string AnimationState::sanitizeName(const string& name)
     transform(result.begin(), result.end(),result.begin(), ::tolower);
     // remove any non-letter.
     result.erase(remove_if(result.begin(), result.end(), [](char c) { return !isalnum(c); } ), result.end());
-
     if (result == "blade1angle")
         result = "blade-1-angle";
     else if (result == "blade2angle")

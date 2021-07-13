@@ -60,7 +60,7 @@ void UAVModel::updateSteeringPivot(UAVSimConfig& c)
 
 void UAVModel::processTransformation(vector<Triangle>& triangles, UAVSimConfig& c)
 {
-    double scale = c.getDefaultedDouble("/scale", 10);
+    double scale = c.getDefaultedDouble("/scale", 1);
     double tx = c.getDefaultedDouble("/translate/x", 0);
     double ty = c.getDefaultedDouble("/translate/y", 0);
     double tz = c.getDefaultedDouble("/translate/z", 0);

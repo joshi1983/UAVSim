@@ -30,7 +30,7 @@ using namespace std;
 UAV * uav = nullptr;
 int windowid;
 int renderCallCount = 0;
-double yOffset = -1.1;
+double yOffset = -0.11;
 bool isShowingGround = true;
 bool isShowingSky = true;
 Sky *sky;
@@ -80,7 +80,7 @@ void updateFrustrum(const AnimationState & animationState)
 {
     UAVModel* model = UAVModel::getInstance();
     double farZ = max(150.0, abs(animationState.cameraZ) + model->getBoundingSphereRadius());
-    double nearZ = max(0.1, abs(animationState.cameraZ) - model->getBoundingSphereRadius());
+    double nearZ = max(0.02, abs(animationState.cameraZ) - model->getBoundingSphereRadius());
     updateFrustrum(animationState, nearZ, farZ);
 }
 

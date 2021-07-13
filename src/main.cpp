@@ -54,7 +54,7 @@ static void mousePressOrUp(int button, int state,
 
 static void mouseMoved(int x, int y)
 {
-    verticalShift((y - lastY) * 0.01);
+    verticalShift((y - lastY) * 0.001);
     lastY = y;
 }
 

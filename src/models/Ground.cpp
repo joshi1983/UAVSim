@@ -48,7 +48,7 @@ void Ground::draw(int windowid, const AnimationState & animationState, double yO
         glTranslated(animationState.x, (yOffset - animationState.y) + animationState.cameraY, animationState.z);
 
         glBindTexture( GL_TEXTURE_2D, grass->getOpenGLTextureName(windowid));
-        double textureScale = 15.0;
+        double textureScale = 50.0;
         glBegin(GL_QUADS);
             glTexCoord2d(0,0);
             glVertex3d(left+width, 0, top);
