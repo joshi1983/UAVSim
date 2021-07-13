@@ -2,12 +2,9 @@
 nav ul {
 	list-style-type: none;
 	margin: 0;
-	padding: 0;
+	padding: 0 5px;
 	display: flex;
-}
-
-nav ul li {
-	flex: 3;
+	justify-content: space-between;
 }
 
 nav a {
@@ -21,7 +18,7 @@ nav a:hover {
 	text-decoration: underline;
 }
 
-@media screen and (min-width: 720px) {
+@media screen and (min-width: 760px) {
 	nav {
 		position: absolute;
 		width: 320px;

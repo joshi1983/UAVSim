@@ -1,8 +1,8 @@
 class UAVViewerStatistics extends React.Component {
 
-	_getMax(coordinateIndex) {
+	static getMax(triangles, coordinateIndex) {
 		var result = Number.NEGATIVE_INFINITY;
-		this.props.triangles.forEach(function(triangle) {
+		triangles.forEach(function(triangle) {
 			result = Math.max(result, 
 				Math.max(...triangle.map(v => { return v[coordinateIndex]}))
 			);
@@ -10,9 +10,9 @@ class UAVViewerStatistics extends React.Component {
 		return result;
 	}
 
-	_getMin(coordinateIndex) {
+	static getMin(triangles, coordinateIndex) {
 		var result = Number.POSITIVE_INFINITY;
-		this.props.triangles.forEach(function(triangle) {
+		triangles.forEach(function(triangle) {
 			result = Math.min(result, 
 				Math.min(...triangle.map(v => { return v[coordinateIndex]}))
 			);
@@ -26,14 +26,14 @@ class UAVViewerStatistics extends React.Component {
 		const outer = this;
 		const range = {};
 		['x', 'y', 'z'].forEach(function(coordinateKey, coordinateIndex) {
-			var value = outer._getMin(coordinateIndex);
+			var value = UAVViewerStatistics.getMin(outer.props.triangles, coordinateIndex);
 			statisticsChildren.push(React.createElement(UAVStatisticsRow, {
 				'key': 'min-' + coordinateKey, 
 				'labelText': 'Min-' + coordinateKey.toUpperCase(),
 				'valueText': value.toFixed(fixedPrecision)
 			}, null));
 			range['min' + coordinateKey] = value;
-			value = outer._getMax(coordinateIndex);
+			value = UAVViewerStatistics.getMax(outer.props.triangles, coordinateIndex);
 			statisticsChildren.push(React.createElement(UAVStatisticsRow, {
 				'key': 'max-' + coordinateKey, 
 				'labelText': 'Max-' + coordinateKey.toUpperCase(),

@@ -3,6 +3,7 @@
 @import url('csv-inputs.css');
 @import url('devices.css');
 @import url('uav-viewer.css');
+@import url('numeric-value-selector.css');
 
 html, body {
 	padding: 0;

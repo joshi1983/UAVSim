@@ -24,6 +24,7 @@
 }
 
 .devices-container > div > div {
+	padding-left: 5px;
 	flex: 3;
 	flex-grow: 1;
 	flex-shrink: 0;

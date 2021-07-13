@@ -36,3 +36,25 @@
 .csv-inputs > div > div > input {
 	flex-grow: 1;
 }
+
+.csv-inputs .numeric-value-selector {
+	min-width: 70px;
+}
+
+@media screen and (max-width: 500px) {
+	.csv-inputs > div > div,
+	.csv-inputs > div > div > label {
+		display: block;
+	}
+	.csv-inputs > div > div > input,
+	.csv-inputs > div > div > label {
+		width: 100%;
+	}
+	.csv-inputs > div > div > label {
+		text-align: center;
+	}
+	.csv-inputs > div > div {
+		padding-bottom: 5px;
+		border-bottom-color: #ccc;
+	}
+}
