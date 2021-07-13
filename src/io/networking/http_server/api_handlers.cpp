@@ -1,5 +1,6 @@
 #include "api_handlers.hpp"
 #include "device_api_handlers.hpp"
+#include "physics_api_handlers.hpp"
 #include "../../../models/animation/AnimationState.hpp"
 #include "../../../models/animation/DefaultAnimation.hpp"
 #include "../../../lib/rapidjson/document.h"
@@ -52,6 +53,8 @@ string handleAPIGetRequest(const boost::beast::string_view &target)
         return getAnimationStateKeys();
     else if (target == "/api/devices")
         return getDevicesJSON();
+	else if (target == "/api/physics")
+		return getAllPhysicsData();
 
     return string("{\"message\": \"The specified API request path is not supported\"}");
 }
@@ -80,9 +83,9 @@ string setAnimationStateKeys(rapidjson::Document &doc)
 
 string handleAPIPostRequest(const boost::beast::string_view &target, const boost::beast::string_view &body)
 {
-    if (target == "/api/csv-inputs")
+    rapidjson::Document doc;
+    if (target == "/api/csv-inputs" || target == "/api/physics" || target == "/api/physics/time")
     {
-        rapidjson::Document doc;
         doc.Parse<0>(std::string(body).data());
         if (doc.HasParseError())
         {
@@ -94,7 +97,18 @@ string handleAPIPostRequest(const boost::beast::string_view &target, const boost
             // FIXME: convert msgs to JSON.
             return msg;
         }
+    }
+    if (target == "/api/csv-inputs")
+    {
         return setAnimationStateKeys(doc);
+    }
+    else if (target == "/api/physics")
+    {
+        return handleAPIPostPhysicsRequest(doc);
+    }
+    else if (target == "/api/physics/time")
+    {
+        return handleAPIPostPhysicsTimeChangeRequest(doc);
     }
     return string("{}");
 }

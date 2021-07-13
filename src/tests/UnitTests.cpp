@@ -3,6 +3,10 @@
 #include "TriangleFilterFactoryTest.hpp"
 #include "Vector3DTest.hpp"
 #include "AnimationStateTest.hpp"
+#include "physics/PropellerMotorPhysicalStateTest.hpp"
+#include "physics/UAVPhysicalStateTest.hpp"
+#include "physics/JSONPhysicalStateLoaderTest.hpp"
+#include "devices/PropellerMotorTest.hpp"
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -14,7 +18,11 @@ void runAllUnitTests()
 		TriangleFiltersTest(),
         TriangleFilterFactoryTest(),
 		Vector3DTest(),
-		AnimationStateTest()
+		AnimationStateTest(),
+        PropellerMotorTest(),
+		PropellerMotorPhysicalStateTest(),
+		UAVPhysicalStateTest(),
+		JSONPhysicalStateLoaderTest()
 	});
     for (UnitTest & test: unitTests)
     {

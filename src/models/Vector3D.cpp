@@ -20,7 +20,7 @@ Vector3D Vector3D::operator-(const Vector3D& other) const
 	return Vector3D(x - other.x, y - other.y, z - other.z);
 }
 
-Vector3D Vector3D::operator=(const Vector3D& other)
+Vector3D& Vector3D::operator=(const Vector3D& other)
 {
     x = other.x;
     y = other.y;
@@ -78,4 +78,23 @@ Vector3D Vector3D::cross(const Vector3D & other) const
 	return Vector3D(y * other.z - z * other.y,
 		-(x * other.z - z * other.x),
 		x * other.y - y * other.x);
+}
+
+Vector3D Vector3D::operator+(const Vector3D& other) const
+{
+    return Vector3D(x + other.x, y + other.y, z + other.z);
+}
+
+Vector3D Vector3D::operator/(double scale) const
+{
+    scale = 1.0 / scale; // since multiplication is faster than division.
+    return Vector3D(x * scale, y * scale, z * scale);
+}
+
+Vector3D& Vector3D::operator+=(const Vector3D& other)
+{
+    x += other.x;
+    y += other.y;
+    z += other.z;
+    return *this;
 }

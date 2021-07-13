@@ -3,6 +3,7 @@
 #include "../io/model_importers/CompositeFileImporter.hpp"
 #include "../io/model_exporters/UAVSimBinaryFileExporter.hpp"
 #include "../io/config/Config.hpp"
+#include "../physics/jsonPhysicalStateLoader.hpp"
 #include "triangle_filters/TriangleFilterFactory.hpp"
 #include "GroupNode.hpp"
 #include <string>
@@ -112,6 +113,7 @@ UAVModel::UAVModel()
     UAVModel::singleton = this;
     UAVSimConfig c;
     c.load(UAVSimConfig::config.getDefaultedString("/uav", "uav.json"));
+    loadPhysicalStateFromJSON(c);
     vector<Triangle> triangles;
     if (loadTrianglesFromModel(c, triangles))
     {

@@ -71,14 +71,16 @@
 			<Add library="gdi32" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
-		<Unit filename="AnimationProcessor.cpp" />
-		<Unit filename="AnimationProcessor.hpp" />
 		<Unit filename="deployment/deploymentHelper.cpp" />
 		<Unit filename="deployment/deploymentHelper.hpp" />
+		<Unit filename="devices/Battery.cpp" />
+		<Unit filename="devices/Battery.hpp" />
 		<Unit filename="devices/Camera.cpp" />
 		<Unit filename="devices/Camera.hpp" />
 		<Unit filename="devices/Device.cpp" />
 		<Unit filename="devices/Device.hpp" />
+		<Unit filename="devices/DeviceJsonSerializer.cpp" />
+		<Unit filename="devices/DeviceJsonSerializer.hpp" />
 		<Unit filename="devices/Devices.cpp" />
 		<Unit filename="devices/Devices.hpp" />
 		<Unit filename="devices/IMUSensor.cpp" />
@@ -153,6 +155,8 @@
 		<Unit filename="io/networking/http_server/mime_types.hpp" />
 		<Unit filename="io/networking/http_server/path_cat.cpp" />
 		<Unit filename="io/networking/http_server/path_cat.hpp" />
+		<Unit filename="io/networking/http_server/physics_api_handlers.cpp" />
+		<Unit filename="io/networking/http_server/physics_api_handlers.hpp" />
 		<Unit filename="io/networking/http_server/session.cpp" />
 		<Unit filename="io/networking/http_server/session.hpp" />
 		<Unit filename="io/screenshots/bitmapBlender.cpp" />
@@ -236,8 +240,12 @@
 		<Unit filename="models/Vertex.cpp" />
 		<Unit filename="models/Vertex.hpp" />
 		<Unit filename="models/animation/Animation.hpp" />
+		<Unit filename="models/animation/AnimationProcessor.cpp" />
+		<Unit filename="models/animation/AnimationProcessor.hpp" />
 		<Unit filename="models/animation/AnimationState.cpp" />
 		<Unit filename="models/animation/AnimationState.hpp" />
+		<Unit filename="models/animation/AnimationStateKey.cpp" />
+		<Unit filename="models/animation/AnimationStateKey.hpp" />
 		<Unit filename="models/animation/DefaultAnimation.cpp" />
 		<Unit filename="models/animation/DefaultAnimation.hpp" />
 		<Unit filename="models/animation/StateSequenceAnimation.cpp" />
@@ -263,8 +271,16 @@
 		<Unit filename="models/triangle_filters/UnionVertexFilter.hpp" />
 		<Unit filename="models/triangle_filters/VertexFilter.cpp" />
 		<Unit filename="models/triangle_filters/VertexFilter.hpp" />
+		<Unit filename="physics/PropellerMotorPhysicalState.cpp" />
+		<Unit filename="physics/PropellerMotorPhysicalState.hpp" />
+		<Unit filename="physics/UAVPhysicalState.cpp" />
+		<Unit filename="physics/UAVPhysicalState.hpp" />
+		<Unit filename="physics/jsonPhysicalStateLoader.cpp" />
+		<Unit filename="physics/jsonPhysicalStateLoader.hpp" />
 		<Unit filename="renderer.cpp" />
 		<Unit filename="renderer.hpp" />
+		<Unit filename="tests/AnimationStateTest.cpp" />
+		<Unit filename="tests/AnimationStateTest.hpp" />
 		<Unit filename="tests/TriangleFilterFactoryTest.cpp" />
 		<Unit filename="tests/TriangleFilterFactoryTest.hpp" />
 		<Unit filename="tests/TriangleFiltersTest.cpp" />
@@ -275,6 +291,14 @@
 		<Unit filename="tests/UnitTests.hpp" />
 		<Unit filename="tests/Vector3DTest.cpp" />
 		<Unit filename="tests/Vector3DTest.hpp" />
+		<Unit filename="tests/devices/PropellerMotorTest.cpp" />
+		<Unit filename="tests/devices/PropellerMotorTest.hpp" />
+		<Unit filename="tests/physics/JSONPhysicalStateLoaderTest.cpp" />
+		<Unit filename="tests/physics/JSONPhysicalStateLoaderTest.hpp" />
+		<Unit filename="tests/physics/PropellerMotorPhysicalStateTest.cpp" />
+		<Unit filename="tests/physics/PropellerMotorPhysicalStateTest.hpp" />
+		<Unit filename="tests/physics/UAVPhysicalStateTest.cpp" />
+		<Unit filename="tests/physics/UAVPhysicalStateTest.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

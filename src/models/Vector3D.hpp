@@ -11,8 +11,11 @@ class Vector3D
 		Vector3D(double x, double y, double z);
 		Vector3D(const Vector3D & other);
 		Vector3D operator-(const Vector3D& other) const;
+		Vector3D operator+(const Vector3D& other) const;
 		Vector3D operator*(double scale) const;
-		Vector3D operator=(const Vector3D& other);
+		Vector3D operator/(double scale) const;
+		Vector3D& operator=(const Vector3D& other);
+		Vector3D& operator+=(const Vector3D& other);
 		double dot(const Vector3D& other) const;
 		double magnitude() const;
 		void normalize();
