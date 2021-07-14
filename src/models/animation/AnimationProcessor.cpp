@@ -1,8 +1,8 @@
 #include "AnimationProcessor.hpp"
-#include "io/screenshots/screenshots.hpp"
-#include "io/config/Config.hpp"
-#include "lib/rapidjson/pointer.h"
-#include "io/Files.hpp"
+#include "../../io/screenshots/screenshots.hpp"
+#include "../../io/config/Config.hpp"
+#include "../../lib/rapidjson/pointer.h"
+#include "../../io/Files.hpp"
 #include <cstdio>
 #include <string>
 #include <iostream>

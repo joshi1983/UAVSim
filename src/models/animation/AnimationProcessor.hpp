@@ -1,6 +1,6 @@
 #ifndef ANIMATION_PROCESSOR_HEADER_INCLUDED
 #define ANIMATION_PROCESSOR_HEADER_INCLUDED
-#include "models/animation/Animation.hpp"
+#include "Animation.hpp"
 
 class AnimationProcessor
 {

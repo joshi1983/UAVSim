@@ -19,7 +19,7 @@
 #include "models/animation/DefaultAnimation.hpp"
 #include "io/animation_importers/CSVAnimationImporter.hpp"
 #include "io/screenshots/screenshots.hpp"
-#include "AnimationProcessor.hpp"
+#include "models/animation/AnimationProcessor.hpp"
 #include "models/UAV.hpp"
 #include "io/config/Config.hpp"
 #include "io/networking/HTTPServer.hpp"

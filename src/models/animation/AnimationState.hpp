@@ -2,15 +2,7 @@
 #define ANIMATION_STATE_HEADER_INCLUDED
 #include <string>
 #include <vector>
-
-class AnimateStateKey
-{
-    public:
-        AnimateStateKey(const std::string&, double, double);
-        std::string name;
-        double rangeMin;
-        double rangeMax;
-};
+#include "AnimationStateKey.hpp"
 
 class AnimationState
 {
@@ -25,6 +17,7 @@ class AnimationState
 		double get(const std::string& name);
 		static std::string sanitizeName(const std::string& name);
 		static std::vector<AnimateStateKey> getSupportedNames();
+
 		double blade1Angle, blade2Angle;
 		double pitch, yaw, roll;
 		double x, y, z;
