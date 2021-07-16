@@ -51,14 +51,24 @@ StateSequenceAnimation* CSVAnimationImporter::loadFrom(const string & filename) 
 		for (unsigned int j = 0; j < headers.size() && j < values[i].size(); j++)
         {
             string key = headers[j];
-            if (scaleFactors.find(j) != scaleFactors.end())
+            if (values[i][j] == "")
+                continue;
+
+            try
             {
-                // scale the value by scaleFactors[j].
-                double d = stod(values[i][j]) * scaleFactors[j];
-                state.setValue(key, d);
+                if (scaleFactors.find(j) != scaleFactors.end())
+                {
+                    // scale the value by scaleFactors[j].
+                    double d = stod(values[i][j]) * scaleFactors[j];
+                    state.setValue(key, d);
+                }
+                else
+                    state.setValue(key, values[i][j]);
             }
-            else
-                state.setValue(key, values[i][j]);
+            catch (std::invalid_argument badArgument)
+            {
+                cerr << "CSV line " << i << ", column " << j << ": invalid_argument found with " << values[i][j] << endl;
+            }
         }
         states.push_back(state);
     }
