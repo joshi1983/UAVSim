@@ -24,10 +24,16 @@ void vector3DToRapidJsonObject(const Vector3D& pos, rapidjson::Value& result, ra
 
 void jsonObjectToVector3D(rapidjson::Value& input, Vector3D& result)
 {
-    if (input.HasMember("x") && input["x"].IsNumber())
-        result.x = input["x"].GetDouble();
-    if (input.HasMember("y") && input["y"].IsNumber())
-        result.y = input["y"].GetDouble();
-    if (input.HasMember("z") && input["z"].IsNumber())
-        result.z = input["z"].GetDouble();
+    result.x = getDefaultedDouble(input, "x", result.x);
+    result.y = getDefaultedDouble(input, "y", result.y);
+    result.z = getDefaultedDouble(input, "z", result.z);
 }
+
+double getDefaultedDouble(rapidjson::Value& input, const std::string & key, double defaultValue)
+{
+    if (input.IsObject() && input.HasMember(key.c_str()) && input[key.c_str()].IsNumber())
+        return input[key.c_str()].GetDouble();
+    else
+        return defaultValue;
+}
+

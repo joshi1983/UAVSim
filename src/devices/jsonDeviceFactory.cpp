@@ -35,11 +35,8 @@ PropellerMotor* createPropellerMotor(rapidjson::Value::ValueIterator &itr)
 {
 	PropellerMotor * motor = new PropellerMotor();
 	loadDeviceProperties(itr, motor);
-    motor->newtonsOfThrustAtOneRotationPerSecond = 1;
-	if (itr->HasMember("newtonsOfThrustAtOneRotationPerSecond"))
-        motor->newtonsOfThrustAtOneRotationPerSecond = (*itr)["newtonsOfThrustAtOneRotationPerSecond"].GetDouble();
-	if (itr->HasMember("newtonMetersOfTorqueAtOneRotationPerSecond"))
-        motor->newtonMetersOfTorqueAtOneRotationPerSecond = (*itr)["newtonMetersOfTorqueAtOneRotationPerSecond"].GetDouble();
+    motor->newtonsOfThrustAtOneRotationPerSecond = getDefaultedDouble(*itr, "newtonsOfThrustAtOneRotationPerSecond", 1);
+    motor->newtonMetersOfTorqueAtOneRotationPerSecond = getDefaultedDouble(*itr, "newtonMetersOfTorqueAtOneRotationPerSecond", 1);
 	return motor;
 }
 
@@ -50,10 +47,8 @@ ServoMotor* createServoMotor(rapidjson::Value::ValueIterator &itr)
     if (itr->HasMember("range") && itr->IsObject())
     {
         rapidjson::Value& range = (*itr)["range"];
-        if (range.HasMember("max-degrees") && range["max-degrees"].IsNumber())
-            motor->maxAngleDegrees = range["max-degrees"].GetDouble();
-        if (range.HasMember("min-degrees") && range["min-degrees"].IsNumber())
-            motor->minAngleDegrees = range["min-degrees"].GetDouble();
+        motor->maxAngleDegrees = getDefaultedDouble(range, "max-degrees", 360);
+        motor->minAngleDegrees = getDefaultedDouble(range, "min-degrees", -360);
     }
 
 	return motor;
@@ -70,8 +65,7 @@ Battery* createBattery(rapidjson::Value::ValueIterator &itr)
 {
 	Battery * battery = new Battery();
 	loadDeviceProperties(itr, battery);
-	if (itr->HasMember("voltage") && (*itr)["voltage"].IsNumber())
-        battery->voltage = (*itr)["voltage"].GetDouble();
+	battery->voltage = getDefaultedDouble(*itr, "voltage", battery->voltage);
 	return battery;
 }
 
