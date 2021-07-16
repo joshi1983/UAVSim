@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "AnimationStateKey.hpp"
+#include "../../devices/Camera.hpp"
 
 class AnimationState
 {
@@ -17,7 +18,7 @@ class AnimationState
 		double get(const std::string& name);
 		static std::string sanitizeName(const std::string& name);
 		static std::vector<AnimateStateKey> getSupportedNames();
-
+        Camera* activeCamera;
 		double blade1Angle, blade2Angle;
 		double pitch, yaw, roll;
 		double x, y, z;

@@ -148,7 +148,14 @@ void render()
     updateFrustrum(animationState);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
-        glRotated(animationState.cameraPitch, 1, 0, 0);
+        if (animationState.activeCamera == nullptr)
+            glRotated(animationState.cameraPitch, 1, 0, 0);
+        else
+        {
+            Vector3D &axis = animationState.activeCamera->rotationAxis;
+            glRotated(animationState.activeCamera->rotationAngle, axis.x, axis.y, axis.z);
+        }
+
         drawHorizonAndSky();
         if (isShowingSky)
             sky->draw(windowid, animationState.yaw, 0);

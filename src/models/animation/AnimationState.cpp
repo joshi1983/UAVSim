@@ -1,6 +1,7 @@
 #include "AnimationState.hpp"
 #include <algorithm>
 #include <iostream>
+#include "../../devices/Devices.hpp"
 using namespace std;
 
 
@@ -9,7 +10,7 @@ double blendVal(double val1, double val2, double ratio)
     return val1 * (1 - ratio) + val2 * ratio;
 }
 
-AnimationState::AnimationState(): blade1Angle(0), blade2Angle(0),
+AnimationState::AnimationState(): activeCamera(nullptr), blade1Angle(0), blade2Angle(0),
 	pitch(0), yaw(0), roll(0), x(0), y(0), z(0), steerAngle1(0), steerAngle2(0),
 	cameraY(0), cameraZ(-0.3), cameraPitch(0), cameraScale(1), waterAnimationT(0)
 {
