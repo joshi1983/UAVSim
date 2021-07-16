@@ -84,7 +84,7 @@ string handleAPIPostPhysicsRequest(rapidjson::Document &doc)
         {
             string name = (*itr)["device"]["name"].GetString();
             PropellerMotorPhysicalState * motor = uavState->getDeviceByName(name);
-            cerr << "name: " << name << ", motor is null? " << motor==nullptr?"yes":"no" << endl;
+            cerr << "name: " << name << ", motor is null? " << ((motor==nullptr)?"yes":"no") << endl;
             if (motor != nullptr)
             {
                 loadPhysicalStateFromJSONObject(*itr, *motor);

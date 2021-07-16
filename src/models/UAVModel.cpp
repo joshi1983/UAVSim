@@ -2,7 +2,7 @@
 #include "../io/Files.hpp"
 #include "../io/model_importers/CompositeFileImporter.hpp"
 #include "../io/model_exporters/UAVSimBinaryFileExporter.hpp"
-#include "../io/config/Config.hpp"
+#include "../io/config/UAVSimConfig.hpp"
 #include "../physics/jsonPhysicalStateLoader.hpp"
 #include "triangle_filters/TriangleFilterFactory.hpp"
 #include "GroupNode.hpp"

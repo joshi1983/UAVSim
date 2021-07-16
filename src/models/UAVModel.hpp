@@ -1,7 +1,7 @@
 #ifndef UAVMODEL_HEADER_INCLUDED
 #define UAVMODEL_HEADER_INCLUDED
 #include "ColouredTriangleSet.hpp"
-#include "../io/config/Config.hpp"
+#include "../io/config/UAVSimConfig.hpp"
 
 class UAVModel
 {

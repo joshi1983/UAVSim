@@ -1,4 +1,4 @@
-#include "Config.hpp"
+#include "UAVSimConfig.hpp"
 #include "../Files.hpp"
 #include "../../lib/rapidjson/filereadstream.h"
 #include "../../lib/rapidjson/error/en.h"

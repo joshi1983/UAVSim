@@ -21,7 +21,7 @@
 #include "io/screenshots/screenshots.hpp"
 #include "models/animation/AnimationProcessor.hpp"
 #include "models/UAV.hpp"
-#include "io/config/Config.hpp"
+#include "io/config/UAVSimConfig.hpp"
 #include "io/networking/HTTPServer.hpp"
 #include "models/animation/ffmpeg.hpp"
 #include "io/networking/browserLauncher.hpp"

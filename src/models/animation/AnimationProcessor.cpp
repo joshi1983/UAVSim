@@ -1,6 +1,6 @@
 #include "AnimationProcessor.hpp"
 #include "../../io/screenshots/screenshots.hpp"
-#include "../../io/config/Config.hpp"
+#include "../../io/config/UAVSimConfig.hpp"
 #include "../../lib/rapidjson/pointer.h"
 #include "../../io/Files.hpp"
 #include <cstdio>

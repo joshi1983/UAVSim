@@ -100,8 +100,8 @@
 		<Unit filename="io/animation_importers/AnimationImporter.hpp" />
 		<Unit filename="io/animation_importers/CSVAnimationImporter.cpp" />
 		<Unit filename="io/animation_importers/CSVAnimationImporter.hpp" />
-		<Unit filename="io/config/Config.cpp" />
-		<Unit filename="io/config/Config.hpp" />
+		<Unit filename="io/config/UAVSimConfig.cpp" />
+		<Unit filename="io/config/UAVSimConfig.hpp" />
 		<Unit filename="io/csv/CSVParser.cpp" />
 		<Unit filename="io/csv/CSVParser.hpp" />
 		<Unit filename="io/model_exporters/FileExporter.cpp" />

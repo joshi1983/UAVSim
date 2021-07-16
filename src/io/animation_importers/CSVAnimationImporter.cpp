@@ -2,7 +2,7 @@
 #include <iostream>
 #include <map>
 #include "../csv/CSVParser.hpp"
-#include "../config/Config.hpp"
+#include "../config/UAVSimConfig.hpp"
 #include "../../lib/rapidjson/pointer.h"
 #include "../Files.hpp"
 using namespace std;

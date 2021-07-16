@@ -16,7 +16,7 @@
 #include "../../lib/rapidjson/pointer.h"
 #include "../../lib/rapidjson/document.h"
 #include "../stringUtils.hpp"
-#include "../config/Config.hpp"
+#include "../config/UAVSimConfig.hpp"
 #include "../Files.hpp"
 #include "bitmapBlender.hpp"
 using namespace std;

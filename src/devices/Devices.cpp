@@ -1,5 +1,5 @@
 #include "Devices.hpp"
-#include "../io/config/Config.hpp"
+#include "../io/config/UAVSimConfig.hpp"
 #include "../lib/rapidjson/pointer.h"
 #include "jsonDeviceFactory.hpp"
 #include <iostream>

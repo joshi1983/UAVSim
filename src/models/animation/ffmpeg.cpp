@@ -1,7 +1,7 @@
 #include "ffmpeg.hpp"
 #include <string>
 #include <fstream>
-#include "../../io/config/config.hpp"
+#include "../../io/config/UAVSimConfig.hpp"
 #include "../../io/Files.hpp"
 #include "../../io/stringUtils.hpp"
 #include "../../deployment/deploymentHelper.hpp"
