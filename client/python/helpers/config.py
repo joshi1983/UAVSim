@@ -6,6 +6,9 @@ import sys
 http_server_port = 8080
 client_config = {}
 
+def get_base_url():
+	return 'http://localhost:' + str(http_server_port) + '/'
+
 def get_settings_file_path():
 	return abspath('..\\..\\data\\settings.json')
 

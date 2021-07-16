@@ -1,4 +1,5 @@
 import helpers.config as config
+from helpers.physics_repository import PhysicsRepository
 from random import *
 
 """
@@ -12,6 +13,7 @@ class MPU9250:
 	def __init__(self):
 		self.bias = {}
 		self.noise = {}
+		self.physics_repo = PhysicsRepository.get_instance()
 		sensor_config = config.client_config.get('sensors', {}).get('MPU9250', {})
 		for key in ['a', 'm', 'g']:
 			self.bias[key] = {}
@@ -28,7 +30,8 @@ class MPU9250:
 		return result
 
 	def readAccel(self):
-		return self._getVector('a', {'x': 0, 'y': 0, 'z': 0})
+		a = self.physics_repo.repo['acceleration'].copy()
+		return self._getVector('a', a)
 
 	def readGyro(self):
 		return self._getVector('g', {'x': 0, 'y': 0, 'z': 0})
