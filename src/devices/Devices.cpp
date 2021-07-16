@@ -40,3 +40,12 @@ vector<Device*> Devices::getDevices()
 {
     return devices;
 }
+
+Device* Devices::getByName(const string& name)
+{
+    for (Device* device: devices)
+        if (device->name == name)
+            return device;
+
+    return nullptr; // indicate not found.
+}

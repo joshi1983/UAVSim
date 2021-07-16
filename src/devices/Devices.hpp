@@ -12,6 +12,7 @@ class Devices
 		static Devices *main;
 	public:
 	    std::vector<Device*> getDevices();
+	    Device* getByName(const std::string& name);
 		static Devices * getInstance();
 };
 
