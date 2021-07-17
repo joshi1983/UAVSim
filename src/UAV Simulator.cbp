@@ -293,6 +293,8 @@
 		<Unit filename="tests/Vector3DTest.hpp" />
 		<Unit filename="tests/devices/PropellerMotorTest.cpp" />
 		<Unit filename="tests/devices/PropellerMotorTest.hpp" />
+		<Unit filename="tests/io/PhysicsAPITest.cpp" />
+		<Unit filename="tests/io/PhysicsAPITest.hpp" />
 		<Unit filename="tests/physics/JSONPhysicalStateLoaderTest.cpp" />
 		<Unit filename="tests/physics/JSONPhysicalStateLoaderTest.hpp" />
 		<Unit filename="tests/physics/PropellerMotorPhysicalStateTest.cpp" />

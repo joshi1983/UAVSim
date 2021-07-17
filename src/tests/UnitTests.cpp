@@ -7,6 +7,7 @@
 #include "physics/UAVPhysicalStateTest.hpp"
 #include "physics/JSONPhysicalStateLoaderTest.hpp"
 #include "devices/PropellerMotorTest.hpp"
+#include "io/PhysicsAPITest.hpp"
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -16,13 +17,14 @@ void runAllUnitTests()
     cerr << "runAllUnitTests()" << endl;
 	vector<UnitTest> unitTests({
 		TriangleFiltersTest(),
-        TriangleFilterFactoryTest(),
+		TriangleFilterFactoryTest(),
 		Vector3DTest(),
 		AnimationStateTest(),
-        PropellerMotorTest(),
+		PropellerMotorTest(),
 		PropellerMotorPhysicalStateTest(),
 		UAVPhysicalStateTest(),
-		JSONPhysicalStateLoaderTest()
+		JSONPhysicalStateLoaderTest(),
+		PhysicsAPITest()
 	});
     for (UnitTest & test: unitTests)
     {

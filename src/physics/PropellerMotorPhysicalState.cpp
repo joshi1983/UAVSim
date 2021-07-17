@@ -8,7 +8,7 @@ PropellerMotorPhysicalState::PropellerMotorPhysicalState(): motor(nullptr)
 
 void PropellerMotorPhysicalState::simulateTimeChange(double deltaT)
 {
-	//bladeRotationSpeedDegreesPerSecond += bladeAccelerationDegreesPerSecondPerSecond * deltaT;
+	bladeRotationSpeedDegreesPerSecond += bladeAccelerationDegreesPerSecondPerSecond * deltaT;
 	bladeAngleDegrees += bladeRotationSpeedDegreesPerSecond * deltaT;
 }
 
