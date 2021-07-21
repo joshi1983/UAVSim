@@ -25,6 +25,9 @@
 #include "io/networking/HTTPServer.hpp"
 #include "models/animation/ffmpeg.hpp"
 #include "io/networking/browserLauncher.hpp"
+#ifdef _DEBUG
+    #include "tests/UnitTests.hpp"
+#endif
 using namespace std;
 
 UAV * uav = nullptr;
@@ -74,6 +77,9 @@ void initRenderer(const char * programPath, int _windowid)
     sky = new Sky();
     cout << "Loading UAV model..." << endl;
     uav = new UAV();
+    #ifdef _DEBUG
+    runAllUnitTests();
+    #endif // defined
 }
 
 void updateFrustrum(const AnimationState & animationState)
