@@ -59,9 +59,9 @@ string handleAPIPostPhysicsTimeChangeRequest(rapidjson::Document &doc)
     UAVPhysicalState * uavState = UAVPhysicalState::getInstance();
     uavState->simulateTimeChange(timeDeltaSeconds);
     AnimationState newState;
-    DefaultAnimation::main->getState(0, newState);
+    DefaultAnimation::getInstance()->getState(0, newState);
     uavState->copyInto(newState);
-    DefaultAnimation::main->setAnimationState(newState);
+    DefaultAnimation::getInstance()->setAnimationState(newState);
     return string("{}");
 }
 

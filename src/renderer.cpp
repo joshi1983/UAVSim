@@ -63,8 +63,8 @@ void initRenderer(const char * programPath, int _windowid)
         animationProcessor = new AnimationProcessor(animation, animationState);
     else
     {
-        animation = new DefaultAnimation();
-        DefaultAnimation* defaultAnimation = dynamic_cast<DefaultAnimation*>(animation);
+        DefaultAnimation* defaultAnimation = DefaultAnimation::getInstance();
+        animation = defaultAnimation;
         startHttpServer(getAbsolutePathForFilename("data/htdocs"), *defaultAnimation);
         if (UAVSimConfig::config.getDefaultedBool("/httpServer/launchBrowser", true))
             launchRelativeDocument("/");

@@ -5,14 +5,14 @@
 class DefaultAnimation: public Animation
 {
     private:
-        bool isControlledRemotely = false;
         AnimationState remoteState;
-	public:
 	    DefaultAnimation();
+		static DefaultAnimation* singleton;
+	public:
 	    void setAnimationState(const AnimationState & newState);
         virtual void getState(double t, AnimationState &state) const override;
 		virtual unsigned int getMaxT() const override;
-		static DefaultAnimation* main;
+		static DefaultAnimation* getInstance();
 };
 
 #endif

@@ -12,6 +12,7 @@
 #include "../../screenshots/screenshots.hpp"
 #include "../../JsonUtils.hpp"
 #include "../../model_exporters/UAVSimBinaryExporter.hpp"
+#include "../../../physics/UAVPhysicalState.hpp"
 namespace beast = boost::beast; // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
 using namespace std;
@@ -30,7 +31,7 @@ string getAnimationStateKeys()
 
     rapidjson::Value keysArray(rapidjson::kArrayType);
     AnimationState animationState;
-    DefaultAnimation::main->getState(0, animationState);
+    DefaultAnimation::getInstance()->getState(0, animationState);
     for (auto key: keys)
     {
         rapidjson::Value obj(rapidjson::kObjectType);
@@ -63,11 +64,9 @@ string setAnimationStateKeys(rapidjson::Document &doc)
 {
     if (!doc.IsObject())
         return string("{\"success\": false, \"message\": \"Must specify object\"}");
-    if (DefaultAnimation::main == nullptr)
-        return string("{\"success\": false, \"message\": \"DefaultAnimation main is nullptr.\"}");
 
     AnimationState newState;
-    DefaultAnimation::main->getState(0, newState);
+    DefaultAnimation::getInstance()->getState(0, newState);
     // loop over keys from doc.
     for (auto i = doc.MemberBegin(); i != doc.MemberEnd(); ++i)
     {
@@ -75,7 +74,10 @@ string setAnimationStateKeys(rapidjson::Document &doc)
             return string("{\"success\": false, \"message\": \"Number required for key ") + string(i->name.GetString()) + string(".\"}");
         newState.setValue(i->name.GetString(), i->value.GetDouble());
     }
-    DefaultAnimation::main->setAnimationState(newState);
+    DefaultAnimation::getInstance()->setAnimationState(newState);
+    UAVPhysicalState* physicsState = UAVPhysicalState::getInstance();
+    physicsState->copyFrom(newState);
+
 
     // FIXME: process the CSV values.
     return string("{\"success\": true}");
