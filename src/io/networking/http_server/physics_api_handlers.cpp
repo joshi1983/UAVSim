@@ -4,49 +4,17 @@
 #include "../../../physics/jsonPhysicalStateLoader.hpp"
 #include "../../../devices/DeviceJsonSerializer.hpp"
 #include "../../../models/animation/DefaultAnimation.hpp"
+#include "../../../physics/PhysicalStateJsonSerializer.hpp"
 #include <iostream>
 
 using namespace std;
-
-void propellerMotorToJSONValue(const PropellerMotorPhysicalState & motor,
-    rapidjson::Value& result, rapidjson::Document::AllocatorType& allocator)
-{
-    result.SetObject();
-    result.AddMember("bladeAccelerationDegreesPerSecondPerSecond", rapidjson::Value().SetDouble(motor.bladeAccelerationDegreesPerSecondPerSecond), allocator);
-    result.AddMember("bladeRotationSpeedDegreesPerSecond", rapidjson::Value().SetDouble(motor.bladeRotationSpeedDegreesPerSecond), allocator);
-    result.AddMember("bladeAngleDegrees", rapidjson::Value().SetDouble(motor.bladeAngleDegrees), allocator);
-
-    rapidjson::Value deviceObject;
-    convertDeviceToRapidJson(motor.motor, deviceObject, allocator);
-    result.AddMember("device", deviceObject, allocator);
-}
 
 string getAllPhysicsData()
 {
     UAVPhysicalState * uavState = UAVPhysicalState::getInstance();
     rapidjson::Document doc;
-    doc.SetObject();
     rapidjson::Document::AllocatorType& allocator = doc.GetAllocator();
-    doc.AddMember("massKG", rapidjson::Value().SetDouble(uavState->massKG), allocator);
-    doc.AddMember("pitchDegrees", rapidjson::Value().SetDouble(uavState->pitchDegrees), allocator);
-    doc.AddMember("rollDegrees", rapidjson::Value().SetDouble(uavState->rollDegrees), allocator);
-    doc.AddMember("yawDegrees", rapidjson::Value().SetDouble(uavState->yawDegrees), allocator);
-
-    rapidjson::Value v;
-    vector3DToRapidJsonObject(uavState->acceleration, v, allocator);
-    doc.AddMember("acceleration", v, allocator);
-    vector3DToRapidJsonObject(uavState->velocity, v, allocator);
-    doc.AddMember("velocity", v, allocator);
-    vector3DToRapidJsonObject(uavState->displacement, v, allocator);
-    doc.AddMember("displacement", v, allocator);
-    rapidjson::Value propellers;
-    propellers.SetArray();
-    for (auto propeller: uavState->propellerMotors)
-    {
-        propellerMotorToJSONValue(propeller, v, allocator);
-        propellers.PushBack(v, allocator);
-    }
-    doc.AddMember("devices", propellers, allocator);
+    toJSONValue(*uavState, doc, allocator);
 
 	string result;
 	rapidJsonDocumentToString(doc, result);
@@ -87,6 +55,10 @@ string handleAPIPostPhysicsRequest(rapidjson::Document &doc)
             if (motor != nullptr)
             {
                 loadPhysicalStateFromJSONObject(*itr, *motor);
+            }
+            else
+            {
+                cerr << "Unable to find device with name: " << name << endl;
             }
         }
     }

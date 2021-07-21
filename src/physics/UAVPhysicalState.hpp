@@ -21,6 +21,7 @@ class UAVPhysicalState {
 		PropellerMotorPhysicalState* getDeviceByName(const std::string & name);
 		std::vector<PropellerMotorPhysicalState> propellerMotors;
 		void simulateTimeChange(double deltaT);
+		void copyFrom(const AnimationState& from);
 		void copyInto(AnimationState & result) const;
 		static UAVPhysicalState* getInstance();
 };

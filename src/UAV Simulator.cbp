@@ -271,6 +271,8 @@
 		<Unit filename="models/triangle_filters/UnionVertexFilter.hpp" />
 		<Unit filename="models/triangle_filters/VertexFilter.cpp" />
 		<Unit filename="models/triangle_filters/VertexFilter.hpp" />
+		<Unit filename="physics/PhysicalStateJsonSerializer.cpp" />
+		<Unit filename="physics/PhysicalStateJsonSerializer.hpp" />
 		<Unit filename="physics/PropellerMotorPhysicalState.cpp" />
 		<Unit filename="physics/PropellerMotorPhysicalState.hpp" />
 		<Unit filename="physics/UAVPhysicalState.cpp" />

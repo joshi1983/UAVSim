@@ -19,7 +19,24 @@ void testLoadPhysicalStateFromJSONObject(UnitTest& unitTest)
 	unitTest.assertTrue(motor.bladeAngleDegrees == 3, "bladeAngleDegrees expected to be 3");
 }
 
+void testLoadPhysicalStateFromJSONObjectWithoutBladeAngle(UnitTest& unitTest)
+{
+	rapidjson::Document doc;
+	rapidjson::Document::AllocatorType&  allocator = doc.GetAllocator();
+	doc.SetObject();
+	rapidjson::Value val;
+	val.SetObject();
+	val.AddMember("bladeAccelerationDegreesPerSecondPerSecond", rapidjson::Value().SetDouble(1), allocator);
+	val.AddMember("bladeRotationSpeedDegreesPerSecond", rapidjson::Value().SetDouble(2), allocator);
+
+	PropellerMotorPhysicalState motor;
+	motor.bladeAngleDegrees = 2;
+	loadPhysicalStateFromJSONObject(val, motor);
+	unitTest.assertTrue(motor.bladeAngleDegrees == 2, "bladeAngleDegrees expected to be 2");
+}
+
 JSONPhysicalStateLoaderTest::JSONPhysicalStateLoaderTest(): UnitTest("JSONPhysicalStateLoaderTest")
 {
     testFunctions.push_back(make_pair("loadPhysicalStateFromJSONObject", testLoadPhysicalStateFromJSONObject));
+    testFunctions.push_back(make_pair("withoutBladeAngle", testLoadPhysicalStateFromJSONObjectWithoutBladeAngle));
 }
