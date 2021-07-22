@@ -8,6 +8,7 @@
 #include "physics/JSONPhysicalStateLoaderTest.hpp"
 #include "devices/PropellerMotorTest.hpp"
 #include "io/PhysicsAPITest.hpp"
+#include "io/JsonUtilsTest.hpp"
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -24,7 +25,8 @@ void runAllUnitTests()
 		PropellerMotorPhysicalStateTest(),
 		UAVPhysicalStateTest(),
 		JSONPhysicalStateLoaderTest(),
-		PhysicsAPITest()
+		PhysicsAPITest(),
+		JsonUtilsTest()
 	});
     for (UnitTest & test: unitTests)
     {
