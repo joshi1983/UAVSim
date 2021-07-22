@@ -12,12 +12,18 @@ using namespace rapidjson;
 string outputPath;
 bool blurBetweenRows;
 
+unsigned short getBlurFrameCount()
+{
+    UAVSimConfig& c = UAVSimConfig::config;
+    return c.getDefaultedInt("/csv/blurFrameCount", 1);
+}
+
 AnimationProcessor::AnimationProcessor(Animation* animation,
 	AnimationState & animationState):
 	animation(animation), animationState(animationState), frameIndex(0)
 {
     UAVSimConfig& c = UAVSimConfig::config;
-    blurFrameCount = c.getDefaultedInt("/csv/blurFrameCount", 1);
+    blurFrameCount = getBlurFrameCount();
     outputPath = c.getDefaultedString("/frameOutputDirectory", "outputs/frames/");
     if (outputPath[outputPath.length() - 1] != '/')
         outputPath += '/';

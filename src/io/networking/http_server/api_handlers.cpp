@@ -1,6 +1,7 @@
 #include "api_handlers.hpp"
 #include "device_api_handlers.hpp"
 #include "physics_api_handlers.hpp"
+#include "animation_api_handlers.hpp"
 #include "../../../models/animation/AnimationState.hpp"
 #include "../../../models/animation/DefaultAnimation.hpp"
 #include "../../../lib/rapidjson/document.h"
@@ -24,7 +25,7 @@ bool isAPITarget(const boost::beast::string_view &target)
 
 string getAnimationStateKeys()
 {
-    vector<AnimateStateKey> keys = AnimationState::getSupportedNames();
+    const vector<AnimateStateKey> keys = AnimationState::getSupportedNames();
     rapidjson::Document document;
     document.SetObject();
     rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
@@ -32,7 +33,7 @@ string getAnimationStateKeys()
     rapidjson::Value keysArray(rapidjson::kArrayType);
     AnimationState animationState;
     DefaultAnimation::getInstance()->getState(0, animationState);
-    for (auto key: keys)
+    for (const auto& key: keys)
     {
         rapidjson::Value obj(rapidjson::kObjectType);
         obj.AddMember("name", rapidjson::Value().SetString(key.name.c_str(), key.name.length(), allocator), allocator);
@@ -56,6 +57,8 @@ string handleAPIGetRequest(const boost::beast::string_view &target)
         return getDevicesJSON();
 	else if (target == "/api/physics")
 		return getAllPhysicsData();
+    else if (target == "/api/animation-settings")
+        return getAnimationSettings();
 
     return string("{\"message\": \"The specified API request path is not supported\"}");
 }

@@ -20,9 +20,8 @@ class AnimationProcessor
 		unsigned int getFrameIndex() const;
 		bool isWithinAnimation() const;
 		void deleteFrameAfterAnimation() const;
-            // FIXME: delete next frame index if it exists so the mp4 doesn't show old frames
-            // that existed before the new frames were generated\.
-
 };
+
+unsigned short getBlurFrameCount();
 
 #endif

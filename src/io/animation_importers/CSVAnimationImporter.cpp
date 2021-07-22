@@ -5,8 +5,15 @@
 #include "../config/UAVSimConfig.hpp"
 #include "../../lib/rapidjson/pointer.h"
 #include "../Files.hpp"
+#include "../../models/animation/ffmpeg.hpp"
 using namespace std;
 using namespace rapidjson;
+
+bool isBlurringBetweenRows()
+{
+	UAVSimConfig &config = UAVSimConfig::config;
+    return config.getDefaultedBool("/csv/blurBetweenRows", true);
+}
 
 StateSequenceAnimation* CSVAnimationImporter::load() const
 {
@@ -25,9 +32,9 @@ StateSequenceAnimation* CSVAnimationImporter::loadFrom(const string & filename) 
 	vector<AnimationState> states;
 	map<unsigned int, double> scaleFactors;
 	UAVSimConfig &config = UAVSimConfig::config;
-	double fps = config.getDefaultedDouble("/ffmpeg/fps", 30);
+	double fps = getFPS();
 	int csvRowsPerFrame = config.getDefaultedDouble("/csv/blurFrameCount", 1);
-	if (config.getDefaultedBool("/csv/blurBetweenRows", true))
+	if (isBlurringBetweenRows())
         csvRowsPerFrame = 1;
 
 	if (values.size() > 0) {

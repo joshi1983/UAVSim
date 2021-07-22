@@ -143,6 +143,8 @@
 		<Unit filename="io/networking/HTTPServer.hpp" />
 		<Unit filename="io/networking/browserLauncher.cpp" />
 		<Unit filename="io/networking/browserLauncher.hpp" />
+		<Unit filename="io/networking/http_server/animation_api_handlers.cpp" />
+		<Unit filename="io/networking/http_server/animation_api_handlers.hpp" />
 		<Unit filename="io/networking/http_server/api_handlers.cpp" />
 		<Unit filename="io/networking/http_server/api_handlers.hpp" />
 		<Unit filename="io/networking/http_server/device_api_handlers.cpp" />

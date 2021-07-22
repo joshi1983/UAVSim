@@ -9,4 +9,6 @@ class CSVAnimationImporter: public AnimationImporter
 		virtual StateSequenceAnimation* loadFrom(const std::string & filename) const override;
 };
 
+bool isBlurringBetweenRows();
+
 #endif

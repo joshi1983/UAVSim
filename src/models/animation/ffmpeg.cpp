@@ -10,10 +10,16 @@ using namespace std;
 
 int isFfmpegAvailableCheckStatus = -1;
 
+unsigned short getFPS()
+{
+	UAVSimConfig & config = UAVSimConfig::config;
+	return config.getDefaultedInt("/ffmpeg/fps", 30);
+}
+
 void createVideoFile()
 {
 	UAVSimConfig & config = UAVSimConfig::config;
-	int frameRate = config.getDefaultedInt("/ffmpeg/fps", 30);
+	int frameRate = getFPS();
 	string frameRateStr = to_string(frameRate);
 	string videoFileName = config.getDefaultedString("/ffmpeg/video_filename", "output.mp4");
 	string outputDirectory = config.getDefaultedString("/frameOutputDirectory", "outputs/frames");

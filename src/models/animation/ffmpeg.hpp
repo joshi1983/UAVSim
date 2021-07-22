@@ -3,5 +3,6 @@
 
 void createVideoFile();
 bool isFFMPEGAvailable();
+unsigned short getFPS();
 
 #endif
