@@ -1,0 +1,48 @@
+@import url('dialog.css');
+
+html, body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+h1 {
+	padding-top: 0;
+	padding-bottom: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+button:not([disabled]) {
+	cursor: pointer;
+}
+
+#container {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	max-height: 100vh;
+}
+
+#graph-canvas-container {
+	overflow: hidden;
+	flex-shrink: 1;
+	flex-grow: 1;
+}
+
+#graph {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	overflow: hidden;
+}
+
+#graph canvas {
+	width: 100%;
+	background-color: '#eee';
+	cursor: pointer;
+}
+
+label {
+	font-weight: bold;
+}

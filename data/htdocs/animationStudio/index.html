@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Animation Studio</title>
+		<link rel="stylesheet" href="css/style.css">
+		<script src="js/script.js"></script>
+		<script src="js/utils.js"></script>
+		<script src="js/models/EventDispatcher.js"></script>
+		<script src="js/models/Project.js"></script>
+		<script src="js/models/DataPoint.js"></script>
+		<script src="js/models/CsvInputsRepository.js"></script>
+		<script src="js/models/BlendFunctionFactory.js"></script>
+		<script src="js/models/ParabolicRegressionFrom3Points.js"></script>
+		<script src="js/models/ParabolicBlendFunction.js"></script>
+		<script src="js/models/StraightBlendFunction.js"></script>
+		<script src="js/components/DurationSelector.js"></script>
+		<script src="js/components/Player.js"></script>
+		<script src="js/components/Dialog.js"></script>
+		<script src="js/components/Graph.js"></script>
+		<script src="js/components/graphing/GraphCanvas.js"></script>
+		<script src="js/components/graphing/GraphCursorPositionViewer.js"></script>
+		<script src="js/components/graphing/GraphCanvasGrid.js"></script>
+		<script src="js/components/graphing/GraphCanvasModes.js"></script>
+		<script src="js/components/graphing/GraphAddPointMode.js"></script>
+		<script src="js/components/graphing/GraphDeletePointMode.js"></script>
+		<script src="js/components/graphing/GraphSinglePointDetailsMode.js"></script>
+		<script src="js/components/graphing/AbstractGraphUpdateBlendMode.js"></script>
+		<script src="js/components/graphing/GraphParabolizeBlendMode.js"></script>
+		<script src="js/components/graphing/GraphStraightenBlendMode.js"></script>
+		<script src="js/components/graphing/GraphDragPointsMode.js"></script>
+		<script src="js/components/graphing/GraphSelectPlayTimeMode.js"></script>
+		<script src="js/components/graphing/GraphZoomInMode.js"></script>
+		<script src="js/components/graphing/GraphVerticalScale.js"></script>
+		<script src="js/components/graphing/GraphZoomReset.js">Reset Zoom</script>
+		
+		<script src="js/exporters/ExportUtils.js"></script>
+		<script src="js/exporters/CSVExporter.js"></script>
+		<script src="js/exporters/ProjectExporter.js"></script>
+		<script src="js/models/AnimationSettingsRepository.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<header>
+				<h1>Animation Studio</h1>
+			</header>
+			<div>
+				<label for="duration-seconds">Duration(s)</label>
+				<input type="number" min="1" max="999999" step="0.0001" id="duration-seconds" value="100">
+			</div>
+			<div>
+				<span id="player-time"></span>
+				<button id="player-play-stop">Play</button>
+				<button id="player-pause" disabled>Pause</button>
+			</div>
+			<div id="graph">
+				<div>
+					<div>
+						<button id="graph-zoom-out">Zoom Out</button>
+						<button id="graph-vertical-zoom-in">Zoom In Vertical</button>
+						<button id="graph-vertical-zoom-out">Zoom Out Vertical</button>
+						<button id="graph-zoom-reset">Zoom Reset</button>
+					</div>
+					<label for="active-csv-key">Active CSV Key</label>
+					<select id="active-csv-key"></select>
+					<button id="download-csv">Download CSV</button>
+					<button id="download-project">Download Project</button>
+					<span id="graph-cursor-position"></span>
+					<fieldset id="graph-modes">
+						<label>Mode</label>
+
+						<input type="radio" name="graph-mode" id="mode-add-point" value="add-point" checked>
+						<label for="mode-add-point">Add Points</label>
+
+						<input type="radio" name="graph-mode" id="mode-drag-point" value="graph-drag-points-mode">
+						<label for="mode-drag-point">Move Points</label>
+
+						<input type="radio" name="graph-mode" id="mode-delete-point" value="delete-point">
+						<label for="mode-delete-point">Delete Points</label>
+
+						<input type="radio" name="graph-mode" id="blend-mode-parabolic" value="blend-mode-parabolic">
+						<label for="blend-mode-parabolic">Parabolize Points</label>
+
+						<input type="radio" name="graph-mode" id="blend-mode-straight" value="blend-mode-straight">
+						<label for="blend-mode-straight">Straighten Points</label>
+
+						<input type="radio" name="graph-mode" id="single-point-details-mode" value="single-point-details">
+						<label for="single-point-details-mode">Point Details</label>
+						
+						<input type="radio" name="graph-mode" id="select-play-time" value="select-play-time">
+						<label for="select-play-time">Set Time</label>
+
+						<input type="radio" name="graph-mode" id="mode-zoom-in" value="zoom-in">
+						<label for="mode-zoom-in">Zoom In</label>
+					</fieldset>
+				</div>
+				<div id="graph-canvas-container">
+					<canvas></canvas>
+				</div>
+			</div>
+			<div id="data-point-details">
+				<header>
+					<h2>Data Point Details</h2>
+				</header>
+				<div class="dialog-body">
+					<div>
+						<label for="graph-data-point-details-time">Time</label>
+						<input type="number" id="graph-data-point-details-time">
+					</div>
+					<div>
+						<label for="graph-data-point-details-value">Value</label>
+						<input type="number" id="graph-data-point-details-value">
+					</div>
+					<label for="graph-data-point-details-curve-type">Curve Type</label>
+					<select id="graph-data-point-details-curve-type">
+					</select>
+				</div>
+				<footer>
+					<button id="graph-data-point-details-close">OK</button>
+				</footer>
+			</div>
+		</div>
+	</body>
+</html>

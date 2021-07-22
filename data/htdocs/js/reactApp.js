@@ -42,7 +42,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	const csvInputs = React.createElement('li', {'key': 'li-csv-inputs'}, csvLink);
 	const homeLi = React.createElement('li', {'key': 'li-home'}, homeLink);
 	const uavViewerLi = React.createElement('li', {'key': 'li-uav-viewer'}, uavViewerLink);
-	const ul = React.createElement('ul', {'key': 'ul-r'}, [homeLi, csvInputs, devices, uavViewerLi]);
+	const animationStudioLink = React.createElement('a', {'key': 'animation-studio-link', 'href': '/animationStudio/index.html'}, 'Studio');
+	const animationStudioLi = React.createElement('li', {'key': 'animation-studio-li'}, [animationStudioLink]);
+	const ul = React.createElement('ul', {'key': 'ul-r'}, [homeLi, csvInputs, devices, uavViewerLi, animationStudioLi]);
 	const nav = React.createElement('nav', {'key': 'nav-r'}, [ul]);
 	const switchE = React.createElement(ReactRouterDOM.Switch, {'key': 'switchE-r'}, 
 		[homeRoute, csvInputsRoute, devicesRoute, uavViewerRoute]);

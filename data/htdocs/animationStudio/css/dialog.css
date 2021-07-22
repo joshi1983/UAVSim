@@ -1,0 +1,42 @@
+.dialog-backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: #000;
+	opacity: 0.3;
+	z-index: 1;
+}
+
+.dialog {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	background-color: #fff;
+	display: none;
+	border: 1px solid #888;
+	border-radius: 5px;
+	box-shadow: 0 0 10px #000;
+}
+
+.dialog.showing {
+	display: block;
+	z-index: 2;
+}
+
+#data-point-details.dialog {
+	width: 300px;
+	height: 200px;
+	margin-top: -100px;
+	margin-left: -150px;
+}
+
+#data-point-details.dialog.showing {
+	display: flex;
+	flex-direction: column;
+}
+
+#data-point-details.dialog.showing .dialog-body {
+	flex-grow: 1;
+}
