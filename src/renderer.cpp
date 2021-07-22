@@ -155,7 +155,10 @@ void render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
         if (animationState.activeCamera == nullptr)
+        {
             glRotated(animationState.cameraPitch, 1, 0, 0);
+            glRotated(animationState.cameraYaw, 0, 1, 0);
+        }
         else
         {
             Vector3D &axis = animationState.activeCamera->rotationAxis;

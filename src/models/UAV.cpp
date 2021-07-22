@@ -17,7 +17,10 @@ void UAV::draw(const AnimationState & animationState, double yOffset) const
     UAVModel * model = UAVModel::getInstance();
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
+        glRotated(-animationState.cameraYaw, 0, 1, 0);
 		glTranslated(0, animationState.cameraY + yOffset, animationState.cameraZ);
+        glRotated(animationState.cameraYaw, 0, 1, 0);
+
         glRotated(-animationState.roll, 0, 0, 1);
         glRotated(-animationState.pitch, 1, 0, 0);
 		model->shapes[0].draw();

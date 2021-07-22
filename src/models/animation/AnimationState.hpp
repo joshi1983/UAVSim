@@ -25,6 +25,7 @@ class AnimationState
 		double steerAngle1, steerAngle2;
 		double cameraY, cameraZ;
 		double cameraPitch;
+		double cameraYaw;
 		double cameraScale;
 		double waterAnimationT;
 };

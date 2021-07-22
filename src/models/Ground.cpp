@@ -41,7 +41,9 @@ void Ground::draw(int windowid, const AnimationState & animationState, double yO
     glColor3d(1, 1, 1);
     glPushMatrix();
 
+        glRotated(-animationState.cameraYaw, 0, 1, 0);
 		glTranslated(0, 0, animationState.cameraZ);
+        glRotated(animationState.cameraYaw, 0, 1, 0);
 
         glRotated(-animationState.yaw, 0, 1, 0);
 

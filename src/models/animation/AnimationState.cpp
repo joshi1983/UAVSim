@@ -12,7 +12,7 @@ double blendVal(double val1, double val2, double ratio)
 
 AnimationState::AnimationState(): activeCamera(nullptr), blade1Angle(0), blade2Angle(0),
 	pitch(0), yaw(0), roll(0), x(0), y(0), z(0), steerAngle1(0), steerAngle2(0),
-	cameraY(0), cameraZ(-0.3), cameraPitch(0), cameraScale(1), waterAnimationT(0)
+	cameraY(0), cameraZ(-0.3), cameraPitch(0), cameraYaw(0), cameraScale(1), waterAnimationT(0)
 {
 
 }
@@ -33,6 +33,7 @@ AnimationState AnimationState::blend(const AnimationState& state1, const Animati
     result.cameraY = blendVal(state1.cameraY, state2.cameraY, ratio);
     result.cameraZ = blendVal(state1.cameraZ, state2.cameraZ, ratio);
     result.cameraPitch = blendVal(state1.cameraPitch, state2.cameraPitch, ratio);
+    result.cameraYaw = blendVal(state1.cameraYaw, state2.cameraYaw, ratio);
     result.cameraScale = blendVal(state1.cameraScale, state2.cameraScale, ratio);
     result.waterAnimationT = blendVal(state1.waterAnimationT, state2.waterAnimationT, ratio);
     return result;
@@ -71,6 +72,8 @@ double* AnimationState::getValuePointer(const std::string& name)
             return &cameraPitch;
         else if (name == "camera-scale")
             return &cameraScale;
+        else if (name == "camera-yaw")
+            return &cameraYaw;
     }
     else if (name > "r")
     {
@@ -121,7 +124,7 @@ void AnimationState::setValue(const std::string& name, const std::string& value)
 vector<AnimateStateKey> AnimationState::getSupportedNames()
 {
     vector<string> resultNames = {"blade-1-angle", "blade-2-angle", "camera-y", "camera-z",
-    "camera-scale", "camera-pitch",
+    "camera-scale", "camera-pitch", "camera-yaw",
     "pitch", "roll",
     "steer-angle-1", "steer-angle-2",
     "water-animation-t",
@@ -147,7 +150,7 @@ vector<AnimateStateKey> AnimationState::getSupportedNames()
             rMax = 25;
             rMin = -25;
         }
-        else if ((name.find("angle") != string::npos) || name == "yaw" || name == "roll" || name == "pitch" || name == "camera-pitch")
+        else if ((name.find("angle") != string::npos) || name == "yaw" || name == "roll" || name == "pitch" || name == "camera-pitch" || name == "camera-yaw")
             rMax = 360;
         else if (name == "camera-scale")
         {
@@ -180,6 +183,8 @@ string AnimationState::sanitizeName(const string& name)
         result = "camera-z";
     else if (result == "camerapitch")
         result = "camera-pitch";
+    else if (result == "camerayaw")
+        result = "camera-yaw";
     else if (result == "camerascale")
         result = "camera-scale";
     else if (result == "steerangle1")
