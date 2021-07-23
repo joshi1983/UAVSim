@@ -7,11 +7,14 @@ class CsvInputsRepository {
 		return fetch('/api/csv-inputs').then(function(response1) {
 			return response1.json().then(function(response) {
 				outer.supportedKeys = response.supportedKeys;
+				return response;
 			});
 		});
 	}
 
-	getCsvInputKeys() {
-		return this.supportedKeys.map((csvInput) => csvInput.name);
+	getNumericCsvInputKeys() {
+		return this.supportedKeys.
+			filter((csvInput) => csvInput.dataType === AnimationStateKeyType.tDouble).
+			map((csvInput) => csvInput.name);
 	}
 }

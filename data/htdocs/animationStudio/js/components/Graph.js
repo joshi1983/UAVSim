@@ -1,11 +1,15 @@
 class Graph {
-	constructor(project, csvInputs, player) {
+	constructor(project, csvInputs, player, virtualAnimationStateKeys) {
 		if (!(project instanceof Project))
 			throw new Error('Graph requires Project');
 		if (!(csvInputs instanceof CsvInputsRepository))
 			throw new Error('csvInputs required');
 		if (!(player instanceof Player))
 			throw new Error('Player required.');
+		if (!(virtualAnimationStateKeys instanceof VirtualAnimationStateKeys))
+			throw new Error('virtualAnimationStateKeys required.');
+
+		this.virtualAnimationStateKeys = virtualAnimationStateKeys;
 		this.project = project;
 		this.csvInputs = csvInputs;
 		this.player = player;
@@ -44,7 +48,9 @@ class Graph {
 		}
 		csvKeySelector.addEventListener('change', activeKeyChanged);
 		this.csvInputs.refreshCsvInputs().then(function() {
-			const keys = outer.csvInputs.getCsvInputKeys().forEach(function(key, index) {
+			const allKeys = outer.csvInputs.getNumericCsvInputKeys().concat(outer.virtualAnimationStateKeys.getVirtualKeyStrings());
+			allKeys.sort();
+			const keys = allKeys.forEach(function(key, index) {
 				const option = document.createElement('option');
 				option.innerText = key;
 				if (index === 0)

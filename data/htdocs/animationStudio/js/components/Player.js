@@ -1,9 +1,12 @@
 class Player extends EventDispatcher {
-	constructor(project) {
+	constructor(project, virtualAnimationStateKeys) {
 		super();
 		if (!(project instanceof Project))
 			throw new Error('Project required');
+		if (!(virtualAnimationStateKeys instanceof VirtualAnimationStateKeys))
+			throw new Error('virtualAnimationStateKeys required');
 
+		this.virtualAnimationStateKeys = virtualAnimationStateKeys;
 		this.project = project;
 		this.time = 0;
 		this.startPlayingTime = undefined;
@@ -14,25 +17,17 @@ class Player extends EventDispatcher {
 		const outer = this;
 		this.timer = undefined;
 		this.canPlayAudio = false;
+
+		/*
+		Need to convert mp3 URL to data URL to control currentTime when hosted by UAVSim.
+		Some articles suggest the server can be configured better for this to not be necessary 
+		but this is a simple workaround.
+		*/
 		urlToDataURL('/animationStudio/audio/audio.mp3').then(function(dataUrl) {
 			outer.audio = new Audio();
 			outer.audio.src = dataUrl;
-			console.log('src = ' + dataUrl);
 			outer.audio.addEventListener("canplay", evt => { 
 				outer.canPlayAudio = true;
-				console.log('canPlayAudio set to true. duration = ' + outer.audio.duration);
-			});
-			outer.audio.addEventListener('pause', function() {
-				console.log('pause triggered');
-			});
-			outer.audio.addEventListener('timeupdate', function() {
-				console.log('timeupdate triggered. currentTime = ' + outer.audio.currentTime);
-			});
-			outer.audio.addEventListener('progress', function() {
-				console.log('progress triggered');
-			});
-			outer.audio.addEventListener('play', function() {
-				console.log('play triggered');
 			});
 		});
 		
@@ -126,11 +121,12 @@ class Player extends EventDispatcher {
 
 	sendCSVStateToServer() {
 		const animationState = {};
-		const keys = this.project.getCsvKeys();
+		const keys = this.virtualAnimationStateKeys.getAllSourceKeys(this.project);
 		const outer = this;
-		keys.forEach(function(key) {
-			const val = outer.project.getValue(key, outer.time * 0.001);
-			animationState[key] = val;
+		keys.forEach(function(sourceKey) {
+			const virtualKeyString = outer.virtualAnimationStateKeys.getVirtualKeyFor(sourceKey);
+			const val = outer.project.getValue(virtualKeyString, outer.time * 0.001);
+			animationState[sourceKey] = outer.virtualAnimationStateKeys.convertNumberToSourceType(sourceKey, val);
 		});
 		return fetch('/api/csv-inputs', {
 			'method': 'POST',

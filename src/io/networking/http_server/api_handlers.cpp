@@ -37,9 +37,16 @@ string getAnimationStateKeys()
     {
         rapidjson::Value obj(rapidjson::kObjectType);
         obj.AddMember("name", rapidjson::Value().SetString(key.name.c_str(), key.name.length(), allocator), allocator);
+        obj.AddMember("dataType", rapidjson::Value().SetInt(key.dataType), allocator);
         obj.AddMember("min", rapidjson::Value().SetDouble(key.rangeMin), allocator);
         obj.AddMember("max", rapidjson::Value().SetDouble(key.rangeMax), allocator);
-        obj.AddMember("value", rapidjson::Value().SetDouble(animationState.get(key.name)), allocator);
+        if (key.dataType == AnimationStateKeyType::tDouble)
+            obj.AddMember("value", rapidjson::Value().SetDouble(animationState.getDouble(key.name)), allocator);
+        else
+        {
+            string colourString = animationState.getColour(key.name).str();
+            obj.AddMember("value", rapidjson::Value().SetString(colourString.c_str(), colourString.length()), allocator);
+        }
         keysArray.PushBack(obj, allocator);
     }
     document.AddMember("supportedKeys", keysArray, allocator);
@@ -73,9 +80,17 @@ string setAnimationStateKeys(rapidjson::Document &doc)
     // loop over keys from doc.
     for (auto i = doc.MemberBegin(); i != doc.MemberEnd(); ++i)
     {
-        if (!i->value.IsNumber())
-            return string("{\"success\": false, \"message\": \"Number required for key ") + string(i->name.GetString()) + string(".\"}");
-        newState.setValue(i->name.GetString(), i->value.GetDouble());
+        AnimationStateKeyType type = AnimationState::getTypeFor(i->name.GetString());
+        if (type == AnimationStateKeyType::tDouble)
+        {
+            if (!i->value.IsNumber())
+                return string("{\"success\": false, \"message\": \"Number required for key ") + string(i->name.GetString()) + string(".\"}");
+            newState.setValue(i->name.GetString(), i->value.GetDouble());
+        }
+        else
+        {
+            newState.setValue(i->name.GetString(), i->value.GetString());
+        }
     }
     DefaultAnimation::getInstance()->setAnimationState(newState);
     UAVPhysicalState* physicsState = UAVPhysicalState::getInstance();

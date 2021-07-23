@@ -10,14 +10,13 @@
 
 using namespace std;
 
-ColouredTriangleSet::ColouredTriangleSet(double r, double g, double b): r(r), g(g), b(b)
+ColouredTriangleSet::ColouredTriangleSet(double r, double g, double b): c(r, g, b)
 {
-
 }
 
 void ColouredTriangleSet::draw() const
 {
-	glColor3f(r, g, b);
+	glColor3f(c.r, c.g, c.b);
 	glBegin(GL_TRIANGLES);
 	for (auto it = triangles.begin(); it != triangles.end(); it++)
 	{

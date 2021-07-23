@@ -42,13 +42,18 @@ StateSequenceAnimation* CSVAnimationImporter::loadFrom(const string & filename) 
         UAVSimConfig& c = UAVSimConfig::config;
 		for (unsigned int i = 0; i < firstLine.size(); i++)
 		{
-            string path = string("/csv/columns/") + firstLine[i] + "/to";
-            string key = c.getDefaultedString(path, firstLine[i]);
-            path = string("/csv/columns/") + firstLine[i] + "/scale";
-            if (scaleFactors.count(i) == 0)
-                scaleFactors[i] = 1; // default to 1.
-            scaleFactors[i] = c.getDefaultedDouble(path, scaleFactors[i]);
-            headers.push_back(AnimationState::sanitizeName(key));
+			string path = string("/csv/columns/") + firstLine[i] + "/to";
+			string key = c.getDefaultedString(path, firstLine[i]);
+			key = AnimationState::sanitizeName(key);
+			path = string("/csv/columns/") + firstLine[i] + "/scale";
+			// Don't set scale factors unless we can scale the value.
+			if (AnimationState::getTypeFor(key) == AnimationStateKeyType::tDouble)
+			{
+				if (scaleFactors.count(i) == 0)
+					scaleFactors[i] = 1; // default to 1.
+				scaleFactors[i] = c.getDefaultedDouble(path, scaleFactors[i]);
+			}
+			headers.push_back(key);
 		}
 	}
     for (unsigned int i = 1; i < values.size(); i++)

@@ -1,5 +1,5 @@
 #include "Vector3DTest.hpp"
-#include "../models/Vector3D.hpp"
+#include "../../models/Vector3D.hpp"
 #include <cmath>
 using namespace std;
 

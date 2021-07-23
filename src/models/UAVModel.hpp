@@ -17,6 +17,7 @@ class UAVModel
         double servoPivotY;
 		double getBoundingSphereRadius() const;
         void getTriangles(std::vector<Triangle>& result) const;
+        static unsigned int countShapes();
 		static UAVModel* getInstance();
 };
 

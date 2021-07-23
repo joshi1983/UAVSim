@@ -1,10 +1,10 @@
 #include "TriangleFiltersTest.hpp"
-#include "../models/triangle_filters/CubeVertexFilter.hpp"
-#include "../models/triangle_filters/SphereVertexFilter.hpp"
-#include "../models/triangle_filters/CylinderVertexFilter.hpp"
-#include "../models/triangle_filters/IntersectionVertexFilter.hpp"
-#include "../models/triangle_filters/UnionVertexFilter.hpp"
-#include "../models/triangle_filters/TriangleFilter.hpp"
+#include "../../models/triangle_filters/CubeVertexFilter.hpp"
+#include "../../models/triangle_filters/SphereVertexFilter.hpp"
+#include "../../models/triangle_filters/CylinderVertexFilter.hpp"
+#include "../../models/triangle_filters/IntersectionVertexFilter.hpp"
+#include "../../models/triangle_filters/UnionVertexFilter.hpp"
+#include "../../models/triangle_filters/TriangleFilter.hpp"
 using namespace std;
 
 void testCubeVertexFilters(UnitTest& unitTest)

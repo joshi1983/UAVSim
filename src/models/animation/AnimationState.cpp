@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include "../../devices/Devices.hpp"
+#include "../UAVModel.hpp"
 using namespace std;
 
 
@@ -10,11 +11,22 @@ double blendVal(double val1, double val2, double ratio)
     return val1 * (1 - ratio) + val2 * ratio;
 }
 
+unsigned int getIntFromName(const string& name)
+{
+    string result(name);
+    // remove any non-letter.
+    result.erase(remove_if(result.begin(), result.end(), [](char c) { return !isdigit(c); } ), result.end());
+
+    return stoi(result);
+}
+
 AnimationState::AnimationState(): activeCamera(nullptr), blade1Angle(0), blade2Angle(0),
 	pitch(0), yaw(0), roll(0), x(0), y(0), z(0), steerAngle1(0), steerAngle2(0),
 	cameraY(0), cameraZ(-0.3), cameraPitch(0), cameraYaw(0), cameraScale(1), waterAnimationT(0)
 {
-
+    unsigned int shapeCount = UAVModel::countShapes();
+    for (unsigned int i = 0; i < shapeCount; i++)
+        shapeColours.push_back(Colour(1, 1, 1));
 }
 
 AnimationState AnimationState::blend(const AnimationState& state1, const AnimationState& state2, double ratio)
@@ -36,6 +48,11 @@ AnimationState AnimationState::blend(const AnimationState& state1, const Animati
     result.cameraYaw = blendVal(state1.cameraYaw, state2.cameraYaw, ratio);
     result.cameraScale = blendVal(state1.cameraScale, state2.cameraScale, ratio);
     result.waterAnimationT = blendVal(state1.waterAnimationT, state2.waterAnimationT, ratio);
+    unsigned int shapeColoursToBlend = min(min(result.shapeColours.size(), state1.shapeColours.size()), state2.shapeColours.size());
+    for (unsigned int i = 0; i < shapeColoursToBlend; i++)
+    {
+        result.shapeColours[i] = Colour::blend(state1.shapeColours[i], state2.shapeColours[i], ratio);
+    }
     return result;
 }
 
@@ -44,23 +61,81 @@ void AnimationState::updateForT(double t)
     waterAnimationT = t;
 }
 
-double AnimationState::get(const std::string& name)
+double AnimationState::getDouble(const std::string& name) const
 {
-    double *valPointer = getValuePointer(name);
+    const double *valPointer = getDoubleValuePointerConst(name);
     if (valPointer != nullptr)
         return *valPointer;
     else
         return 0;
 }
 
+Colour AnimationState::getColour(const std::string& name) const
+{
+    const Colour *valPointer = getColourValuePointerConst(name);
+    if (valPointer != nullptr)
+        return *valPointer;
+    else
+        return Colour(1, 1, 1);
+}
+
 void AnimationState::setValue(const std::string& name, const double value)
 {
-    double *valPointer = getValuePointer(name);
+    double *valPointer = getDoubleValuePointer(name);
     if (valPointer != nullptr)
         *valPointer = value;
 }
 
-double* AnimationState::getValuePointer(const std::string& name)
+void AnimationState::setValue(const std::string& name, const Colour & value)
+{
+    Colour* c = getColourValuePointer(name);
+    if (c != nullptr)
+        (*c) = value;
+}
+
+double *AnimationState::getDoubleValuePointer(const std::string& name)
+{
+    return (double*)getDoubleValuePointerConst(name);
+}
+
+Colour *AnimationState::getColourValuePointer(const std::string& name)
+{
+    return (Colour*)getColourValuePointerConst(name);
+}
+
+const Colour *AnimationState::getColourValuePointerConst(const std::string& name) const
+{
+    unsigned int index = getIntFromName(name);
+    if (index < shapeColours.size())
+        return &shapeColours[index];
+	return nullptr;
+}
+
+AnimationStateKeyType AnimationState::getTypeFor(const std::string& name)
+{
+    if (name.rfind("shape", 0) == 0 && name.find("colour") != string::npos)
+        return AnimationStateKeyType::tColour;
+
+	return AnimationStateKeyType::tDouble;
+}
+
+void AnimationState::copyColoursToUAVModel()
+{
+    unsigned int shapeCount = UAVModel::countShapes();
+    while (shapeCount > shapeColours.size())
+    {
+        shapeColours.push_back(Colour(1,1,1));
+    }
+
+    if (shapeCount == 0)
+        return;
+
+    UAVModel* uavModel = UAVModel::getInstance();
+    for (unsigned int i = 0; i < shapeCount; i++)
+        uavModel->shapes[i].c = shapeColours[i];
+}
+
+const double* AnimationState::getDoubleValuePointerConst(const std::string& name) const
 {
     if (name[0] == 'c')
     {
@@ -111,13 +186,22 @@ double* AnimationState::getValuePointer(const std::string& name)
 
 void AnimationState::setValue(const std::string& name, const std::string& value)
 {
-    try
+    if (AnimationState::getTypeFor(name) == AnimationStateKeyType::tDouble)
     {
-        setValue(name, stod(value));
+        try
+        {
+            setValue(name, stod(value));
+        }
+        catch ( invalid_argument &e)
+        {
+            cerr << "Problem converting " << value << " to double." << endl;
+        }
     }
-    catch ( invalid_argument &e)
+    else
     {
-        cerr << "Problem converting " << value << " to double." << endl;
+        Colour c;
+        c.loadFrom(value);
+        setValue(name, c);
     }
 }
 
@@ -130,6 +214,10 @@ vector<AnimateStateKey> AnimationState::getSupportedNames()
     "water-animation-t",
     "x", "y", "yaw", "z"
     };
+    unsigned int shapeCount = UAVModel::countShapes();
+    for (unsigned int i = 0; i < shapeCount; i++)
+        resultNames.push_back(string("shape-") + to_string(i) + "-colour");
+
     vector<AnimateStateKey> result;
     for (std::string& name: resultNames)
     {
@@ -162,7 +250,7 @@ vector<AnimateStateKey> AnimationState::getSupportedNames()
             rMin = -20;
             rMax = 20;
         }
-        result.push_back(AnimateStateKey(name, rMin, rMax));
+        result.push_back(AnimateStateKey(name, AnimationState::getTypeFor(name), rMin, rMax));
     }
     return result;
 }
@@ -173,6 +261,11 @@ string AnimationState::sanitizeName(const string& name)
     transform(result.begin(), result.end(),result.begin(), ::tolower);
     // remove any non-letter.
     result.erase(remove_if(result.begin(), result.end(), [](char c) { return !isalnum(c); } ), result.end());
+    if (result.rfind("shape", 0) == 0 && result.find("colour") != string::npos)
+    {
+        unsigned int i = getIntFromName(result);
+        return string("shape-") + to_string(i) + "-colour";
+    }
     if (result == "blade1angle")
         result = "blade-1-angle";
     else if (result == "blade2angle")
@@ -195,4 +288,30 @@ string AnimationState::sanitizeName(const string& name)
         result = "water-animation-t";
 
     return result;
+}
+
+AnimationState& AnimationState::operator=(const AnimationState& other)
+{
+    while (shapeColours.size() < other.shapeColours.size())
+        shapeColours.push_back(Colour());
+    for (unsigned int i = 0; i < other.shapeColours.size(); i++)
+        shapeColours[i] = other.shapeColours[i];
+
+    blade1Angle = other.blade1Angle;
+    blade2Angle = other.blade2Angle;
+    pitch = other.pitch;
+    yaw = other.yaw;
+    roll = other.roll;
+    x = other.x;
+    y = other.y;
+    z = other.z;
+    steerAngle1 = other.steerAngle1;
+    steerAngle2 = other.steerAngle2;
+    cameraY = other.cameraY;
+    cameraZ = other.cameraZ;
+    cameraPitch = other.cameraPitch;
+    cameraYaw = other.cameraYaw;
+    cameraScale = other.cameraScale;
+    waterAnimationT = other.waterAnimationT;
+    return *this;
 }

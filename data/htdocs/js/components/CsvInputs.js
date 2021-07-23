@@ -54,11 +54,14 @@ class CsvInputs extends React.Component {
 		var inputDivs = React.createElement('div', {
 				'key': 'csv-inputs-list'
 			}, this.state.supportedKeys.map(function(supportedKey, index) {
-			supportedKey = Object.assign({}, supportedKey); 
+			supportedKey = Object.assign({}, supportedKey);
 			// shallow copy to avoid mutating state.
 			supportedKey.setAnimationStateKey = setAnimationStateKey;
 			supportedKey.key = 'csv-input-parent-' + index;
-			return React.createElement(CsvInput, supportedKey, null);
+			if (supportedKey.dataType === AnimationStateKeyType.tDouble)
+				return React.createElement(CsvInput, supportedKey, null);
+			else
+				return React.createElement(CsvColourInput, supportedKey, null);
 		}));
 		return React.createElement('div', rootElementProps, [h2, inputDivs]);
 	}

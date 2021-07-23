@@ -108,6 +108,14 @@ bool loadTrianglesFromModel(UAVSimConfig& c, vector<Triangle>& triangles)
     }
 }
 
+unsigned int UAVModel::countShapes()
+{
+    if (UAVModel::singleton == nullptr)
+        return 0;
+    else
+        return UAVModel::singleton->shapes.size();
+}
+
 UAVModel::UAVModel()
 {
     UAVModel::singleton = this;
@@ -117,7 +125,6 @@ UAVModel::UAVModel()
     vector<Triangle> triangles;
     if (loadTrianglesFromModel(c, triangles))
     {
-        cerr << "Loaded triangles: " << triangles.size() << endl;
         processTransformation(triangles, c);
         boundingSphereRadius = getBoundingRadius(triangles);
 

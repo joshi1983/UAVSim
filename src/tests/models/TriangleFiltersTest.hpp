@@ -1,6 +1,6 @@
 #ifndef TRIANGLE_FILTERS_TEST_HEADER_INCLUDED
 #define TRIANGLE_FILTERS_TEST_HEADER_INCLUDED
-#include "UnitTest.hpp"
+#include "../UnitTest.hpp"
 
 class TriangleFiltersTest: public UnitTest {
 	public:

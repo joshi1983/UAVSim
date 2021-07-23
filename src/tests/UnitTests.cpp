@@ -1,8 +1,9 @@
 #include "UnitTests.hpp"
-#include "TriangleFiltersTest.hpp"
-#include "TriangleFilterFactoryTest.hpp"
-#include "Vector3DTest.hpp"
-#include "AnimationStateTest.hpp"
+#include "models/TriangleFiltersTest.hpp"
+#include "models/TriangleFilterFactoryTest.hpp"
+#include "models/Vector3DTest.hpp"
+#include "models/ColourTest.hpp"
+#include "models/AnimationStateTest.hpp"
 #include "physics/PropellerMotorPhysicalStateTest.hpp"
 #include "physics/UAVPhysicalStateTest.hpp"
 #include "physics/JSONPhysicalStateLoaderTest.hpp"
@@ -20,6 +21,7 @@ void runAllUnitTests()
 		TriangleFiltersTest(),
 		TriangleFilterFactoryTest(),
 		Vector3DTest(),
+		ColourTest(),
 		AnimationStateTest(),
 		PropellerMotorTest(),
 		PropellerMotorPhysicalStateTest(),

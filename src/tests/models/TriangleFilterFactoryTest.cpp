@@ -1,8 +1,8 @@
 #include "TriangleFilterFactoryTest.hpp"
-#include "../models/triangle_filters/TriangleFilterFactory.hpp"
-#include "../lib/rapidjson/document.h"
-#include "../lib/rapidjson/pointer.h"
-#include "../lib/rapidjson/error/en.h"
+#include "../../models/triangle_filters/TriangleFilterFactory.hpp"
+#include "../../lib/rapidjson/document.h"
+#include "../../lib/rapidjson/pointer.h"
+#include "../../lib/rapidjson/error/en.h"
 #include <iostream>
 using namespace std;
 

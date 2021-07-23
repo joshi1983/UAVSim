@@ -1,9 +1,12 @@
 class CSVExporter {
-	constructor(project) {
+	constructor(project, virtualAnimationStateKeys) {
 		if (!(project instanceof Project))
 			throw new Error('Project required.');
+		if (!(virtualAnimationStateKeys instanceof VirtualAnimationStateKeys))
+			throw new Error('VirtualAnimationStateKeys required');
 
 		this.project = project;
+		this.virtualAnimationStateKeys = virtualAnimationStateKeys;
 		const downloadButton = document.getElementById('download-csv');
 		const outer = this;
 		downloadButton.addEventListener('click', function() {
@@ -12,7 +15,8 @@ class CSVExporter {
 	}
 
 	async download() {
-		const keys = this.project.getCsvKeys();
+		const outer = this;
+		const keys = this.virtualAnimationStateKeys.getAllSourceKeys(this.project);
 		const lines = [keys];
 		const _animationSettings = AnimationSettingsRepository.getInstance();
 		const animationSettings = await _animationSettings.getSettingsAsync();
@@ -25,8 +29,9 @@ class CSVExporter {
 				const t = (frameIndex + blurRatio) / fps;
 				const valuesForLine = [];
 				for (var columnIndex = 0; columnIndex < keys.length; columnIndex++) {
-					const v = this.project.getValue(keys[columnIndex], t);
-					valuesForLine.push(v);
+					const virtualKeyString = outer.virtualAnimationStateKeys.getVirtualKeyFor(keys[columnIndex]);
+					const v = this.project.getValue(virtualKeyString, t);
+					valuesForLine.push(outer.virtualAnimationStateKeys.convertNumberToSourceType(keys[columnIndex], v));
 				}
 				lines.push(valuesForLine.join(","));
 			}

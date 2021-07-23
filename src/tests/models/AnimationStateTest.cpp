@@ -1,5 +1,5 @@
 #include "AnimationStateTest.hpp"
-#include "../models/animation/AnimationState.hpp"
+#include "../../models/animation/AnimationState.hpp"
 #include <cmath>
 #include <iostream>
 using namespace std;
