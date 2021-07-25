@@ -23,6 +23,8 @@ mime_type(beast::string_view path)
     if(iequals(ext, ".xml"))  return "application/xml";
     if(iequals(ext, ".swf"))  return "application/x-shockwave-flash";
     if(iequals(ext, ".flv"))  return "video/x-flv";
+    if(iequals(ext, ".mp4"))  return "video/mp4";
+    if(iequals(ext, ".mp3"))  return "audio/mpeg";
     if(iequals(ext, ".png"))  return "image/png";
     if(iequals(ext, ".jpe"))  return "image/jpeg";
     if(iequals(ext, ".jpeg")) return "image/jpeg";
