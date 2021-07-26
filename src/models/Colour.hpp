@@ -7,6 +7,7 @@ class Colour
 	public:
 		Colour();
 	    Colour(double r, double g, double b);
+	    Colour(const Colour& other);
 		double r, g, b;
 		void loadFrom(const std::string & s);
 		std::string str() const;

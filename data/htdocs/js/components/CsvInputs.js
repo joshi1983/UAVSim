@@ -59,9 +59,11 @@ class CsvInputs extends React.Component {
 			supportedKey.setAnimationStateKey = setAnimationStateKey;
 			supportedKey.key = 'csv-input-parent-' + index;
 			if (supportedKey.dataType === AnimationStateKeyType.tDouble)
-				return React.createElement(CsvInput, supportedKey, null);
-			else
+				return React.createElement(CsvDoubleInput, supportedKey, null);
+			else if (supportedKey.dataType === AnimationStateKeyType.tColour)
 				return React.createElement(CsvColourInput, supportedKey, null);
+			else
+				return React.createElement(CsvBoolInput, supportedKey, null);
 		}));
 		return React.createElement('div', rootElementProps, [h2, inputDivs]);
 	}

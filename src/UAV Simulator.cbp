@@ -254,6 +254,8 @@
 		<Unit filename="models/animation/DefaultAnimation.hpp" />
 		<Unit filename="models/animation/StateSequenceAnimation.cpp" />
 		<Unit filename="models/animation/StateSequenceAnimation.hpp" />
+		<Unit filename="models/animation/TriangleSetAnimationProperties.cpp" />
+		<Unit filename="models/animation/TriangleSetAnimationProperties.hpp" />
 		<Unit filename="models/animation/ffmpeg.cpp" />
 		<Unit filename="models/animation/ffmpeg.hpp" />
 		<Unit filename="models/generators/MeshGenerator.hpp" />
@@ -303,6 +305,8 @@
 		<Unit filename="tests/models/TriangleFilterFactoryTest.hpp" />
 		<Unit filename="tests/models/TriangleFiltersTest.cpp" />
 		<Unit filename="tests/models/TriangleFiltersTest.hpp" />
+		<Unit filename="tests/models/TriangleSetAnimationPropertiesTest.cpp" />
+		<Unit filename="tests/models/TriangleSetAnimationPropertiesTest.hpp" />
 		<Unit filename="tests/models/Vector3DTest.cpp" />
 		<Unit filename="tests/models/Vector3DTest.hpp" />
 		<Unit filename="tests/physics/JSONPhysicalStateLoaderTest.cpp" />

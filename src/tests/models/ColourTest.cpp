@@ -47,9 +47,19 @@ void testLoadFrom(UnitTest& unitTest)
 	unitTest.assertTrue(abs(c.b - 1) < precisionThreshold, "#fff: b expected to be 1.");
 }
 
+void testCopyConstructor(UnitTest& unitTest)
+{
+    Colour c(1, 0, 0.5);
+    Colour c2 = c;
+	unitTest.assertTrue(c2.r == 1, "c2.r expected to be 1.");
+	unitTest.assertTrue(c2.g == 0, "c2.g expected to be 0.");
+	unitTest.assertTrue(c2.b == 0.5, "c2.b expected to be 0.5.");
+}
+
 ColourTest::ColourTest(): UnitTest("ColourTest")
 {
 	testFunctions.push_back(make_pair("str", testStr));
 	testFunctions.push_back(make_pair("loadFrom", testLoadFrom));
+	testFunctions.push_back(make_pair("copyConstructor", testCopyConstructor));
 }
 

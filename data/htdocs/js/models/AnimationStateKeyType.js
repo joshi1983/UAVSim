@@ -5,3 +5,4 @@ class AnimationStateKeyType {
 };
 AnimationStateKeyType.tDouble = 0;
 AnimationStateKeyType.tColour = 1;
+AnimationStateKeyType.tBool = 2;

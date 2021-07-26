@@ -42,10 +42,14 @@ string getAnimationStateKeys()
         obj.AddMember("max", rapidjson::Value().SetDouble(key.rangeMax), allocator);
         if (key.dataType == AnimationStateKeyType::tDouble)
             obj.AddMember("value", rapidjson::Value().SetDouble(animationState.getDouble(key.name)), allocator);
-        else
+        else if (key.dataType == AnimationStateKeyType::tColour)
         {
             string colourString = animationState.getColour(key.name).str();
             obj.AddMember("value", rapidjson::Value().SetString(colourString.c_str(), colourString.length()), allocator);
+        }
+        else
+        {
+            obj.AddMember("value", rapidjson::Value().SetBool(animationState.getBool(key.name)), allocator);
         }
         keysArray.PushBack(obj, allocator);
     }
@@ -87,9 +91,16 @@ string setAnimationStateKeys(rapidjson::Document &doc)
                 return string("{\"success\": false, \"message\": \"Number required for key ") + string(i->name.GetString()) + string(".\"}");
             newState.setValue(i->name.GetString(), i->value.GetDouble());
         }
-        else
+        else if (type == AnimationStateKeyType::tBool)
+        {
+            newState.setBoolValue(i->name.GetString(), i->value.GetBool());
+        }
+        else if (type == AnimationStateKeyType::tColour)
         {
             newState.setValue(i->name.GetString(), i->value.GetString());
+        }
+        else {
+            return string("{\"success\": false, \"message\": \"Unable to determine data type for key ") + string(i->name.GetString()) + string(".\"}");
         }
     }
     DefaultAnimation::getInstance()->setAnimationState(newState);

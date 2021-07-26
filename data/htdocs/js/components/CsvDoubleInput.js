@@ -1,4 +1,4 @@
-class CsvInput extends React.Component {
+class CsvDoubleInput extends React.Component {
   constructor(props) {
 	  super(props);
 	  this.state = {'min': this.props.min, 'max': this.props.max};

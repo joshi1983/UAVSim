@@ -55,6 +55,9 @@ class VirtualAnimationStateKeys {
 		if (keyInfo.dataType === AnimationStateKeyType.tColour) {
 			result.push(new ColourBlendAnimationStateKey(new Colour('#ffffff'), new Colour('#ff0000'), keyInfo.name));
 		}
+		else if (keyInfo.dataType === AnimationStateKeyType.tBool) {
+			result.push(new BoolAnimationStateKey(keyInfo.name));
+		}
 		return result;
 	}
 }

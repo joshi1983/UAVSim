@@ -57,6 +57,7 @@ void initRenderer(const char * programPath, int _windowid)
     Ground::init(_windowid);
     ground = new Ground();
     updateResolutionFromConfig();
+    UAVModel::getInstance(); // make sure the UAV model is loaded before loading an animation from a CSV.
     CSVAnimationImporter csvAnimationImporter;
     animation = csvAnimationImporter.load();
     if (animation != nullptr)
@@ -151,7 +152,7 @@ void render()
         animation->getState(t, animationState);
     }
 
-    animationState.copyColoursToUAVModel();
+    animationState.copyShapePropertiesToUAVModel();
 
     updateFrustrum(animationState);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

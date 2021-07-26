@@ -129,7 +129,7 @@ UAVModel::UAVModel()
         boundingSphereRadius = getBoundingRadius(triangles);
 
         // white part.
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 9; i++)
             shapes.push_back(ColouredTriangleSet(1, 1, 1));
 
         updateSteeringPivot(c);
@@ -150,6 +150,7 @@ UAVModel::UAVModel()
         TriangleFilter * servo2Filter = createTriangleFilterFrom("/steerable_assembly/servo2_arm", c);
         TriangleFilter * servo3Filter = createTriangleFilterFrom("/steerable_assembly/servo3_arm", c);
         TriangleFilter * servo4Filter = createTriangleFilterFrom("/steerable_assembly/servo4_arm", c);
+        TriangleFilter * raspberryPiFilter = createTriangleFilterFrom("/body_parts/raspberry", c);
 
         for (auto t = triangles.begin(); t != triangles.end(); t++)
         {
@@ -167,6 +168,8 @@ UAVModel::UAVModel()
                 shapes[6].triangles.push_back(*t);
             else if (servo1Filter != nullptr && servo4Filter->isIncluded(*t))
                 shapes[7].triangles.push_back(*t);
+            else if (raspberryPiFilter != nullptr && raspberryPiFilter->isIncluded(*t))
+                shapes[8].triangles.push_back(*t);
             else
                 shapes[0].triangles.push_back(*t); // main body.
         }

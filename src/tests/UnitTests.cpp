@@ -1,4 +1,5 @@
 #include "UnitTests.hpp"
+#include "models/TriangleSetAnimationPropertiesTest.hpp"
 #include "models/TriangleFiltersTest.hpp"
 #include "models/TriangleFilterFactoryTest.hpp"
 #include "models/Vector3DTest.hpp"
@@ -20,6 +21,7 @@ void runAllUnitTests()
 	vector<UnitTest> unitTests({
 		TriangleFiltersTest(),
 		TriangleFilterFactoryTest(),
+		TriangleSetAnimationPropertiesTest(),
 		Vector3DTest(),
 		ColourTest(),
 		AnimationStateTest(),

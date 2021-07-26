@@ -5,7 +5,8 @@
 enum AnimationStateKeyType
 {
 	tDouble = 0,
-	tColour = 1
+	tColour = 1,
+	tBool = 2
 };
 
 class AnimateStateKey

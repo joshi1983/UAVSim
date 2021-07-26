@@ -24,6 +24,7 @@ void UAV::draw(const AnimationState & animationState, double yOffset) const
         glRotated(-animationState.roll, 0, 0, 1);
         glRotated(-animationState.pitch, 1, 0, 0);
 		model->shapes[0].draw();
+		model->shapes[8].draw();
 		glPushMatrix();
             glTranslated(0, model->servoPivotY, 0);
             glRotated(animationState.steerAngle2 * 0.5, 1, 0, 0);

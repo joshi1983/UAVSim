@@ -7,16 +7,22 @@
 #include <GL/glut.h>
 #endif
 #include "ColouredTriangleSet.hpp"
+#include <iostream>
 
 using namespace std;
 
-ColouredTriangleSet::ColouredTriangleSet(double r, double g, double b): c(r, g, b)
+ColouredTriangleSet::ColouredTriangleSet(double r, double g, double b)
 {
+    animationProperties.colour = Colour(r, g, b);
 }
 
 void ColouredTriangleSet::draw() const
 {
-	glColor3f(c.r, c.g, c.b);
+    // Don't draw anything if this isn't supposed to be visible.
+    if (!animationProperties.isVisible) {
+        return;
+    }
+	glColor3f(animationProperties.colour.r, animationProperties.colour.g, animationProperties.colour.b);
 	glBegin(GL_TRIANGLES);
 	for (auto it = triangles.begin(); it != triangles.end(); it++)
 	{

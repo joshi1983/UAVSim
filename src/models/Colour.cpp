@@ -29,6 +29,10 @@ Colour::Colour(double r, double g, double b): r(r), g(g), b(b)
 
 }
 
+Colour::Colour(const Colour& other): r(other.r), g(other.g), b(other.b)
+{
+}
+
 Colour Colour::blend(const Colour & c1, const Colour & c2, double ratio)
 {
 	double ratio2 = 1 - ratio;

@@ -2,13 +2,13 @@
 #define COLOURED_TRIANGLE_SET_HEADER
 #include "Triangle.hpp"
 #include <vector>
-#include "Colour.hpp"
+#include "animation/TriangleSetAnimationProperties.hpp"
 
 class ColouredTriangleSet
 {
 	public:
 		ColouredTriangleSet(double r, double g, double b);
-		Colour c;
+		TriangleSetAnimationProperties animationProperties;
 		std::vector<Triangle> triangles;
 		void draw() const;
 };

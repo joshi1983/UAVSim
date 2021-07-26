@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../../devices/Devices.hpp"
 #include "../UAVModel.hpp"
+#include "../../io/stringUtils.hpp"
 using namespace std;
 
 
@@ -26,7 +27,7 @@ AnimationState::AnimationState(): activeCamera(nullptr), blade1Angle(0), blade2A
 {
     unsigned int shapeCount = UAVModel::countShapes();
     for (unsigned int i = 0; i < shapeCount; i++)
-        shapeColours.push_back(Colour(1, 1, 1));
+        shapeProperties.push_back(TriangleSetAnimationProperties());
 }
 
 AnimationState AnimationState::blend(const AnimationState& state1, const AnimationState& state2, double ratio)
@@ -48,10 +49,10 @@ AnimationState AnimationState::blend(const AnimationState& state1, const Animati
     result.cameraYaw = blendVal(state1.cameraYaw, state2.cameraYaw, ratio);
     result.cameraScale = blendVal(state1.cameraScale, state2.cameraScale, ratio);
     result.waterAnimationT = blendVal(state1.waterAnimationT, state2.waterAnimationT, ratio);
-    unsigned int shapeColoursToBlend = min(min(result.shapeColours.size(), state1.shapeColours.size()), state2.shapeColours.size());
-    for (unsigned int i = 0; i < shapeColoursToBlend; i++)
+    const unsigned int shapesToBlend = min(min(result.shapeProperties.size(), state1.shapeProperties.size()), state2.shapeProperties.size());
+    for (unsigned int i = 0; i < shapesToBlend; i++)
     {
-        result.shapeColours[i] = Colour::blend(state1.shapeColours[i], state2.shapeColours[i], ratio);
+        result.shapeProperties[i] = TriangleSetAnimationProperties::blend(state1.shapeProperties[i], state2.shapeProperties[i], ratio);
     }
     return result;
 }
@@ -79,6 +80,15 @@ Colour AnimationState::getColour(const std::string& name) const
         return Colour(1, 1, 1);
 }
 
+bool AnimationState::getBool(const std::string& name) const
+{
+    const bool * valPointer = getBoolValuePointerConst(name);
+    if (valPointer != nullptr)
+        return *valPointer;
+
+    return true;
+}
+
 void AnimationState::setValue(const std::string& name, const double value)
 {
     double *valPointer = getDoubleValuePointer(name);
@@ -93,6 +103,13 @@ void AnimationState::setValue(const std::string& name, const Colour & value)
         (*c) = value;
 }
 
+void AnimationState::setBoolValue(const std::string& name, bool value)
+{
+    bool* b = getBoolValuePointer(name);
+    if (b != nullptr)
+        (*b) = value;
+}
+
 double *AnimationState::getDoubleValuePointer(const std::string& name)
 {
     return (double*)getDoubleValuePointerConst(name);
@@ -103,28 +120,46 @@ Colour *AnimationState::getColourValuePointer(const std::string& name)
     return (Colour*)getColourValuePointerConst(name);
 }
 
+bool *AnimationState::getBoolValuePointer(const std::string& name)
+{
+    return (bool*)getBoolValuePointerConst(name);
+}
+
 const Colour *AnimationState::getColourValuePointerConst(const std::string& name) const
 {
     unsigned int index = getIntFromName(name);
-    if (index < shapeColours.size())
-        return &shapeColours[index];
+    if (index < shapeProperties.size())
+        return &shapeProperties[index].colour;
+	return nullptr;
+}
+
+const bool* AnimationState::getBoolValuePointerConst(const std::string& name) const
+{
+    unsigned int index = getIntFromName(name);
+    if (index < shapeProperties.size())
+        return &shapeProperties[index].isVisible;
 	return nullptr;
 }
 
 AnimationStateKeyType AnimationState::getTypeFor(const std::string& name)
 {
-    if (name.rfind("shape", 0) == 0 && name.find("colour") != string::npos)
-        return AnimationStateKeyType::tColour;
+    if (name.rfind("shape", 0) == 0)
+    {
+        if (name.find("colour") != string::npos)
+            return AnimationStateKeyType::tColour;
+        else
+            return AnimationStateKeyType::tBool;
+    }
 
 	return AnimationStateKeyType::tDouble;
 }
 
-void AnimationState::copyColoursToUAVModel()
+void AnimationState::copyShapePropertiesToUAVModel()
 {
     unsigned int shapeCount = UAVModel::countShapes();
-    while (shapeCount > shapeColours.size())
+    while (shapeCount > shapeProperties.size())
     {
-        shapeColours.push_back(Colour(1,1,1));
+        shapeProperties.push_back(TriangleSetAnimationProperties());
     }
 
     if (shapeCount == 0)
@@ -132,7 +167,7 @@ void AnimationState::copyColoursToUAVModel()
 
     UAVModel* uavModel = UAVModel::getInstance();
     for (unsigned int i = 0; i < shapeCount; i++)
-        uavModel->shapes[i].c = shapeColours[i];
+        uavModel->shapes[i].animationProperties = shapeProperties[i];
 }
 
 const double* AnimationState::getDoubleValuePointerConst(const std::string& name) const
@@ -197,11 +232,19 @@ void AnimationState::setValue(const std::string& name, const std::string& value)
             cerr << "Problem converting " << value << " to double." << endl;
         }
     }
-    else
+    else if (AnimationState::getTypeFor(name) == AnimationStateKeyType::tBool)
+    {
+        setBoolValue(name, toLower(value) == "true" || value == "1" ? true : false);
+    }
+    else if (AnimationState::getTypeFor(name) == AnimationStateKeyType::tColour)
     {
         Colour c;
         c.loadFrom(value);
         setValue(name, c);
+    }
+    else
+    {
+        cerr << "Unable to determine data type for CSV key: " << name << endl;
     }
 }
 
@@ -216,7 +259,10 @@ vector<AnimateStateKey> AnimationState::getSupportedNames()
     };
     unsigned int shapeCount = UAVModel::countShapes();
     for (unsigned int i = 0; i < shapeCount; i++)
+    {
         resultNames.push_back(string("shape-") + to_string(i) + "-colour");
+        resultNames.push_back(string("shape-") + to_string(i) + "-visible");
+    }
 
     vector<AnimateStateKey> result;
     for (std::string& name: resultNames)
@@ -261,10 +307,13 @@ string AnimationState::sanitizeName(const string& name)
     transform(result.begin(), result.end(),result.begin(), ::tolower);
     // remove any non-letter.
     result.erase(remove_if(result.begin(), result.end(), [](char c) { return !isalnum(c); } ), result.end());
-    if (result.rfind("shape", 0) == 0 && result.find("colour") != string::npos)
+    if (result.rfind("shape", 0) == 0)
     {
         unsigned int i = getIntFromName(result);
-        return string("shape-") + to_string(i) + "-colour";
+        if (result.find("colour") != string::npos)
+            return string("shape-") + to_string(i) + "-colour";
+        else if (result.find("visible") != string::npos)
+            return string("shape-") + to_string(i) + "-visible";
     }
     if (result == "blade1angle")
         result = "blade-1-angle";
@@ -292,10 +341,10 @@ string AnimationState::sanitizeName(const string& name)
 
 AnimationState& AnimationState::operator=(const AnimationState& other)
 {
-    while (shapeColours.size() < other.shapeColours.size())
-        shapeColours.push_back(Colour());
-    for (unsigned int i = 0; i < other.shapeColours.size(); i++)
-        shapeColours[i] = other.shapeColours[i];
+    while (shapeProperties.size() < other.shapeProperties.size())
+        shapeProperties.push_back(TriangleSetAnimationProperties());
+    for (unsigned int i = 0; i < other.shapeProperties.size(); i++)
+        shapeProperties[i] = other.shapeProperties[i];
 
     blade1Angle = other.blade1Angle;
     blade2Angle = other.blade2Angle;
