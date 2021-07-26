@@ -17,6 +17,10 @@ class ColourBlendAnimationStateKey extends VirtualAnimationStateKey {
 		return this.sourceKey;
 	}
 
+	getSourceKeyStrings() {
+		return [this.sourceKey];
+	}
+
 	getVirtualKeyString() {
 		return this.sourceKey + '-blend-ratio';
 	}

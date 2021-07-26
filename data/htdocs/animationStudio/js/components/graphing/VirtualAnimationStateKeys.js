@@ -17,17 +17,17 @@ class VirtualAnimationStateKeys {
 	}
 
 	getVirtualKeyFor(sourceKeyString) {
-		if (this.sourceToVirtualKeys[sourceKeyString] === undefined)
-			return sourceKeyString;
-		else
-			return this.sourceToVirtualKeys[sourceKeyString].getVirtualKeyString();
+		while (this.sourceToVirtualKeys[sourceKeyString] !== undefined)
+			sourceKeyString = this.sourceToVirtualKeys[sourceKeyString].getVirtualKeyString();
+
+		return sourceKeyString;
 	}
 
 	getSourceKeyFor(keyString) {
-		if (this.virtualKeys[keyString] === undefined)
-			return keyString;
-		else
-			return this.virtualKeys[keyString].getSourceKeyString();
+		while (this.virtualKeys[keyString] !== undefined)
+			keyString = this.virtualKeys[keyString].getSourceKeyString();
+
+		return keyString;
 	}
 
 	getAllSourceKeys(project) {
@@ -40,6 +40,7 @@ class VirtualAnimationStateKeys {
 	}
 
 	convertNumberToSourceType(sourceKeyString, num) {
+		
 		if (this.sourceToVirtualKeys[sourceKeyString] === undefined)
 			return num;
 		else
