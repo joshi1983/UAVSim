@@ -1,1 +1,6 @@
 cache/*
+*.wrl
+*.obj
+*.stl
+*.json
+*.osm
