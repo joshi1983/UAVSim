@@ -47,12 +47,11 @@ void verticalShift(double dy)
     yOffset += dy;
 }
 
-void initRenderer(const char * programPath, int _windowid)
+void initRenderer(int _windowid)
 {
-    setProgramPath(programPath);
+    initDirectories();
     UAVSimConfig::config.load();
     isSavingFrames = UAVSimConfig::config.getDefaultedBool("/csv/isSavingFrames", true);
-    initDirectories();
     Texture::init();
     Ground::init(_windowid);
     ground = new Ground();

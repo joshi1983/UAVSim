@@ -308,6 +308,8 @@
 		<Unit filename="tests/UnitTests.hpp" />
 		<Unit filename="tests/devices/PropellerMotorTest.cpp" />
 		<Unit filename="tests/devices/PropellerMotorTest.hpp" />
+		<Unit filename="tests/io/FilesTest.cpp" />
+		<Unit filename="tests/io/FilesTest.hpp" />
 		<Unit filename="tests/io/JsonUtilsTest.cpp" />
 		<Unit filename="tests/io/JsonUtilsTest.hpp" />
 		<Unit filename="tests/io/PhysicsAPITest.cpp" />

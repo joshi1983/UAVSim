@@ -3,13 +3,36 @@
 #include <algorithm>
 #include <iostream>
 #include <cstring>
+#include <windows.h>
 using namespace std;
 
-static string programPath;
+const char* programPath = nullptr; // cached value for getProgramPath().
 
-void setProgramPath(const char * _programPath)
+const char* getProgramPath()
 {
-    programPath = _programPath;
+    // if not calculated yet, calculate it.
+    if (programPath == nullptr)
+    {
+        // implementation was copied and adapted from:
+        // https://stackoverflow.com/questions/1528298/get-path-of-executable
+        char ownPth[MAX_PATH];
+
+         // When NULL is passed to GetModuleHandle, the handle of the exe itself is returned
+         HMODULE hModule = GetModuleHandle(NULL);
+         if (hModule != NULL)
+         {
+             // Use GetModuleFileName() with module handle to get the path
+             GetModuleFileName(hModule, ownPth, (sizeof(ownPth)));
+             char * result = new char[strlen(ownPth) + 1];
+             strcpy(result, ownPth);
+             programPath = result;
+         }
+         else
+         {
+             cerr << "Module handle is NULL" << endl ;
+         }
+    }
+    return programPath;
 }
 
 string getFileExtension(const string & filename)
@@ -30,7 +53,8 @@ bool fileExists(const string & filename)
 
 string getAbsolutePathForFilename(const char * filename)
 {
-    return getAbsolutePathForFilename(programPath.c_str(), filename);
+    const char* result = getProgramPath();
+    return getAbsolutePathForFilename(result, filename);
 }
 
 string getAbsolutePathForFilename(const char * programPath, const char * filename)
@@ -41,19 +65,19 @@ string getAbsolutePathForFilename(const char * programPath, const char * filenam
     string result(programPath);
     if (result.find("\\") == string::npos)
         replace( result.begin(), result.end(), '/', '\\');
-    size_t index = result.rfind("src\\bin\\Debug\\");
-    if (index != string::npos)
-        result = result.substr(0, index);
-    else
+    vector<string> directoryEndingsToRemove = {
+        "src\\bin\\Debug\\",
+        "src\\bin\\Release\\",
+        "bin\\",
+        "\\"
+    };
+    for (const string& ending: directoryEndingsToRemove)
     {
-        index = result.rfind("src\\bin\\Release\\");
+        size_t index = result.rfind(ending);
         if (index != string::npos)
-            result = result.substr(0, index);
-        else
         {
-            index = result.rfind("\\");
-            if (index != string::npos)
-                result = result.substr(0, index);
+            result = result.substr(0, index);
+            break;
         }
     }
     if (result[result.length() - 1] != '\\')

@@ -4,7 +4,6 @@
 
 std::string getFileExtension(const std::string & filename);
 bool fileExists(const std::string & filename);
-void setProgramPath(const char * programPath);
 std::string getAbsolutePathForFilename(const char * filename);
 std::string getAbsolutePathForFilename(const char * programPath, const char * filename);
 void copy_file(const std::string & from, const std::string & to);

@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
     const char * windowTitle = "UAV Simulator";
     int windowid = glutCreateWindow(windowTitle);
     storeHWND(windowid, windowTitle);
-    initRenderer(argv[0], windowid);
+    initRenderer(windowid);
 
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
