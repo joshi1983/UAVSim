@@ -4,6 +4,11 @@ This project is a unmanned aerial vehicle(UAV) environment simulator and animati
 
 UAVSim can be used to create animations from CSV files where each row describes the state of the UAV, camera, and environment.
 
+## Animations Made with UAVSim
+
+An team of mechanical engineering students from the University of Windsor used UAVSim to create this video:
+https://www.youtube.com/watch?v=rMwGx6z1Yr8
+
 ## Installation/Deployment
 glut32.dll is required by the running application.
 It should be placed in the bin/debug directory or wherever your .exe file is.
