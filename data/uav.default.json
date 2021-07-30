@@ -1,0 +1,255 @@
+{
+	"model": "data/models/uav.wrl",
+	"scale": 1.0,
+	"translate": {
+		"z": -0.003
+	},
+	"body_parts": {
+		"raspberry": {
+			"minY": 0.1,
+			"maxY": 0.175,
+			"minX": -0.061,
+			"maxX": -0.04,
+			"minZ": -0.018,
+			"maxZ": 0.024
+		}
+	},
+	"steerable_assembly": {
+		"pivot": {
+			"x": 0.0,
+			"y": 0.30,
+			"z": 0.0
+		},
+		"servo_pivot_y": 0.25,
+		"servo1_arm": {
+			"minY": 0.23,
+			"maxY": 0.34,
+			"minX": -0.06,
+			"maxX": -0.047,
+			"minZ": -0.017,
+			"maxZ": 0.017,
+			"union": [
+				{
+					"maxY": 0.34,
+					"minY": 0.31,
+					"maxX": -0.02,
+					"minX": -0.06,
+					"minZ": -0.008,
+					"maxZ": 0.008
+				}
+			]
+		},
+		"servo2_arm": {
+			"minY": 0.23,
+			"maxY": 0.34,
+			"minX": 0.047,
+			"maxX": 0.06,
+			"minZ": -0.017,
+			"maxZ": 0.017,
+			"union": [
+				{
+					"maxY": 0.34,
+					"minY": 0.31,
+					"minX": 0.02,
+					"maxX": 0.06,
+					"minZ": -0.008,
+					"maxZ": 0.008
+				}
+			]
+		},
+		"servo3_arm": {
+			"minY": 0.23,
+			"maxY": 0.34,
+			"minZ": -0.06,
+			"maxZ": -0.047,
+			"minX": -0.017,
+			"maxX": 0.017,
+			"union": [
+				{
+					"maxY": 0.34,
+					"minY": 0.31,
+					"maxZ": -0.02,
+					"minZ": -0.06,
+					"minX": -0.008,
+					"maxX": 0.008
+				}
+			]
+		},
+		"servo4_arm": {
+			"minY": 0.23,
+			"maxY": 0.34,
+			"minZ": 0.047,
+			"maxZ": 0.06,
+			"minX": -0.017,
+			"maxX": 0.017,
+			"union": [
+				{
+					"maxY": 0.34,
+					"minY": 0.31,
+					"minZ": 0.02,
+					"maxZ": 0.06,
+					"minX": -0.008,
+					"maxX": 0.008
+				}
+			]
+		},
+		"steerable_column": {
+			"minX": -0.0272,
+			"maxX": 0.0272,
+			"minZ": -0.0272,
+			"maxZ": 0.0272,
+			"minY": 0.271,
+			"maxY": 0.395,
+			"union": [
+				{
+					"maxY": 0.31,
+					"minY": 0.271,
+					"minX": -0.037,
+					"maxX": 0.037,
+					"minZ": -0.037,
+					"maxZ": 0.037,
+					"intersects": [{
+						"type": "sphere",
+						"radius": 0.0365,
+						"cx": 0.0,
+						"cy": 0.305,
+						"cz": 0.0
+					}]
+				}
+			]
+		},
+		"blade1": {
+			"minY": 0.37,
+			"maxY": 0.387,
+			"intersects": [
+				{
+					"type": "cylinder",
+					"radius": 0.015,
+					"from": {
+						"y": 0.379,
+						"x": 0.0,
+						"z": 0.0
+					},
+					"to": {
+						"y": 0.379,
+						"x": 0.0849,
+						"z": 0.13
+					}
+				}
+			]
+		},
+		"blade2": {
+			"miny": 0.383,
+			"maxy": 0.395,
+			"maxz": 0.018,
+			"minz": -0.018,
+			"intersects": [
+				{
+					"type": "cylinder",
+					"radius": 0.018,
+					"from": {
+						"y": 0.39,
+						"x": 0.0,
+						"z": 0.0
+					},
+					"to": {
+						"y": 0.39,
+						"x": 0.1,
+						"z": 0.0
+					}
+				}
+			]
+		}
+	},
+	"massKG": 1.7,
+	"devices": [
+		{
+			"name": "cam1",
+			"type": "camera",
+			"image-url": "https://www.cnx-software.com/wp-content/uploads/2020/04/Raspberry-Pi-HQ-Camera-6mm-Lens.jpg",
+			"position": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"rotation": {
+				"x": 1,
+				"y": 0,
+				"z": 0,
+				"angle": 90
+			}
+		},
+		{
+			"name": "imu1",
+			"type": "imu-sensor",
+			"image-url": "https://th.bing.com/th/id/OIP.5wiNApwW5c-bGqBATHxMIgHaHa",
+			"spec-url": "https://invensense.tdk.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf",
+			"rotation": {
+				"x": 1,
+				"y": 0,
+				"z": 0,
+				"angle": 0
+			}
+		},
+		{
+			"name": "servo1",
+			"type": "servo-motor",
+			"range": {
+				"max-degrees": 10,
+				"min-degrees": -10
+			}
+		},
+		{
+			"name": "servo2",
+			"type": "servo-motor",
+			"range": {
+				"max-degrees": 10,
+				"min-degrees": -10
+			}
+		},
+		{
+			"name": "servo3",
+			"type": "servo-motor",
+			"range": {
+				"max-degrees": 10,
+				"min-degrees": -10
+			}
+		},
+		{
+			"name": "servo4",
+			"type": "servo-motor",
+			"range": {
+				"max-degrees": 10,
+				"min-degrees": -10
+			}
+		},
+		{
+			"name": "lift1Motor",
+			"type": "propeller-motor",
+			"spec-url": "https://www.maxxprod.com/pdf/CR3516.pdf",
+			"image-url": "https://www.rcmodelscout.com/imagestore/xN/j2sJh6VOyGgGgLEPkHcOlX0UkmxPlHAQyHwchWtOjnIckHoKyG8LiHsIlGsKyJwrxKpMwbJMx6xNyXUNkN@@/j2sJh6VOyGgGgLEPkHcOlX0UkmxPlHAQyHwchWtOjnIckHoKyG8LiHsIlGsKyJwrxKpMwbJMx6xNyXUNkN@@-JPEG_400x400.image",
+			"physics": {
+				"newtonsOfThrustAtOneRotationPerSecond": 1,
+				"newtonMetersOfTorqueAtOneRotationPerSecond": 1
+			}
+		},
+		{
+			"name": "lift2Motor",
+			"type": "propeller-motor",
+			"spec-url": "https://www.maxxprod.com/pdf/CR3516.pdf",
+			"image-url": "https://www.rcmodelscout.com/imagestore/xN/j2sJh6VOyGgGgLEPkHcOlX0UkmxPlHAQyHwchWtOjnIckHoKyG8LiHsIlGsKyJwrxKpMwbJMx6xNyXUNkN@@/j2sJh6VOyGgGgLEPkHcOlX0UkmxPlHAQyHwchWtOjnIckHoKyG8LiHsIlGsKyJwrxKpMwbJMx6xNyXUNkN@@-JPEG_400x400.image",
+			"physics": {
+				"newtonsOfThrustAtOneRotationPerSecond": 1,
+				"newtonMetersOfTorqueAtOneRotationPerSecond": 1
+			}
+		},
+		{
+			"name": "battery",
+			"type": "battery",
+			"image-url": "https://images-na.ssl-images-amazon.com/images/I/71alsofRLhL._AC_SY450_.jpg",
+			"spec-url": "https://www.amazon.ca/GOLDBAT-5200mAh-Battery-Connector-Evader/dp/B081PMRL13",
+			"massKG": 0.39,
+			"voltage": 11.1
+		}
+	]
+}

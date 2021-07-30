@@ -61,3 +61,12 @@ string getAbsolutePathForFilename(const char * programPath, const char * filenam
 
     return result + filename;
 }
+
+void copy_file(const std::string & from, const std::string & to)
+{
+    // FIXME: use c++17's filesystem library.
+    ifstream  src(from, std::ios::binary);
+    ofstream  dst(to,   std::ios::binary);
+
+    dst << src.rdbuf();
+}

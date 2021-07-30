@@ -1,0 +1,19 @@
+{
+	"httpServerPort": 8080,
+	"resolution": {
+		"width": 640,
+		"height": 480
+	},
+	"uav": "data/uav.default.json",
+	"showGround": true,
+	"frameOutputDirectory": "outputs/frames",
+	"ffmpeg": {
+		"fps": 60,
+		"video_filename": "output.mp4"
+	},
+	"csv": {
+		"isSavingFrames": true,
+		"framesPerRow": 1,
+		"blurBeforeSave": true
+	}
+}

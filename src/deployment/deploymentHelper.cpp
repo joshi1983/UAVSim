@@ -9,6 +9,7 @@ void downloadRequiredFiles()
 {
 	// if skybox_texture.jpg doesn't exist, get it from
 	//
+
 }
 
 void createPath(const char * path)
@@ -29,8 +30,20 @@ void createPath(const char * path)
     CreateDirectory (absolutePath.c_str(), NULL);
 }
 
+void initSettingsJSON()
+{
+    string destination_path = getAbsolutePathForFilename("data/settings.json");
+    if (!fileExists(destination_path))
+    {
+        string source_path = getAbsolutePathForFilename("data/settings.default.json");
+        // copy file.
+        copy_file(source_path, destination_path);
+    }
+}
+
 void initDirectories()
 {
 	createPath("data\\models\\cache");
 	createPath("outputs\\frames");
+	initSettingsJSON();
 }
