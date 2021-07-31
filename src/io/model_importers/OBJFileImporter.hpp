@@ -8,6 +8,7 @@ class OBJFileImporter: public FileImporter
 		OBJFileImporter();
 		virtual ~OBJFileImporter();
 		virtual GroupNode* load(const std::string & filename) const override;
+		static std::string removeComment(const std::string & line);
 };
 
 #endif

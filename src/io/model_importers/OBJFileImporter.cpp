@@ -8,7 +8,7 @@
 #include <iostream>
 using namespace std;
 
-string removeComment(const string& line)
+string OBJFileImporter::removeComment(const string& line)
 {
 	char * c = strchr(line.c_str(), '#');
 	string result;
@@ -25,7 +25,7 @@ void getLoadableLines(fstream& f, vector<string>& lines)
 {
 	string line;
 	while(getline(f, line)){ //read data from file object and put it into string.
-		line = simplifyWhitespaces(removeComment(line));
+		line = simplifyWhitespaces(OBJFileImporter::removeComment(line));
 		if (line.length() < 4) // too short to be a loadable line.
 			continue;
 		// if not starting with "v " or "f ", continue.
@@ -46,9 +46,9 @@ int getVertexIndex(int index, int size)
 void addTriangle(int v1, int v2, int v3, const vector<Vertex>& vertices, vector<Triangle> &triangles)
 {
     Triangle t;
-    t.vertices[0] = Vertex(vertices[getVertexIndex(v1, vertices.size())]);
-    t.vertices[1] = Vertex(vertices[getVertexIndex(v2, vertices.size())]);
-    t.vertices[2] = Vertex(vertices[getVertexIndex(v3, vertices.size())]);
+    t.vertices[0] = vertices[getVertexIndex(v1, vertices.size())];
+    t.vertices[1] = vertices[getVertexIndex(v2, vertices.size())];
+    t.vertices[2] = vertices[getVertexIndex(v3, vertices.size())];
     triangles.push_back(t);
 }
 

@@ -118,6 +118,8 @@
 		<Unit filename="io/model_importers/FileImporter.hpp" />
 		<Unit filename="io/model_importers/OBJFileImporter.cpp" />
 		<Unit filename="io/model_importers/OBJFileImporter.hpp" />
+		<Unit filename="io/model_importers/OFFFileImporter.cpp" />
+		<Unit filename="io/model_importers/OFFFileImporter.hpp" />
 		<Unit filename="io/model_importers/OSMFileImporter.cpp" />
 		<Unit filename="io/model_importers/OSMFileImporter.hpp" />
 		<Unit filename="io/model_importers/UAVSimBinaryFileImporter.cpp" />
