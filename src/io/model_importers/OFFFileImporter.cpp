@@ -44,7 +44,7 @@ void addTriangle(unsigned int v1, unsigned int v2, unsigned int v3, const vector
     triangles.push_back(t);
 }
 
-void addTriangles(const vector<unsigned int>& indexes, const vector<Vertex>& vertices, vector<Triangle> &triangles)
+void OFFFileImporter::addTriangles(const vector<unsigned int>& indexes, const vector<Vertex>& vertices, vector<Triangle> &triangles)
 {
     addTriangle(indexes[0], indexes[1], indexes[2], vertices, triangles);
     for (unsigned int vertexIndex = 3; vertexIndex < indexes.size(); vertexIndex++)
