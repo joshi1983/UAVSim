@@ -156,6 +156,11 @@ PLYHeader PLYHeader::parse(std::fstream & in)
 				}
 			 }
 		 }
+		 else if (line.rfind("obj_info", 0) == 0)
+		 {
+			 // Do nothing.
+			 // Some PLY files specify object information that appears to be vendor-specific.
+		 }
     }
 
 	return result;

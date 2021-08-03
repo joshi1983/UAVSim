@@ -3,6 +3,7 @@
 #include "OFFFileImporter.hpp"
 #include "OSMFileImporter.hpp"
 #include "PLYFileImporter.hpp"
+#include "STLFileImporter.hpp"
 #include "UAVSimBinaryFileImporter.hpp"
 #include "WRLFileImporter.hpp"
 #include "X3DFileImporter.hpp"
@@ -15,6 +16,7 @@ CompositeFileImporter::CompositeFileImporter(): FileImporter("")
 	importers.push_back(new OFFFileImporter());
 	importers.push_back(new OSMFileImporter());
 	importers.push_back(new PLYFileImporter());
+	importers.push_back(new STLFileImporter());
 	importers.push_back(new UAVSimBinaryFileImporter());
 	importers.push_back(new WRLFileImporter());
 	importers.push_back(new X3DFileImporter());

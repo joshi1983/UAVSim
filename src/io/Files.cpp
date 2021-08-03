@@ -94,3 +94,18 @@ void copy_file(const std::string & from, const std::string & to)
 
     dst << src.rdbuf();
 }
+
+/*
+Useful for converting between little-endian and big-endian.
+*/
+void reverseByteOrder(int8_t *buff, unsigned int byteCount)
+{
+	unsigned int halfLen = byteCount / 2;
+	for (unsigned int i = 0; i < halfLen; i++)
+	{
+		unsigned int swapIndex = byteCount - i - 1;
+		int8_t temp = buff[i];
+		buff[i] = buff[swapIndex];
+		buff[swapIndex] = temp;
+	}
+}

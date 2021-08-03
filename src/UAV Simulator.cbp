@@ -135,6 +135,14 @@
 		<Unit filename="io/model_importers/PLY/PLYListProperty.hpp" />
 		<Unit filename="io/model_importers/PLY/PLYProperty.cpp" />
 		<Unit filename="io/model_importers/PLY/PLYProperty.hpp" />
+		<Unit filename="io/model_importers/STLFileImporter.cpp" />
+		<Unit filename="io/model_importers/STLFileImporter.hpp" />
+		<Unit filename="io/model_importers/STL/STLDocument.cpp" />
+		<Unit filename="io/model_importers/STL/STLDocument.hpp" />
+		<Unit filename="io/model_importers/STL/STLFacet.cpp" />
+		<Unit filename="io/model_importers/STL/STLFacet.hpp" />
+		<Unit filename="io/model_importers/STL/STLHeader.cpp" />
+		<Unit filename="io/model_importers/STL/STLHeader.hpp" />
 		<Unit filename="io/model_importers/UAVSimBinaryFileImporter.cpp" />
 		<Unit filename="io/model_importers/UAVSimBinaryFileImporter.hpp" />
 		<Unit filename="io/model_importers/WRLFileImporter.cpp" />

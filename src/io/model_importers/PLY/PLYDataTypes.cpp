@@ -2,23 +2,8 @@
 #include <map>
 #include <iostream>
 #include "../../stringUtils.hpp"
+#include "../../Files.hpp"
 using namespace std;
-
-
-/*
-Useful for converting between little-endian and big-endian.
-*/
-void reverseByteOrder(int8_t *buff, unsigned int byteCount)
-{
-	unsigned int halfLen = byteCount / 2;
-	for (unsigned int i = 0; i < halfLen; i++)
-	{
-		unsigned int swapIndex = byteCount - i - 1;
-		int8_t temp = buff[i];
-		buff[i] = buff[swapIndex];
-		buff[swapIndex] = temp;
-	}
-}
 
 PLYDataTypes::PLYType PLYDataTypes::getFromName(const std::string & typeName)
 {
