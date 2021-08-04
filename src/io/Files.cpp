@@ -109,3 +109,14 @@ void reverseByteOrder(int8_t *buff, unsigned int byteCount)
 		buff[swapIndex] = temp;
 	}
 }
+
+
+void readVector3DAscii(istream &in, Vector3D & result)
+{
+	in >> result.x >> result.y >> result.z;
+}
+
+void readColourAscii(istream &in, Colour & result)
+{
+	in >> result.r >> result.g >> result.b;
+}

@@ -1,6 +1,7 @@
 #include "STLDocument.hpp"
 #include <sstream>
 #include "../../stringUtils.hpp"
+#include "../../Files.hpp"
 #include <iostream>
 using namespace std;
 
@@ -24,11 +25,6 @@ void readVector3D(fstream &in, Vector3D & result)
 	}
 	else
 		cerr << "Unable to find floating point type of byte count 4." << endl;
-}
-
-void readVector3DAscii(istream &in, Vector3D & result)
-{
-	in >> result.x >> result.y >> result.z;
 }
 
 void STLDocument::loadFrom(fstream & in)

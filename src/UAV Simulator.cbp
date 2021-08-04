@@ -143,6 +143,14 @@
 		<Unit filename="io/model_importers/STL/STLFacet.hpp" />
 		<Unit filename="io/model_importers/STL/STLHeader.cpp" />
 		<Unit filename="io/model_importers/STL/STLHeader.hpp" />
+		<Unit filename="io/model_importers/TRIFileImporter.cpp" />
+		<Unit filename="io/model_importers/TRIFileImporter.hpp" />
+		<Unit filename="io/model_importers/TRI/TRIDocument.cpp" />
+		<Unit filename="io/model_importers/TRI/TRIDocument.hpp" />
+		<Unit filename="io/model_importers/TRI/TRITriangle.cpp" />
+		<Unit filename="io/model_importers/TRI/TRITriangle.hpp" />
+		<Unit filename="io/model_importers/TRI/TRIVertex.cpp" />
+		<Unit filename="io/model_importers/TRI/TRIVertex.hpp" />
 		<Unit filename="io/model_importers/UAVSimBinaryFileImporter.cpp" />
 		<Unit filename="io/model_importers/UAVSimBinaryFileImporter.hpp" />
 		<Unit filename="io/model_importers/WRLFileImporter.cpp" />
