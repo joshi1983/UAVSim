@@ -35,18 +35,15 @@ void AnimationProcessor::deleteFrameAfterAnimation() const
 {
     double maxT = animation->getMaxT();
     int maxFrameIndex = (int)(maxT + 0.01);
-    string filename = AnimationProcessor::getFileName(maxFrameIndex, 1);
+    string filename = AnimationProcessor::getFileName(maxFrameIndex);
     remove(filename.c_str()); // if it doesn't exist, this will do nothing and that is ok.
 }
 
-std::string AnimationProcessor::getFileName(int frameIndex, int blurFrameCount)
+std::string AnimationProcessor::getFileName(int frameIndex)
 {
 	char filenameBuffer[256];
 	char filenameBuffer2[256];
-	if (blurFrameCount == 1)
-        sprintf(filenameBuffer, "frame_%08d.png", frameIndex);
-    else
-        sprintf(filenameBuffer, "frame_%08d_%08d.png", frameIndex / blurFrameCount, frameIndex % blurFrameCount);
+	sprintf(filenameBuffer, "frame_%08d.png", frameIndex);
 
     sprintf(filenameBuffer2, "%s%s", outputPath.c_str(), filenameBuffer);
 	return getAbsolutePathForFilename(filenameBuffer2);
@@ -54,7 +51,7 @@ std::string AnimationProcessor::getFileName(int frameIndex, int blurFrameCount)
 
 string AnimationProcessor::getFileName() const
 {
-    return getFileName(frameIndex, blurFrameCount);
+    return getFileName(frameIndex);
 }
 
 string AnimationProcessor::getBlurGroupFileName() const

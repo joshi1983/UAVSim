@@ -30,7 +30,6 @@
 		"filename": "data/datapoints.csv",
 		"isSavingFrames": true,
 		"framesPerRow": 1,
-		"blurBeforeSave": true,
 		"columns": {
 			"x": {
 				"to": "x",

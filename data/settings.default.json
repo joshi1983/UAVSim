@@ -13,7 +13,6 @@
 	},
 	"csv": {
 		"isSavingFrames": true,
-		"framesPerRow": 1,
-		"blurBeforeSave": true
+		"framesPerRow": 1
 	}
 }

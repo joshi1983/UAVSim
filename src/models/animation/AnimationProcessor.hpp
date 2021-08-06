@@ -10,7 +10,7 @@ class AnimationProcessor
 		unsigned int frameIndex;
 		unsigned int blurFrameCount;
 		double getT() const;
-		static std::string getFileName(int frameIndex, int blurFrameCount);
+		static std::string getFileName(int frameIndex);
 	public:
 		AnimationProcessor(Animation* animation, AnimationState & animationState);
 		void processNextFrame();

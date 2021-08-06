@@ -24,7 +24,6 @@ using namespace rapidjson;
 
 void saverThreadRun();
 thread th(&saverThreadRun);
-bool isBlendingMotionBlurFrames = true;
 const CLSID pngEncoderClsId = { 0x557cf406, 0x1a04, 0x11d3,{ 0x9a,0x73,0x00,0x00,0xf8,0x1e,0xf3,0x2e } };
 
 // Create a string with last error message
@@ -127,8 +126,7 @@ void saverThreadRun()
 
 void switchedMotionBlurGroup(const string& filename)
 {
-    if (isBlendingMotionBlurFrames)
-        saveMotionBlurredFrameTo(filename.c_str());
+    saveMotionBlurredFrameTo(filename.c_str());
 }
 
 void saveScreenshot(const char * filename)
@@ -180,10 +178,7 @@ void saveScreenshot(const wchar_t * filename)
     Gdiplus::Bitmap *image = getScreenshotBitmap();
     if (image != nullptr)
     {
-        if (isBlendingMotionBlurFrames)
-            addFrame(image);
-        else
-            screenshotQueue.push_back(new ScreenShotSaveTask(image, wstring(filename)));
+        addFrame(image);
     }
 }
 
@@ -226,5 +221,4 @@ void updateResolutionFromConfig()
     int w = UAVSimConfig::config.getDefaultedInt("/resolution/width", 640);
     int h = UAVSimConfig::config.getDefaultedInt("/resolution/height", 480);
     glutReshapeWindow(w, h);
-    isBlendingMotionBlurFrames = UAVSimConfig::config.getDefaultedBool("/csv/blurBeforeSave", true);
 }
