@@ -45,3 +45,18 @@ void RenderTasks::updateAnimationStateForCurrentTask(AnimationState & state) con
 		root->updateAnimationStateForCurrentTask(state);
 	}
 }
+
+void RenderTasks::getViewport(RenderViewport & result) const
+{
+	if (root != nullptr)
+	{
+		root->getViewport(result);
+	}
+	else
+	{
+		result.widthRatio = 1;
+		result.heightRatio = 1;
+		result.leftRatio = 0;
+		result.topRatio = 0;
+	}
+}

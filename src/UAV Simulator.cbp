@@ -303,9 +303,10 @@
 		<Unit filename="models/animation/render_tasks/AnimationRenderTask.hpp" />
 		<Unit filename="models/animation/render_tasks/AnimationScreenshotCaptureRenderTask.cpp" />
 		<Unit filename="models/animation/render_tasks/AnimationScreenshotCaptureRenderTask.hpp" />
-		<Unit filename="models/animation/render_tasks/HighResFrameCompositeRenderTask.hpp" />
-		<Unit filename="models/animation/render_tasks/MotionBlurRenderTask.cpp" />
-		<Unit filename="models/animation/render_tasks/MotionBlurRenderTask.hpp" />
+		<Unit filename="models/animation/render_tasks/AnimationStateUpdater.hpp" />
+		<Unit filename="models/animation/render_tasks/BitmapGenerationListener.hpp" />
+		<Unit filename="models/animation/render_tasks/FullResolutionSampleRenderTask.cpp" />
+		<Unit filename="models/animation/render_tasks/FullResolutionSampleRenderTask.hpp" />
 		<Unit filename="models/animation/render_tasks/RenderTask.cpp" />
 		<Unit filename="models/animation/render_tasks/RenderTask.hpp" />
 		<Unit filename="models/animation/render_tasks/RenderTasks.cpp" />

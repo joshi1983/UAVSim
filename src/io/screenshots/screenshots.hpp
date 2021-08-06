@@ -2,7 +2,9 @@
 #define SCREENSHOTS_HEADER_INCLUDED
 #include <string>
 #include <vector>
+#include <gdiplus.h>
 
+Gdiplus::Bitmap * getScreenshotBitmap();
 void storeHWND(int windowid, const char * title);
 void updateResolutionFromConfig();
 void saveScreenshot(const wchar_t * filename);

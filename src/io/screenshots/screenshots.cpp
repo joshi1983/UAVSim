@@ -1,5 +1,4 @@
 #include "screenshots.hpp"
-#include <gdiplus.h>
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
 #endif

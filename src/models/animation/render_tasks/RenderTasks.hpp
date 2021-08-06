@@ -14,6 +14,7 @@ class RenderTasks
 	public:
 		RenderTask* getById(unsigned int id);
 		void updateAnimationStateForCurrentTask(AnimationState & state) const;
+		void getViewport(RenderViewport & result) const;
 		void add(RenderTask* task);
 		void remove(RenderTask* task);
 		static RenderTasks* getInstance();
