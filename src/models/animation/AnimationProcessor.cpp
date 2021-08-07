@@ -1,4 +1,5 @@
 #include "AnimationProcessor.hpp"
+#include "AnimationSettings.hpp"
 #include "../../io/screenshots/screenshots.hpp"
 #include "../../io/config/UAVSimConfig.hpp"
 #include "../../lib/rapidjson/pointer.h"
@@ -12,18 +13,12 @@ using namespace rapidjson;
 string outputPath;
 bool blurBetweenRows;
 
-unsigned short getBlurFrameCount()
-{
-    UAVSimConfig& c = UAVSimConfig::config;
-    return c.getDefaultedInt("/csv/blurFrameCount", 1);
-}
-
 AnimationProcessor::AnimationProcessor(Animation* animation,
 	AnimationState & animationState):
 	animation(animation), animationState(animationState), frameIndex(0)
 {
+    blurFrameCount = getBlurSamplesPerFrame();
     UAVSimConfig& c = UAVSimConfig::config;
-    blurFrameCount = getBlurFrameCount();
     outputPath = c.getDefaultedString("/frameOutputDirectory", "outputs/frames/");
     if (outputPath[outputPath.length() - 1] != '/')
         outputPath += '/';

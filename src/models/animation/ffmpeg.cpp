@@ -5,16 +5,11 @@
 #include "../../io/Files.hpp"
 #include "../../io/stringUtils.hpp"
 #include "../../deployment/deploymentHelper.hpp"
+#include "AnimationSettings.hpp"
 #include <iostream>
 using namespace std;
 
 int isFfmpegAvailableCheckStatus = -1;
-
-unsigned short getFPS()
-{
-	UAVSimConfig & config = UAVSimConfig::config;
-	return config.getDefaultedInt("/ffmpeg/fps", 30);
-}
 
 void createVideoFile()
 {

@@ -277,6 +277,8 @@
 		<Unit filename="models/animation/Animation.hpp" />
 		<Unit filename="models/animation/AnimationProcessor.cpp" />
 		<Unit filename="models/animation/AnimationProcessor.hpp" />
+		<Unit filename="models/animation/AnimationSettings.cpp" />
+		<Unit filename="models/animation/AnimationSettings.hpp" />
 		<Unit filename="models/animation/AnimationState.cpp" />
 		<Unit filename="models/animation/AnimationState.hpp" />
 		<Unit filename="models/animation/AnimationStateKey.cpp" />
