@@ -71,6 +71,8 @@
 			<Add library="gdi32" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
+		<Unit filename="RenderViewport.cpp" />
+		<Unit filename="RenderViewport.hpp" />
 		<Unit filename="deployment/deploymentHelper.cpp" />
 		<Unit filename="deployment/deploymentHelper.hpp" />
 		<Unit filename="devices/Battery.cpp" />

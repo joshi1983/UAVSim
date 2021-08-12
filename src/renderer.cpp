@@ -28,6 +28,7 @@
 #ifdef _DEBUG
     #include "tests/UnitTests.hpp"
 #endif
+#include "RenderViewport.hpp"
 using namespace std;
 
 UAV * uav = nullptr;
@@ -82,21 +83,16 @@ void initRenderer(int _windowid)
     #endif // defined
 }
 
-void updateFrustrum(const AnimationState & animationState)
-{
-    UAVModel* model = UAVModel::getInstance();
-    double farZ = max(150.0, abs(animationState.cameraZ) + model->getBoundingSphereRadius());
-    double nearZ = max(0.02, abs(animationState.cameraZ) - model->getBoundingSphereRadius());
-    updateFrustrum(animationState, nearZ, farZ);
-}
-
-void updateFrustrum(const AnimationState & animationState, double nearZ, double farZ)
+void updateFrustrum(const AnimationState & animationState,
+    double nearZ, double farZ, const RenderViewport & viewport)
 {
     int width = glutGet(GLUT_WINDOW_WIDTH);
     int height = glutGet(GLUT_WINDOW_HEIGHT);
     const float ar = (float) width / (float) height;
 
-    glViewport(0, 0, width, height);
+    int wScaled = width / viewport.widthRatio;
+    int hScaled = height / viewport.heightRatio;
+    glViewport(-viewport.leftRatio * wScaled, -viewport.topRatio * hScaled, wScaled, hScaled);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     double zoomScale = nearZ * animationState.cameraScale;
@@ -104,6 +100,14 @@ void updateFrustrum(const AnimationState & animationState, double nearZ, double 
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+}
+
+void updateFrustrum(const AnimationState & animationState, const RenderViewport & viewport)
+{
+    UAVModel* model = UAVModel::getInstance();
+    double farZ = max(150.0, abs(animationState.cameraZ) + model->getBoundingSphereRadius());
+    double nearZ = max(0.02, abs(animationState.cameraZ) - model->getBoundingSphereRadius());
+    updateFrustrum(animationState, nearZ, farZ, viewport);
 }
 
 void drawHorizonAndSky()
@@ -118,6 +122,7 @@ void render()
     bool isSavingScreenshots = (animationProcessor != nullptr && renderCallCount > 100);
     bool _canSaveScreenshot = canSaveScreenshot();
     static bool isVideoGenerated = false;
+    RenderViewport viewport;
 
     if (_canSaveScreenshot && isSavingFrames && isSavingScreenshots && isFrameProcessed)
     {
@@ -153,7 +158,7 @@ void render()
 
     animationState.copyShapePropertiesToUAVModel();
 
-    updateFrustrum(animationState);
+    updateFrustrum(animationState, viewport);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
         if (animationState.activeCamera == nullptr)
