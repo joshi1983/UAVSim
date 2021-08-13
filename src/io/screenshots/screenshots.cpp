@@ -19,6 +19,7 @@
 #include "../config/UAVSimConfig.hpp"
 #include "../Files.hpp"
 #include "bitmapBlender.hpp"
+#include "../../models/animation/Resolution.hpp"
 using namespace std;
 using namespace rapidjson;
 
@@ -218,7 +219,7 @@ void getScreenshotPNGRawData(std::vector<unsigned char>& result)
 
 void updateResolutionFromConfig()
 {
-    int w = UAVSimConfig::config.getDefaultedInt("/resolution/width", 640);
-    int h = UAVSimConfig::config.getDefaultedInt("/resolution/height", 480);
+    int w,h;
+	getSuggestedWindowResolution(w, h);
     glutReshapeWindow(w, h);
 }

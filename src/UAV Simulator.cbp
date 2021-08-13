@@ -289,6 +289,8 @@
 		<Unit filename="models/animation/AnimationStateKey.hpp" />
 		<Unit filename="models/animation/DefaultAnimation.cpp" />
 		<Unit filename="models/animation/DefaultAnimation.hpp" />
+		<Unit filename="models/animation/Resolution.cpp" />
+		<Unit filename="models/animation/Resolution.hpp" />
 		<Unit filename="models/animation/StateSequenceAnimation.cpp" />
 		<Unit filename="models/animation/StateSequenceAnimation.hpp" />
 		<Unit filename="models/animation/TriangleSetAnimationProperties.cpp" />

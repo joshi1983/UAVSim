@@ -50,3 +50,9 @@ bool isSavingFrames()
 {
 	return UAVSimConfig::config.getDefaultedBool("/csv/isSavingFrames", true);
 }
+
+void getOutputResolution(int & width, int & height)
+{
+	width = UAVSimConfig::config.getDefaultedInt("/resolution/width", 640);
+	height = UAVSimConfig::config.getDefaultedInt("/resolution/height", 480);
+}

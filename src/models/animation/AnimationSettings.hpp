@@ -8,5 +8,6 @@ bool isBlurringBetweenRows();
 std::string getFrameOutputDirectory();
 int getCSVRowsPerFrame();
 bool isSavingFrames();
+void getOutputResolution(int & width, int & height);
 
 #endif
